@@ -19,18 +19,18 @@ development:
   driver: org.apache.derby.jdbc.ClientDriver
   url: jdbc:derby://localhost/webshow_development;create=true
   username: app
-  password: app
+  password: ap
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
 test:
-  adapter: mysql
+  adapter: sqlite3
   encoding: utf8
   database: webshow_test
   username: root
   password:
-  socket: /var/run/mysqld/mysqld.sock
+  #socket: /var/run/mysqld/mysqld.sock
 
 production:
   adapter: mysql
@@ -38,4 +38,4 @@ production:
   database: webshow_production
   username: root
   password: 
-  socket: /var/run/mysqld/mysqld.sock
+  #socket: /var/run/mysqld/mysqld.sock
