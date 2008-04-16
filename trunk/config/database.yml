@@ -15,12 +15,11 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
-  adapter: mysql
-  encoding: utf8
-  database: webshow_development
-  username: root
-  password:
-  socket: /var/run/mysqld/mysqld.sock
+  adapter: jdbc
+  driver: org.apache.derby.jdbc.ClientDriver
+  url: jdbc:derby://localhost/webshow_development;create=true
+  username: app
+  password: app
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
