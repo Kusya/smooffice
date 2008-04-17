@@ -37,51 +37,107 @@
                 <li>
                     <a href="mailto:garnier.sam@gmail.com">GARNIER Samuel</a>
                 </li>
-				<li>
+                <li>
                     <a href="mailto:clement.gonnet@gmail.com">GONNET Clément</a>
                 </li>
             </ul>
         </div>
         <div id="body">
             <h2>Introduction - Users and uses</h2>
-			<p class="in">
-				The aim of our project is to create a web application bound to students and teachers, intended to create <i>slideshows</i>.
-				A slideshows is a set of transparency (containing basically text, images and charts) presented one after the other
-				to an audience for an instructionnal purposes.				
-			</p>
-			<p class="in">
-				Students and teachers will be able to log in the application, create a slideshow or edit existing ones, 
-				as well as using the software to <i>play</i> the slideshow when it is finished.
-			</p>
-			<h2>Why another presentation program ?</h2>
-			<p class="in">
-				There is already, among desktop as well as web application, many existing solution to create presentations
-			</p>
-			<h3>Desktop full-featured applications</h3>
-			<p class="in">
-				The most known of those softwares are the desktop ones, such as Microsoft PowerPoint and OpenOffice.org Impress.
-				Their particularity is to have a larga amount of features (and, coming hands in hands, a large amount of toolbars, menus and sub-menus),
-				allowing to customize each and every part of the slides : the transitions between slides, the animations, size, color, shape, inclination, ... of
-				the smallest element of the slide.<br />
-				They are appropriate to produce professional presentation, corresponding exactly to your needs and desires.
-			</p>
-			<p class="img">
-                <a href="medias/openoffice_impress_screenshot.jpg" title="Screenshot of OpenOffice.org Impress, a popular desktop presentation program" class="thickbox"><img src="medias/openoffice_impress_screenshot.jpg"/></a>
+            <p class="in">
+                The aim of our project is to create a web application bound to students and teachers, intended to create <i>slideshows</i>.
+                A slideshows is a set of transparency (containing basically text, images and charts) presented one after the other 
+                to an audience for an instructionnal purposes. 
             </p>
-			<h3>On-line collaborative applications</h3>
-			<h3>On-line sharing applications</h3>
-			<h3>Our approach</h3>
-			<h2>Fonctionnal specifications</h2>
-			<h2>Project plan</h2>
-			<h3>Actors</h3>
-			<h3>Planning</h3>
-			<h2>Conception drafts</h2>
-			<h3>Site map and UI</h3>
+            <p class="in">
+                Students and teachers will be able to log in the application, create a slideshow or edit existing ones, 
+                as well as using the software to <i>play</i>
+                the slideshow when it is finished.
+            </p>
+            <h2>Why another presentation program ?</h2>
+            <p class="in">
+                There is already, among desktop as well as web application, many existing solution to create presentations
+            </p>
+            <h3>Desktop full-featured applications</h3>
+            <p class="in">
+                The most known of those softwares are the desktop ones, such as Microsoft PowerPoint and OpenOffice.org Impress.
+                Their particularity is to have a larga amount of features (and, coming hands in hands, a large amount of toolbars, menus and sub-menus),
+                allowing to customize each and every part of the slides : the transitions between slides, the animations, size, color, shape, inclination, ... of
+                the smallest element of the slide.
+                <br/>
+                They are appropriate to produce professional presentation, corresponding exactly to user's needs and desires. 
+                Until now they are the best tools for <i>physical</i>
+                presentations, as they allows to have a <i>presentor view</i>
+                of the slideshow on a screen (with comments and slides preview) and the normal view on another media, like a video projector.
+            </p>
+            <p class="img">
+                <a href="medias/openoffice_impress_screenshot.jpg" title="Screenshot of OpenOffice.org Impress, a popular desktop presentation program" class="thickbox" rel="desktopSS"><img src="medias/openoffice_impress_screenshot.jpg"/></a>
+				<!--<a href="medias/Screen shot.png" title="Screenshot of Apple keynote, a desktop presentation program" class="thickbox" rel="desktopSS"><img src="medias/Screen shot.png"/></a>-->
+            </p><h3>On-line collaborative applications</h3>
+            <p class="in">
+                More and more web-based office are offering the possibility to create presentations inside a web browser and to store it online.
+                Their particularity is to make the presentation available from everywhere in the world, providing the user has an internet access and a web browser.
+                It's no more required to have a (heavy) application installed localy, nor to take care of software updates.
+                <br/>
+                Most of these application features a version control and allows many users to edit the document at the same time in a collaborative way and to present it online, 
+                but they are not designed to make an offline presentation : there is now way to have two different views on two different medias.
+                <br/>
+                They are appropriate to create basic documents with a limited amount of animations/transitions and types of embedable elements (no video, music).
+            </p>
+            <p class="img">
+                <a href="medias/google presentation.jpg" title="Screenshot of Google documents Presentation, a popular presentation web application" class="thickbox"><img src="medias/google presentation.jpg"/></a>
+            </p><h3>On-line sharing applications</h3>
+            <p class="in">
+                There is another, less known web-based kind of tool in relation with our project : the presentation sharing platforms.
+                They are used to manage and shares collection of slideshows on the web by producing a presentation applet out of an uploaded slideshow (a kind of Flickr).
+                <br/>
+            </p>
+            <p class="img">
+                <a href="medias/slideshare.png" title="Screenshot of presentation shared on a blog using Slideshare" class="thickbox"><img src="medias/slideshare.png"/></a>
+            </p><h3>Our approach</h3>
+            <p class="in">
+                Our application can not compete with the number of features of desktop presentation program and our primary goal is not to produce a collaboration tool either.
+                <br/>
+                We have to design an alternative to traditional tools: 
+                allowing any user from everywhere to easily create and play visually attractive presentations.
+            </p>
+            <h2>Fonctionnal specifications</h2>
+            <h3>must</h3>
+            <p class="in">
+                Our interface will implement basic features like create/open/save a presentation. Each user must be identified by logging in thanks to a personal account. As he/she is successfully logged in, the list of his/her presentation set is shown through thumbnails.<br />
+                When editing a show, the user has access to many tools in order to edit it. First, it begins with the creation of slides. Each added slide is removable by deleting it from the slides browser, which provide a global view of the whole presentation. As a slide is edited, many elements can be added such as texts, pictures, graphics or links. Each element can be modified and deleted. Copy, cut, paste functions will be available, as well. Between each slides, the user can add a slide transition.<br />
+                Otherwise, the application will implement an undo/redo function in order to getting through the command history.<br />
+                Finally, a show is viewable in a full-screen mode.<br />
+            </p>
+            <h3>should</h3>
+            <p class="in">
+                As creating a new presentation, a choice of themes is available. Each slide can follow a template selected first, to manage the page setting.<br />
+                In addition, a timeline allows the user to add animation effects on its elements. These animations might be fade in/out, moving top/bottom or scale. To manage elements, the depth level of each one can be modified.<br />
+                The application proposes revision tools to get through the creation history of the presentation. In addition, a document is printable in different formats such as thumbnails, notes and slides, writing lines. The comments are proposed, as well.<br />
+            </p>
+            <h3>may</h3>
+            <p class="in">
+                The application proposes collaboration tools in order to share presentations and to work on it in a group. A link to the presentation is sent by mail.<br />
+                Throughout the show, the computer screen shows a Presenter mode where the user can choose the panels he wants to see, like: time, duration, next slide, notes.<br />
+                In the editor mode, the user can rotate each kind of elements.<br />
+                To save the presentation, the user can export it to PDF or PowerPoint. When creating a new presentation it's possible to import it from a local computer in PowerPoint format. A slide can be improved by importing files such as movies, sounds or flash. To perform fine slides, put elements in place is guided by fixed points (grid, rule) and the user can scale the view by zooming in/out. The whole interface is customisable by switching, resizing, moving the different widgets by dint of drag’s drop.<br />
+            </p>
+            <h2>Project plan</h2>
+            <h3>Actors</h3>
+			<p class="in">
+				
+			</p>
+            <h3>Planning</h3>
 			<p class="img">
+                <a href="medias/azert.PNG" title="" class="thickbox" rel="planning"><img src="medias/azert.PNG"/></a>
+				<a href="medias/azerty.PNG" title="" class="thickbox" rel="planning"><img src="medias/azerty.PNG"/></a>
+            </p>
+            <h2>Conception drafts</h2>
+            <h3>Site map and UI</h3>
+            <p class="img">
                 <a href="medias/Structure.png" title="Sitemap of the application" class="thickbox"><img src="medias/Structure.png"/></a>
-            </p>
-			<h3>Data model</h3>
-			<p class="img">
+            </p><h3>Data model</h3>
+            <p class="img">
                 <a href="medias/Data Model.png" title="Data model draft" class="thickbox"><img src="medias/Data Model.png"/></a>
             </p>
         </div>
