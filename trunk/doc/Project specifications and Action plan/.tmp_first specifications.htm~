@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr" dir="ltr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Java</title>
+        <link rel="stylesheet" type="text/css" href="layout/common.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="layout/specific.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="logic/thickbox.css" media="screen"/>
+        <!--[if lt IE 7]>
+            <script type="text/javascript" src="logic/IE8.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="logic/jquery.js">
+        </script>
+        <script type="text/javascript" src="logic/jquery.toc.js">
+        </script>
+        <script type="text/javascript" src="logic/thickbox-compressed.js">
+        </script>
+        <script type="text/javascript" src="logic/chili/jquery.chili-1.9.js">
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#body").toc();
+            });
+            ChiliBook.recipeFolder = "logic/chili/";
+            ChiliBook.stylesheetFolder = "logic/chili/";
+        </script>
+    </head>
+    <body>
+        <div id="header">
+            <h1><img src="medias/java_header.png" alt="Java"/></h1>
+        </div>
+        <div id="menu">
+            <ul>
+                <li>
+                    <a href="mailto:public@lrbabe.com">BAB&Eacute; Louis Rémi</a>
+                </li>
+                <li>
+                    <a href="mailto:garnier.sam@gmail.com">GARNIER Samuel</a>
+                </li>
+				<li>
+                    <a href="mailto:clement.gonnet@gmail.com">GONNET Clément</a>
+                </li>
+            </ul>
+        </div>
+        <div id="body">
+            <h2>Users and uses</h2>
+			<h2>Why another slideshow webapp ?</h2>
+			<h3>Desktop full-featured applications</h3>
+			<h3>On-line sharing applications</h3>
+			<h3>On-line sharing applications</h3>
+			<h3>Our approach</h3>
+			<h2>Fonctionnal specifications</h2>
+        </div>
+    </body>
+</html>
