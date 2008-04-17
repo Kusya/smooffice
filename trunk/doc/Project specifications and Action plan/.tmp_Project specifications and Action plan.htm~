@@ -45,7 +45,7 @@
         <div id="body">
             <h2>Introduction - Users and uses</h2>
             <p class="in">
-                The aim of our project is to create a web application bound to students and teachers, intended to create <i>slideshows</i>.
+                The aim of our project is to create an online presentation program bound to students and academics. 
                 A slideshows is a set of transparency (containing basically text, images and charts) presented one after the other 
                 to an audience for an instructionnal purposes. 
             </p>
@@ -76,7 +76,8 @@
             </p><h3>On-line collaborative applications</h3>
             <p class="in">
                 More and more web-based office are offering the possibility to create presentations inside a web browser and to store it online.
-                Their particularity is to make the presentation available from everywhere in the world, providing the user has an internet access and a web browser.
+                Their particularity is to make the presentation available from everywhere in the world, 
+				providing the user has an internet access and a web browser.
                 It's no more required to have a (heavy) application installed localy, nor to take care of software updates.
                 <br/>
                 Most of these application features a version control and allows many users to edit the document at the same time in a collaborative way and to present it online, 
@@ -102,35 +103,66 @@
                 allowing any user from everywhere to easily create and play visually attractive presentations.
             </p>
             <h2>Fonctionnal specifications</h2>
-            <h3>must</h3>
-            <p class="in">
-                Our interface will implement basic features like create/open/save a presentation. Each user must be identified by logging in thanks to a personal account. As he/she is successfully logged in, the list of his/her presentation set is shown through thumbnails.<br />
-                When editing a show, the user has access to many tools in order to edit it. First, it begins with the creation of slides. Each added slide is removable by deleting it from the slides browser, which provide a global view of the whole presentation. As a slide is edited, many elements can be added such as texts, pictures, graphics or links. Each element can be modified and deleted. Copy, cut, paste functions will be available, as well. Between each slides, the user can add a slide transition.<br />
+			<h3>Site map</h3>
+			schem + explaination
+			<h3>Home</h3>
+			Schem <br />
+			
+			<b>Must :</b><br />
+				Each user must be identified by logging in thanks to a personal account.
+				As he/she is successfully logged in, the list of his/her presentation set is shown through thumbnails.<br />
+			<b>Should :</b><br />
+			<b>May :</b><br />
+			<h3>Me</h3>
+			Schem <br />
+			
+			<b>Must :</b><br />
+				When editing a show, the user has access to many tools in order to edit it. First, it begins with the creation of slides.
+				Our interface will implement basic features like create/open/save a presentation.
+			<b>Should :</b><br />
+				In addition, a document is printable in different formats such as thumbnails, notes and slides, writing lines, using css stylesheets.<br />
+			<b>May :</b><br />
+				The application proposes collaboration tools in order to share presentations and to work on it in a group. A link to the presentation is sent by mail.
+				The open/save menu can be enhanced by features like import from/export to PowerPoint and PDF.
+				The whole interface is customisable by switching, resizing, moving the different widgets by dint of drag’s drop.<br />
+			<h3>Editor</h3>
+			Schem <br />
+			
+			<b>Must :</b><br />
+				Each added slide is removable by deleting it from the slides browser, which provide a global view of the whole presentation.
+				As a slide is edited, many elements can be added such as texts, pictures, graphics or links. Each element can be modified and deleted. 
+				Copy, cut, paste functions will be available, as well. Between each slides, the user can add a slide transition.<br />
                 Otherwise, the application will implement an undo/redo function in order to getting through the command history.<br />
-                Finally, a show is viewable in a full-screen mode.<br />
-            </p>
-            <h3>should</h3>
-            <p class="in">
                 As creating a new presentation, a choice of themes is available. Each slide can follow a template selected first, to manage the page setting.<br />
-                In addition, a timeline allows the user to add animation effects on its elements. These animations might be fade in/out, moving top/bottom or scale. To manage elements, the depth level of each one can be modified.<br />
-                The application proposes revision tools to get through the creation history of the presentation. In addition, a document is printable in different formats such as thumbnails, notes and slides, writing lines. The comments are proposed, as well.<br />
-            </p>
-            <h3>may</h3>
-            <p class="in">
-                The application proposes collaboration tools in order to share presentations and to work on it in a group. A link to the presentation is sent by mail.<br />
-                Throughout the show, the computer screen shows a Presenter mode where the user can choose the panels he wants to see, like: time, duration, next slide, notes.<br />
-                In the editor mode, the user can rotate each kind of elements.<br />
-                To save the presentation, the user can export it to PDF or PowerPoint. When creating a new presentation it's possible to import it from a local computer in PowerPoint format. A slide can be improved by importing files such as movies, sounds or flash. To perform fine slides, put elements in place is guided by fixed points (grid, rule) and the user can scale the view by zooming in/out. The whole interface is customisable by switching, resizing, moving the different widgets by dint of drag’s drop.<br />
-            </p>
+				In addition, a timeline allows the user to add animation effects on its elements. These animations might be fade in/out, moving top/bottom, scale,… 
+				To manage elements, the depth level of each one can be modified.<br />
+			<b>Should :</b><br />
+				The application proposes revision tools to get through the creation history of the presentation.
+				The comments are proposed, as well.<br />
+			<b>May :</b><br />
+				In the editor mode, the user can rotate each kind of elements.
+				A slide can be improved by importing files such as movies, sounds or flash.
+				To perform fine slides, put elements in place is guided by fixed points (grid, rule) and the user can scale the view by zooming in/out.
+			<h3>Viewer</h3>
+			Schem <br />
+			
+			<b>Must :</b><br />
+				Finally, a show is viewable in a full-screen mode.<br />			
+			<b>Should :</b><br />
+				A stand alone version of the application is suggested.<br />
+			<b>May :</b><br />
+				Throughout the show, the computer screen shows a Presenter mode where the user can choose the panels he wants to see, like: time, duration, next slide, notes.<br />
+			
             <h2>Project plan</h2>
             <h3>Actors</h3>
-			<p class="in">
-				
-			</p>
+			<p class="in">Our team is composed of three persons, Clément Gonnet, Louis-Rémi Babe and Samuel Garnier who are passionate with their works.</p>
+				<p>Louis-Rémi is the project leader because he has more experience about web application than the rest of the group.</p>
+				<p>However, we are all web developers and web designers because there are many tasks about it.</p>
+				<p>Some tasks are affected to each one as we can see in the planning.</p>
+				<p>We work with a freeware named Subversion. It’s a platform on a server which manages the cooperative development. So, we use it in order to work together on the same project and simplify the sharing of each one’s work.</p>
             <h3>Planning</h3>
 			<p class="img">
-                <a href="medias/azert.PNG" title="" class="thickbox" rel="planning"><img src="medias/azert.PNG"/></a>
-				<a href="medias/azerty.PNG" title="" class="thickbox" rel="planning"><img src="medias/azerty.PNG"/></a>
+                <a href="medias/planning.png" title="planning" class="thickbox" rel="planning"><img src="medias/planning.png"/></a>
             </p>
             <h2>Conception drafts</h2>
             <h3>Site map and UI</h3>
