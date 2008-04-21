@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr" dir="ltr">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Project specifications and Action plan v0.1</title>
+        <title>Project specifications and Action plan v0.2</title>
         <link rel="stylesheet" type="text/css" href="layout/common.css" media="screen"/>
         <link rel="stylesheet" type="text/css" href="layout/specific.css" media="screen"/>
         <link rel="stylesheet" type="text/css" href="logic/thickbox.css" media="screen"/>
-        <!--[if lt IE 7]>
+		<!--[if lt IE 7]>
             <script type="text/javascript" src="logic/IE8.js"></script>
         <![endif]-->
         <script type="text/javascript" src="logic/jquery.js">
@@ -17,9 +17,9 @@
         </script>
         <script type="text/javascript" src="logic/chili/jquery.chili-1.9.js">
         </script>
-        <script type="text/javascript">
+		<script type="text/javascript">
             $(document).ready(function(){
-                $("#body").toc();
+                $("#body").toc();				
             });
             ChiliBook.recipeFolder = "logic/chili/";
             ChiliBook.stylesheetFolder = "logic/chili/";
@@ -27,7 +27,7 @@
     </head>
     <body>
         <div id="header">
-            <h1><img src="medias/tender_header.png" alt="Project specifications and Action plan v0.1"/></h1>
+            <h1><img src="medias/tender_header.png" alt="Project specifications and Action plan v0.2"/></h1>
         </div>
         <div id="menu">
             <ul>
@@ -45,14 +45,13 @@
         <div id="body">
             <h2>Introduction - Users and uses</h2>
             <p class="in">
-                The aim of our project is to create an online presentation program bound to students and academics. 
-                A slideshows is a set of transparency (containing basically text, images and charts) presented one after the other 
-                to an audience for an instructionnal purposes. 
+                The aim of our project is to create an online presentation program bound to academics and students of the University of Teesside. 
+                A presentation (also reffered as <em>slideshow</em>) is a set of <i>transparency</i> (containing basically text, images and charts)
+				presented one after the other to an audience for an instructionnal purposes. 
             </p>
             <p class="in">
-                Students and teachers will be able to log in the application, create a slideshow or edit existing ones, 
-                as well as using the software to <i>play</i>
-                the slideshow when it is finished.
+                Academics will be able to log in the application, create presentations, manage or edit existing ones, 
+				and to make them avalaible for students.
             </p>
             <h2>Why another presentation program ?</h2>
             <p class="in">
@@ -61,14 +60,13 @@
             <h3>Desktop full-featured applications</h3>
             <p class="in">
                 The most known of those softwares are the desktop ones, such as Microsoft PowerPoint and OpenOffice.org Impress.
-                Their particularity is to have a larga amount of features (and, coming hands in hands, a large amount of toolbars, menus and sub-menus),
+                Their particularity is to have a large amount of features (and, coming hands in hands, a large amount of toolbars, menus and sub-menus),
                 allowing to customize each and every part of the slides : the transitions between slides, the animations, size, color, shape, inclination, ... of
                 the smallest element of the slide.
                 <br/>
                 They are appropriate to produce professional presentation, corresponding exactly to user's needs and desires. 
-                Until now they are the best tools for <i>physical</i>
-                presentations, as they allows to have a <i>presentor view</i>
-                of the slideshow on a screen (with comments and slides preview) and the normal view on another media, like a video projector.
+                Until now they are the best tools for <i>physical</i> presentations, as they allows to have a <i>presentor view</i>
+                of the slideshow on a screen (with comments and slides preview) and the normal view on another media, like a video projector.		
             </p>
             <p class="img">
                 <a href="medias/openoffice_impress_screenshot.jpg" title="Screenshot of OpenOffice.org Impress, a popular desktop presentation program" class="thickbox" rel="desktopSS"><img src="medias/openoffice_impress_screenshot.jpg"/></a>
@@ -100,8 +98,17 @@
                 Our application can not compete with the number of features of desktop presentation program and our primary goal is not to produce a collaboration tool either.
                 <br/>
                 We have to design an alternative to traditional tools: 
-                allowing any user from everywhere to easily create and play visually attractive presentations.
+                allowing users, from everywhere and on any platform, to easily create and share visually attractive presentations.
             </p>
+			<!--<h3>Comparative statement</h3>
+			<table>
+				<thead>
+					<th scope="col"><td>functionnalities</td><td>Desktop app.</td><td>collaborative app.</td><td>Sharing app.</td><td>Our app.</td></th>
+				</thead>
+				<tbody>
+					<tr><td></td></tr>
+				</tbody>
+			</table>-->
             <h2>Fonctionnal specifications</h2>
 			<h3>Site map</h3>
 			schem + explaination
@@ -155,20 +162,38 @@
 			
             <h2>Project plan</h2>
             <h3>Actors</h3>
-			<p class="in">Our team is composed of three persons, Clément Gonnet, Louis-Rémi Babe and Samuel Garnier who are passionate with their works.</p>
-				<p>Louis-Rémi is the project leader because he has more experience about web application than the rest of the group.</p>
+			<!--<p class="in">
+				We tried to distribute according to each one's skills and personnal background.
+			</p>
+			<ul>
+				<li>Louis-Rémi BABE is the project leader. 
+					He has already experience with a <a href="http://www.symfony.org">php framwork <i>à la</i> Rails</a> and javascript libraries.
+				</li>
+				<li>
+					Clément GONNET is in charge on the User Interface part of the application.
+					He has always been sensitive to aestetic and usability in the applications he uses 
+					and tries to reproduce the best practicies in his projects.					
+				</li>
+				<li>
+					Samuel GARNIER is in charge of documentation. 
+					Its training learned him how to be quickly effective with new languages he encounters.
+				</li>
+			</ul>-->
+				<p class="in">Louis-Rémi is the project leader because he has more experience about web application than the rest of the group.</p>
 				<p>However, we are all web developers and web designers because there are many tasks about it.</p>
 				<p>Some tasks are affected to each one as we can see in the planning.</p>
-				<p>We work with a freeware named Subversion. It’s a platform on a server which manages the cooperative development. So, we use it in order to work together on the same project and simplify the sharing of each one’s work.</p>
+				<p>We work with a freeware named Subversion. It’s a platform on a server which manages the cooperative development. 
+				So, we use it in order to work together on the same project and simplify the sharing of each one’s work.</p>
             <h3>Planning</h3>
 			<p class="img">
                 <a href="medias/planning.png" title="planning" class="thickbox" rel="planning"><img src="medias/planning.png"/></a>
             </p>
             <h2>Conception drafts</h2>
-            <h3>Site map and UI</h3>
-            <p class="img">
-                <a href="medias/Structure.png" title="Sitemap of the application" class="thickbox"><img src="medias/Structure.png"/></a>
-            </p><h3>Data model</h3>
+            <p class="in">
+            	Besides the ui drafts, we'have also started to design our data model.
+				This one will grow up within our iterative development process.
+            </p>
+			<h3>Data model</h3>
             <p class="img">
                 <a href="medias/Data Model.png" title="Data model draft" class="thickbox"><img src="medias/Data Model.png"/></a>
             </p>
