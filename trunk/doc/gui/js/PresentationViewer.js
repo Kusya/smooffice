@@ -6,7 +6,7 @@
  * http://extjs.com/license
  */
 
-FeedViewer = {};
+PresentationViewer = {};
 
 Ext.onReady(function(){
     Ext.QuickTips.init();
@@ -19,15 +19,15 @@ Ext.onReady(function(){
             return Ext.util.Format.stripScripts(v || all.description);
         }
     });
-    FeedViewer.getTemplate = function(){
+    PresentationViewer.getTemplate = function(){
         return tpl;
     }
 
-    var feeds = new FeedPanel();
+    var presentations = new PresentationPanel();
     var mainPanel = new MainPanel();
 
-    feeds.on('feedselect', function(feed){
-        mainPanel.loadFeed(feed);
+    presentations.on('presentationselect', function(presentation){
+        mainPanel.loadPresentation(presentation);
     });
     
     var viewport = new Ext.Viewport({
@@ -38,30 +38,30 @@ Ext.onReady(function(){
                 el: 'header',
                 height:32
             }),
-            feeds,
+            presentations,
             mainPanel
          ]
     });
 
     // add some default feeds
-    feeds.addFeed({
-        url:'http://feeds.feedburner.com/extblog',
-        text: 'ExtJS.com Blog'
-    }, false, true);
+    presentations.addPresentation({
+        description:'Learn about the control of human resources',
+        title: 'Learning control'
+    }, false, false);
 
-    feeds.addFeed({
-        url:'http://extjs.com/forum/external.php?type=RSS2',
-        text: 'ExtJS.com Forums'
-    }, true);
+    presentations.addPresentation({
+        description:'All you need to setup a MySQL database',
+        title: 'Databases with MySQL'
+    }, false, false);
 
-    feeds.addFeed({
-        url:'http://feeds.feedburner.com/ajaxian',
-        text: 'Ajaxian'
-    }, true);
+    presentations.addPresentation({
+        description:'The advantages and inconvenients of each one',
+        title: 'PHP vs Ruby'
+    }, false, false);
 });
 
 // This is a custom event handler passed to preview panels so link open in a new windw
-FeedViewer.LinkInterceptor = {
+PresentationViewer.LinkInterceptor = {
     render: function(p){
         p.body.on({
             'mousedown': function(e, t){ // try to intercept the easy way

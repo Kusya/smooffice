@@ -6,27 +6,32 @@
  * http://extjs.com/license
  */
 
-FeedPanel = function() {
-    FeedPanel.superclass.constructor.call(this, {
-        id:'feed-tree',
+PresentationPanel = function() {
+    PresentationPanel.superclass.constructor.call(this, {
+        id:'presentation-tree',
         region:'west',
-        title:'Feeds',
+        title:'Presentations',
         split:true,
-        width: 225,
-        minSize: 175,
+        width: 200,
+        minSize: 100,
         maxSize: 400,
         collapsible: true,
-        margins:'5 0 5 5',
-        cmargins:'5 5 5 5',
-        rootVisible:false,
+        margins:'0 0 5 5',
+        cmargins:'0 5 5 5',
+        rootVisible:true,
         lines:false,
         autoScroll:true,
-        root: new Ext.tree.TreeNode('Feed Viewer'),
+        root: new Ext.tree.TreeNode('Presentation Viewer'),
         collapseFirst:false,
 
         tbar: [{
-            iconCls:'add-feed',
-            text:'Add Feed',
+            iconCls:'new-presentation',
+            text:'New',
+            handler: this.showWindow,
+            scope: this
+        },{
+            iconCls:'new-folder',
+            text:'New Folder',
             handler: this.showWindow,
             scope: this
         },{
@@ -36,49 +41,59 @@ FeedPanel = function() {
             handler: function(){
                 var s = this.getSelectionModel().getSelectedNode();
                 if(s){
-                    this.removeFeed(s.attributes.url);
+                    this.removePresentation(s.attributes.title);
                 }
             },
             scope: this
         }]
     });
-
-    this.feeds = this.root.appendChild(
+	
+	this.root.expanded = true;
+	
+    this.presentations = this.root.appendChild(
         new Ext.tree.TreeNode({
-            text:'My Feeds',
-            cls:'feeds-node',
+            text:'My Presentations',
+            cls:'presentations-node',
+            expanded:true
+        })
+    );
+
+    this.trash = this.root.appendChild(
+        new Ext.tree.TreeNode({
+            text:'Trash',
+            cls:'trash-node',
             expanded:true
         })
     );
 
     this.getSelectionModel().on({
         'beforeselect' : function(sm, node){
-             return node.isLeaf();
+             //return node.isLeaf();
         },
         'selectionchange' : function(sm, node){
             if(node){
-                this.fireEvent('feedselect', node.attributes);
+                this.fireEvent('presentationselect', node.attributes);
             }
             this.getTopToolbar().items.get('delete').setDisabled(!node);
         },
         scope:this
     });
 
-    this.addEvents({feedselect:true});
+    this.addEvents({presentationselect:true});
 
     this.on('contextmenu', this.onContextMenu, this);
 };
 
-Ext.extend(FeedPanel, Ext.tree.TreePanel, {
-
+Ext.extend(PresentationPanel, Ext.tree.TreePanel, {
+	//Right clic
     onContextMenu : function(node, e){
         if(!this.menu){ // create context menu on first right click
             this.menu = new Ext.menu.Menu({
-                id:'feeds-ctx',
+                id:'presentations-ctx',
                 items: [{
                     id:'load',
-                    iconCls:'load-icon',
-                    text:'Load Feed',
+                    iconCls:'open-icon',
+                    text:'Open',
                     scope: this,
                     handler:function(){
                         this.ctxNode.select();
@@ -89,12 +104,12 @@ Ext.extend(FeedPanel, Ext.tree.TreePanel, {
                     scope: this,
                     handler:function(){
                         this.ctxNode.ui.removeClass('x-node-ctx');
-                        this.removeFeed(this.ctxNode.attributes.url);
+                        this.removePresentation(this.ctxNode.attributes.title);
                         this.ctxNode = null;
                     }
                 },'-',{
-                    iconCls:'add-feed',
-                    text:'Add Feed',
+                    iconCls:'new-presentation',
+                    text:'New Presentation',
                     handler: this.showWindow,
                     scope: this
                 }]
@@ -122,18 +137,18 @@ Ext.extend(FeedPanel, Ext.tree.TreePanel, {
 
     showWindow : function(btn){
         if(!this.win){
-            this.win = new FeedWindow();
-            this.win.on('validfeed', this.addFeed, this);
+            this.win = new PresentationWindow();
+            this.win.on('validpresentation', this.addPresentation, this);
         }
         this.win.show(btn);
     },
 
-    selectFeed: function(url){
-        this.getNodeById(url).select();
+    selectPresentation: function(title){
+        this.getNodeById(title).select();
     },
 
-    removeFeed: function(url){
-        var node = this.getNodeById(url);
+    removePresentation: function(title){
+        var node = this.getNodeById(title);
         if(node){
             node.unselect();
             Ext.fly(node.ui.elNode).ghost('l', {
@@ -142,27 +157,33 @@ Ext.extend(FeedPanel, Ext.tree.TreePanel, {
         }
     },
 
-    addFeed : function(attrs, inactive, preventAnim){
-        var exists = this.getNodeById(attrs.url);
+    addPresentation : function(attrs, inactive, preventAnim){
+        var exists = this.getNodeById(attrs.title);
         if(exists){
             if(!inactive){
                 exists.select();
-                exists.ui.highlight();
+                exists.ui.highlight("ffff9c", {
+				    attr: "background-color",
+				    endColor: 'ffffff',
+				    easing: 'easeIn',
+				    duration: 1
+				});
             }
             return;
         }
         Ext.apply(attrs, {
-            iconCls: 'feed-icon',
+            iconCls: 'presentation-icon',
             leaf:true,
-            cls:'feed',
-            id: attrs.url
+            cls:'presentation',
+            id: attrs.title,
+			text: attrs.title
         });
         var node = new Ext.tree.TreeNode(attrs);
-        this.feeds.appendChild(node);
+        this.presentations.appendChild(node);
         if(!inactive){
             if(!preventAnim){
                 Ext.fly(node.ui.elNode).slideIn('l', {
-                    callback: node.select, scope: node, duration: .4
+                    callback: node.select, scope: node, duration: .9
                 });
             }else{
                 node.select();
@@ -173,7 +194,7 @@ Ext.extend(FeedPanel, Ext.tree.TreePanel, {
 
     // prevent the default context menu when you miss the node
     afterRender : function(){
-        FeedPanel.superclass.afterRender.call(this);
+        PresentationPanel.superclass.afterRender.call(this);
         this.el.on('contextmenu', function(e){
             e.preventDefault();
         });

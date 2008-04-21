@@ -6,7 +6,7 @@
  * http://extjs.com/license
  */
 
-FeedGrid = function(viewer, config) {
+PresentationGrid = function(viewer, config) {
     this.viewer = viewer;
     Ext.apply(this, config);
 
@@ -44,7 +44,7 @@ FeedGrid = function(viewer, config) {
         sortable:true
     }];
 
-    FeedGrid.superclass.constructor.call(this, {
+    PresentationGrid.superclass.constructor.call(this, {
         region: 'center',
         id: 'topic-grid',
         loadMask: {msg:'Loading Feed...'},
@@ -64,7 +64,7 @@ FeedGrid = function(viewer, config) {
     this.on('rowcontextmenu', this.onContextClick, this);
 };
 
-Ext.extend(FeedGrid, Ext.grid.GridPanel, {
+Ext.extend(PresentationGrid, Ext.grid.GridPanel, {
 
     onContextClick : function(grid, index, e){
         if(!this.menu){ // create context menu on first right click
@@ -114,9 +114,9 @@ Ext.extend(FeedGrid, Ext.grid.GridPanel, {
         }
     },
 
-    loadFeed : function(url) {
+    loadPresentation : function(url) {
         this.store.baseParams = {
-            feed: url
+            presentation: url
         };
         this.store.load();
     },

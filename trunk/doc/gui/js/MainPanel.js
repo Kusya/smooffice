@@ -12,11 +12,11 @@ MainPanel = function(){
         region: 'south',
         cls:'preview',
         autoScroll: true,
-        listeners: FeedViewer.LinkInterceptor,
+        listeners: PresentationViewer.LinkInterceptor,
 
         tbar: [{
             id:'tab',
-            text: 'View in New Tab',
+            text: 'View in 	New Tab',
             iconCls: 'new-tab',
             disabled:true,
             handler : this.openTab,
@@ -25,7 +25,7 @@ MainPanel = function(){
         '-',
         {
             id:'win',
-            text: 'Go to Post',
+            text: 'Go to Presentation',
             iconCls: 'new-win',
             disabled:true,
             scope: this,
@@ -42,10 +42,10 @@ MainPanel = function(){
         }
     });
 
-    this.grid = new FeedGrid(this, {
+    this.grid = new PresentationGrid(this, {
         tbar:[{
             text:'Open All',
-            tooltip: {title:'Open All',text:'Opens all item in tabs'},
+            tooltip: {title:'Open All',text:'Opens all presentations in tabs'},
             iconCls: 'tabs',
             handler: this.openAll,
             scope:this
@@ -138,7 +138,7 @@ MainPanel = function(){
     this.gsm = this.grid.getSelectionModel();
 
     this.gsm.on('rowselect', function(sm, index, record){
-        FeedViewer.getTemplate().overwrite(this.preview.body, record.data);
+        PresentationViewer.getTemplate().overwrite(this.preview.body, record.data);
         var items = this.preview.topToolbar.items;
         items.get('tab').enable();
         items.get('win').enable();
@@ -152,9 +152,9 @@ MainPanel = function(){
 
 Ext.extend(MainPanel, Ext.TabPanel, {
 
-    loadFeed : function(feed){
-        this.grid.loadFeed(feed.url);
-        Ext.getCmp('main-view').setTitle(feed.text);
+    loadPresentation : function(presentation){
+        this.grid.loadPresentation(presentation.url);
+        Ext.getCmp('main-view').setTitle(presentation.text);
     },
 
     movePreview : function(m, pressed){
@@ -212,9 +212,9 @@ Ext.extend(MainPanel, Ext.TabPanel, {
                 cls:'preview single-preview',
                 title: d.title,
                 tabTip: d.title,
-                html: FeedViewer.getTemplate().apply(d),
+                html: PresentationViewer.getTemplate().apply(d),
                 closable:true,
-                listeners: FeedViewer.LinkInterceptor,
+                listeners: PresentationViewer.LinkInterceptor,
                 autoScroll:true,
                 border:true,
 

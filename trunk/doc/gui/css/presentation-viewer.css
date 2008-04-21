@@ -48,7 +48,7 @@ html, body {
 .msg-view {
     background-image: url(../images/application_view_list.png) !important;
 }
-.add-feed {
+.new-presentation {
     background-image: url(../images/rss_add.gif) !important;
 }
 
@@ -103,21 +103,21 @@ body.x-border-layout-ct {
     padding-top:2px;
     padding-bottom:1px;
 }
-.feeds-node .x-tree-node-icon {
+.presentations-node .x-tree-node-icon {
     display:none;
 }
 .forum-ct a span {
     font-weight:bold;
     color:#222;
 }
-.feed {
+.presentation {
     border:1px solid #fff;
     margin:3px;
 }
-.feed .x-tree-ec-icon {
+.presentation .x-tree-ec-icon {
     display:none;
 }
-.feed-icon {
+.presentation-icon {
     background-image:url(../images/rss.gif) !important;
 }
 .new-tab {
@@ -129,7 +129,7 @@ body.x-border-layout-ct {
 .delete-icon {
     background-image:url(../images/rss_delete.gif) !important;
 }
-.load-icon {
+.open-icon {
     background-image:url(../images/rss_load.gif) !important;
 }
 .refresh-icon {
