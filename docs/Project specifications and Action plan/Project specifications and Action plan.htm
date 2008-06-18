@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Project specifications and Action plan v1</title>
+        <link rel="stylesheet" type="text/css" href="layout/common.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="layout/specific.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="logic/thickbox.css" media="screen"/>
+		<!--[if lt IE 7]>
+            <script type="text/javascript" src="logic/IE8.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="logic/jquery.js">
+        </script>
+        <script type="text/javascript" src="logic/jquery.toc.js">
+        </script>
+        <script type="text/javascript" src="logic/thickbox-compressed.js">
+        </script>
+        <script type="text/javascript" src="logic/chili/jquery.chili-1.9.js">
+        </script>
+		<script type="text/javascript">
+            $(document).ready(function(){
+                $("#body").toc({
+					lowest: 4
+				});				
+            });
+            ChiliBook.recipeFolder = "logic/chili/";
+            ChiliBook.stylesheetFolder = "logic/chili/";
+        </script>
+    </head>
+    <body>
+        <div id="header">
+            <h1><img src="medias/tender_header.png" alt="Project specifications and Action plan v1"/></h1>
+        </div>
+        <div id="menu">
+            <ul>
+                <li>
+                    <a href="mailto:public@lrbabe.com">BAB&Eacute; Louis Rémi</a>
+                </li>
+                <li>
+                    <a href="mailto:garnier.sam@gmail.com">GARNIER Samuel</a>
+                </li>
+                <li>
+                    <a href="mailto:clement.gonnet@gmail.com">GONNET Clément</a>
+                </li>
+            </ul>
+        </div>
+        <div id="body">
+            <h2>Introduction - Users and uses</h2>
+            <p class="in">
+                The aim of our project is to create an online presentation program bound to academics and students of the University of Teesside. 
+                A presentation (also referred as <em>slideshow</em>) is a set of slides (also referred as <em>transparency</em>) which contains elements such as text, images and charts.
+				Slides are presented one after the other to an audience for an instructional purpose. 
+            </p>
+            <p class="in">
+                Academics will be able to log in the application, create presentations, manage or edit existing ones, 
+				and make them available for students. 
+				Students will be able to log in the application, browse through the presentations available for them (according to the course they take part in), 
+				preview them within the application and download them as an HTML file.
+            </p>
+            <h2>Why another presentation program ?</h2>
+            <p class="in">
+                There is already, among desktop as well as web application, many existing solutions to create presentations
+            </p>
+            <h3>Desktop full-featured applications</h3>
+            <p class="in">
+                The most known of those softwares are the desktop ones, such as Microsoft PowerPoint and OpenOffice.org Impress.
+                Their particularity is to have a large amount of features (and, coming hands in hands, a large amount of toolbars, menus and sub-menus),
+                allowing to customize each and every part of the slides : the transitions between slides, the animations, size, color, shape, inclination, ... of
+                the smallest element of the slide.
+                <br/>
+                They are appropriated to produce professional presentation, corresponding exactly to user's needs and desires. 
+                Until now they are the best tools for <i>physical</i> presentations, as they allows to have a <i>presenter view</i>
+                of the slideshow on a screen (with comments and slides preview) and the normal view on another media, like a video projector.		
+            </p>
+            <p class="img">
+                <a href="medias/openoffice_impress_screenshot.jpg" title="Screenshot of OpenOffice.org Impress, a popular desktop presentation program" class="thickbox" rel="desktopSS"><img src="medias/openoffice_impress_screenshot.jpg"/></a>
+				<!--<a href="medias/Screen shot.png" title="Screenshot of Apple keynote, a desktop presentation program" class="thickbox" rel="desktopSS"><img src="medias/Screen shot.png"/></a>-->
+            </p><h3>On-line collaborative applications</h3>
+            <p class="in">
+                More and more web-based office are offering the possibility to create presentations inside a web browser and to store it online.
+                Their particularity is to make the presentation available from everywhere in the world, 
+				providing the user has an internet access and a web browser.
+                It isn't any more required to have a (heavy) application installed locally, nor to take care of software updates.
+                <br/>
+                Most of these applications features a version control and allows many users to edit the document at the same time in a collaborative way and to present it online, 
+                but they are not designed to make an offline presentation : there is now way to have two different views on two different medias.
+                <br/>
+                They are appropriated to create basic documents with a limited amount of animations/transitions and types of embeddable elements (no video, music).
+            </p>
+            <p class="img">
+                <a href="medias/google presentation.jpg" title="Screenshot of Google documents Presentation, a popular presentation web application" class="thickbox"><img src="medias/google presentation.jpg"/></a>
+            </p><h3>On-line sharing applications</h3>
+            <p class="in">
+                There is another, less known web-based kind of tool in relation with our project : the presentation sharing platforms.
+                They are used to manage and shares collection of slideshows on the web by producing a presentation applet out of an uploaded slideshow (a kind of Flickr).
+                <br/>
+            </p>
+            <p class="img">
+                <a href="medias/slideshare.png" title="Screenshot of presentation shared on a blog using Slideshare" class="thickbox"><img src="medias/slideshare.png"/></a>
+            </p><h3>Our approach</h3>
+            <p class="in">
+                Our application can not compete with the number of features of desktop presentation program and our primary goal is not to produce a collaboration tool either.
+                <br/>
+                We have to design an alternative to traditional tools: 
+                allowing users, from everywhere, on any platform, to easily create and share visually attractive presentations.
+            </p>
+			<h2>Use cases</h2>
+			<p class="in">
+				We've elaborated a set of scenarios corresponding to main tasks users will be able to achieve with our application.<br />
+				Thanks to them, we are going to describe the composition of the <acronym title="Graphical User Interfaces">GUI</acronym> of our application.
+				We are also going to introduce its features, classified in three categories (<em>must, should and may</em>) depending of their respective need from an end-user point of view.
+			</p>
+			<h3>Connection to the application. Academic Point Of View</h3>
+			<p class="in">
+				Academics access to our application on a subdomain within the intranet of the university (using a dedicated address such as <em>http://<strong>academics.netshows.</strong>tees.ac.uk</em>).
+				Our application will provide its own login page despite the fact that it will share its user database with other intranet applications.
+			</p>
+			<h4>login page</h4>
+			<h5>must</h5>
+			<ul>
+				<li>provide an explanation about the application</li>
+				<li>allow academics to log in the application</li>
+			</ul>
+			<h5>may</h5>
+			<ul>
+				<li>display a link to a screencast</li>
+			</ul>
+			<h3>Presentations management.</h3>
+			<p class="in">
+				Once connected, user access the main interface. It is composed of two panels : a treeview of user's presentation and the main panel with a <em>welcome tab</em>.
+			</p>			
+			<h4>Presentation treeview</h4>
+			<p class="in">
+				The treeview is comparable to a basic treeview of a file system in a file explorer.
+			</p>
+			<h5>must</h5>
+			<ul>
+				<li>expand/collapse (sub)folders as well as presentations</li>
+				<li>drag'n drop presentation/subfolder from a folder to another</li>
+				<li>right-click on any item to rename it</li>
+				<li>right-click on any item to delete it (actually send it to the  recycling bin)</li>
+				<li>right-click inside a folder to create a new folder or a new presentation (see <a href="#presentation_creation">presentation creation</a> scenario)</li>
+				<li>simple click on a presentation to have its description displayed in a part of the welcome tab</li>
+				<li>double click on a presentation/slide to open in a new editor tab (see <a href="#presentation_edition">presentation edition</a>)</li>
+				<li>right-click inside a presentation to insert a new slide</li>
+				<li>drag'n drop a slide from a presentation to another</li>
+				<li>copy/paste a slide from a presentation to another</li>
+				<li>clone/paste a slide from a presentation to another (a clone is always identical to the original slide)</li>
+				<li>right-click on the recycling bin to empty it</li>
+				<li>right-click on any item in the recycling bin to definitely delete it</li>
+			</ul>
+			<h5>should</h5>
+			<ul>
+				<li>enter key words in a search-field to filter the displayed presentations</li>
+				<li>use keyboard to perform previously mentioned actions</li>
+				<li>select multiple items to perform previously mentioned actions</li>
+			</ul>
+			<h5>may</h5>
+			<ul>
+				<li>use multiple tags instead of folder to classify and filter presentations</li>
+			</ul>
+			<h4>welcome tab</h4>
+			<h5>must</h5>
+			<ul>
+				<li>Display a welcome message : )</li>
+				<li>Inform the user about what he can do with the application</li>
+			</ul>
+			<h5>should</h5>
+			<ul>
+				<li>display a tip of the day</li>
+				<li>display a link to a FAQ list</li>
+			</ul>
+			<h5>may</h5>
+			<ul>
+				<li>display a link to a screencast</li>
+			</ul>
+			<h3 id="presentation_creation">Presentation creation</h3>
+			<p class="in">
+				<i>the user chooses a template and a default layout, then he/she accesses to the presentation edition with a first empty slide.</i>
+			</p>
+			<h3 id="presentation_edition">Presentation edition</h3>
+			<p class="in">
+				After double-clicking on a presentation or a slide, the treeview is replaced by a vertical thumbnail list of the slides;
+				a new editor tab is opened in the main panel to edit the presentation.
+				If it's a slide that has been opened, then it is displayed inside the tab, otherwise the first slide of the presentation is displayed.
+			</p>
+			<h4>thumbnail list</h4>
+			<h5>must</h5>
+			<ul>
+				<li>update the thumbnail as the user edit the slide in the editor tab</li>
+				<li>allow all the action possible inside a presentation in the treeview</li>
+				<li>right-click to import a set of slides from another presentation</li>
+			</ul>
+			<h4>editor tab</h4>
+			<p class="in">
+				To create a slide, the user choose the layout of the slide (by default: one title, one column).
+				Then he edits the default text included in the template - using the <em>text toolbar</em> -; add elements (tables, images, shapes, ...) to arbitrary position in the slide - using the <em>insert toolbar</em> -;
+				choose transition after which the slide appears and animations of the different elements - using the toolbar on the right.
+			</p>
+			<h5>must</h5>
+			<ul>
+				<li>use the edit toolbar to edit text with features of a basic desktop text editor such as WordPad</li>
+				<li>use the insert toolbar and the slide itself to insert and modify depth of elements such as text, tables, images, charts</li>
+				<li>use the insert toolbar to insert mathematical expression either in LaTex or MathML, converted to an image</li>
+				<li>use the toolbar on the right to modify the layout of the slide</li>
+				<li>use the toolbar on the right to choose a transition for the slide</li>
+				<li>use the toolbar on the right to add animations to element (and choose whether it will start after a delay or a click)</li>
+				<li>undo/redo every modification of the slide</li>
+				<li>hide/show the toolbar on the right</li>
+				<li>resize/move elements directly on the slide</li>
+			</ul>
+			<h5>should</h5>
+			<ul>
+				<li>allow to edit a master slide which define the global style and layout.</li>
+				<li>allow insertion and manipulation of other element such as audio file, video, applets, quizzes, ...</li>
+				<li>switch back to a previous revision of the element/slide/presentation.</li>
+			</ul>
+			<h5>may</h5>
+			<ul>
+				<li>allow to rotate elements</li>
+			</ul>
+			<h3>Publication</h3>
+			<p class="in">
+				Once finished, the presentation may be made available to public or downloaded directly from the treeview.
+			</p>
+			<h5>must</h5>
+			<ul>
+				<li>right click on a presentation and check <em>available to students</em> button</li>
+				<li>right click on a presentation and download it as a standalone HTML presentation</li>				
+			</ul>
+			<h5>may</h5>
+			<ul>
+				<li>right click on a presentation and generate few lines of html code to embed the presentation within a web page (like a youtube video)</li>
+				<li>right click on a presentation and check <em>available to unregistered users</em> button</li>
+			</ul>
+			<h3>Connection to the application. Public Point Of View</h3>
+			<p class="in">
+				Students access to our application on a subdomain within the intranet of the university (through an address such as <em>http://netshows.tees.ac.uk</em>).
+				There is also a login page for students in order to know which course they can access.
+			</p>
+			<h4>login page</h4>
+			<h5>must</h5>
+			<ul>
+				<li>provide an explanation of the application</li>
+				<li>allow students to log in the application</li>
+			</ul>
+			<h5>may</h5>
+			<ul>
+				<li>display a link to a screencast</li>
+				<li>allow unregistered users to access to some parts of some presentations</li>
+			</ul>
+			<h3>Presentations browsing</h3>
+			<p class="in">
+				Once connected, students access to the kiosk. It looks like the main page of academics: 
+				a treeview of all presentation, sorted by course, on which user has <i>read right</i> (he takes part of the course) in the left panel;
+				and a main panel with a welcome tab.
+			</p>
+			<h4>Treeview</h4>
+			<h5>must</h5>
+			<ul>
+				<li>double click on a presentation to preview it in a new tab</li>
+				<li>right click on a presentation and download it as a standalone application</li>
+			</ul>
+			<h2>Project plan</h2>
+            <h3>Actors</h3>
+			<p class="in">
+				We tried to distribute according to each one's skills and personal background.
+			</p>
+			<ul>
+				<li>Louis-Rémi BABE is the project leader. 
+					He already has some experience with a <a href="http://www.symfony.org">php framwork <i>à la</i> Rails</a> and javascript libraries.
+				</li>
+				<li>
+					Clément GONNET is in charge on the User Interface part of the application.
+					He has always been sensitive to aesthetic and usability in the applications he uses 
+					and tries to reproduce the best practices in his projects.					
+				</li>
+				<li>
+					Samuel GARNIER is in charge of the initial documentation. 
+					Its training learned him how to be quickly effective with new languages he encounters. He will work mainly on the server side.
+				</li>
+			</ul>
+			<p class="in">
+				<i>We all need to know what other are doing and the basics of the technology they use in order to cooperate.</i>
+			</p>
+			<h3>Planning</h3>
+			<p class="img">
+                <a href="medias/planning.png" title="planning" class="thickbox" rel="planning"><img src="medias/planning.png"/></a>
+            </p>
+            <h2>Conception drafts</h2>
+            <h3>Data model</h3>
+			<p class="in">
+            	Besides the GUI drafts, we have also started to design the data model.
+				Despite the fact that it has been designed to be <em>future-proof</em>, 
+				it can still grow up during our iterative development process.
+            </p>
+			<p class="img">
+                <a href="medias/Data Model.png" title="Data model" class="thickbox"><img src="medias/Data Model.png"/></a>
+            </p>
+			<ul>
+				<li>A user has a root folder and a recycle-bin</li>
+				<li>Each folder has a parent folder, except for the root and the bin.<br /> 
+				<i>This kind of link involve a costly (O<sup>n</sup>) recursive algorithm to delete a folder but the addition and relocation of a folder is the easiest. 
+				The listing of a folder is not a problem thanks to the use of a "lazy treeview".</i></li>
+				<li>A presentation is in a folder and is linked to its first transition.
+				</li>
+				<li>
+					A presentation is a singly-linked list of transition showing or hiding a slide.<br />
+					<i>This choice was made (instead of a linked-list of slides which seem more natural) because it appears that a transition is not
+					part of a slide: you should be able to clone a slide and have it displayed by two different transitions in two different presentations.<br /></i>
+				</li>
+				<li>
+					A transition can correspond to an effect 
+					(when the user add a slide to a presentation, a transition is added at the end of the list and a linked to a new slide, but has no graphical effect by default).
+				</li>
+				<li>If a slide is linked to another slide (by its original_slide attribute), 
+					it means that this slide is a clone and he would behave as a <i>symbolic link</i>.
+					A slide has one or two transition and is linked to its first animation.<br />
+					<i>For performance purposes, it has been decided to link each slide to its presentation (which should speed up a presentation deletion for example).</i>
+				</li>
+				<li>
+					A slide is a singly-linked list of animation hiding, showing or applying an effect to an element (moving, bouncing, ...).
+					
+				</li>
+				<li>
+					An animation can correspond to an effect.
+				</li>
+				<li>
+					An element can have many animations.<br />
+					<i>For performance purposes, it has been decided to link each element to its slide.</i>
+				</li>
+			</ul>
+			<h3>Data model of a standalone presentation (exported in JSON)</h3>
+			<p class="in">
+				When a user want to download a presentation as a standalone HTML file, we have to extract all the relevant data from the data base,
+				and to slightly simplify the data model to output a presentation structure as JSON.<br />
+				HTML could have probably been used instead of this JSON object, 
+				however, not only json is less expensive for our bandwidth, but it is also easier to generate.
+				A small part of the processing is delegated to the client side which will create the DOM elements out of it.
+			</p>
+			<p class="img">
+            	<a href="medias/standalone Data Model.png" title="standalone Data model" class="thickbox"><img src="medias/standalone Data Model.png"/></a>
+        	</p>
+			<h4>sample</h4>		
+			<code class="javascript">
+var presentation = new jNsV.Presentation ({
+	'title' : "",
+	'author' : "",
+	'description' : "",
+	'created_at' : new Date(),
+	'slide' : [
+		new jNsV.Slide ({
+			'title' : "",
+			'comment' : ""
+			'show_transition' : {
+				'effect' : "",
+				'parameters' : {...}
+			},
+			'hide_transition' : {
+				'effect' : "",
+				'parameters' : {...}
+			},
+			'animation' : [
+				new jNsV.Animation ({
+					'effect' : "",
+					'parameters' : {...},
+					'on_element' : x
+				}),
+				new jNsV.Animation ({
+					...
+				}),
+			],
+			'element' : [
+				new jNsV.Element ({
+					'type' : "",
+					'content' : "",
+					'property' : [
+						new jNsV.Property ({
+							'width' : u,
+							'height' : v,
+							'top' : s,
+							'left' : t,
+							'color' : 'fff',
+							'opacity' : 1,
+						})
+					]					
+				}),
+				new jNsV.Element ({
+					...
+				}),
+			]
+		}),
+		new jNsV.Slide ({
+			...
+		}),
+	]
+});</code>
+        </div>
+    </body>
+</html>

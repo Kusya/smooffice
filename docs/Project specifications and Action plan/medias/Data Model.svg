@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="Data Model.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3317">
+      <stop
+         style="stop-color:#008000;stop-opacity:1;"
+         offset="0"
+         id="stop3319" />
+      <stop
+         style="stop-color:#002e00;stop-opacity:1;"
+         offset="1"
+         id="stop3321" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <filter
+       inkscape:collect="always"
+       id="filter3912"
+       x="-0.1569973"
+       width="1.3139946"
+       y="-0.097114434"
+       height="1.1942289">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.3329138"
+         id="feGaussianBlur3914" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3317"
+       id="linearGradient3361"
+       gradientUnits="userSpaceOnUse"
+       x1="335.54056"
+       y1="-95.025209"
+       x2="382.41518"
+       y2="-95.025209" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3317"
+       id="linearGradient3363"
+       gradientUnits="userSpaceOnUse"
+       x1="201.27862"
+       y1="-173.0664"
+       x2="256.25522"
+       y2="-173.0664" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.9899495"
+     inkscape:cx="425.7714"
+     inkscape:cy="835.65834"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1279"
+     inkscape:window-height="751"
+     inkscape:window-x="1"
+     inkscape:window-y="48" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 320.81614,-71.242951 C 401.12327,-71.242951 401.62835,-71.242951 401.62835,-71.242951 L 410.73255,-77.079971 L 401.78845,-71.335391 L 410.73255,-71.335391 L 401.71764,-71.246101 L 410.73255,-66.079081"
+       id="path3520"
+       sodipodi:nodetypes="ccccccc" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3694"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:6;text-anchor:middle;text-align:center"><flowRegion
+         id="flowRegion3696"><rect
+           id="rect3698"
+           width="50.357143"
+           height="22.142857"
+           x="473.57144"
+           y="136.29076" /></flowRegion><flowPara
+         id="flowPara3700" /></flowRoot>    <g
+       id="g3757"
+       transform="matrix(1.0484992,0,0,1,-4.0470041,100.35714)">
+      <g
+         transform="matrix(1.1734075,0,0,1.1123976,-192.46041,-62.585574)"
+         id="g3749">
+        <path
+           transform="matrix(2.3003437,0,0,2.3458817,136.91227,-308.80459)"
+           sodipodi:nodetypes="ccccccc"
+           id="path3745"
+           d="M 108.17285,75.994501 C 108.17285,86.083364 108.17285,96.172234 108.17285,106.26109 C 108.17285,107.73066 107.26833,108.93495 106.12948,108.93495 L 87.796748,108.93495 L 87.796748,78.66836 C 87.796748,77.198799 88.701258,75.994501 89.840118,75.994501 L 108.17285,75.994501 z"
+           style="fill:#939393;fill-opacity:0.49333335;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3912)" />
+        <path
+           sodipodi:nodetypes="ccccccc"
+           id="path3747"
+           d="M 381.98778,-133.66241 C 381.98778,-109.99513 381.98778,-86.327848 381.98778,-62.660558 C 381.98778,-59.213128 379.94491,-56.388008 377.3728,-56.388008 L 335.96796,-56.388008 L 335.96796,-127.38985 C 335.96796,-130.83727 338.01081,-133.66241 340.58295,-133.66241 L 381.98778,-133.66241 z"
+           style="fill:#ffffff;fill-opacity:1;stroke:url(#linearGradient3361);stroke-width:0.85479409;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      </g>
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:url(#linearGradient3363);stroke-width:0.97659832;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3755"
+         width="54"
+         height="46.785717"
+         x="201.76692"
+         y="-196.45926" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 227.66749,76.210012 L 312.6345,76.210012"
+       id="path3558"
+       inkscape:connector-type="polyline"
+       inkscape:connection-start="#g3893"
+       inkscape:connection-end="#g3990"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 213.26846,123.14811 L 209.35412,117.97108 L 209.35412,117.97108"
+       id="path3574"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 213.26846,123.40065 C 217.5616,117.71854 217.5616,117.71854 217.5616,117.71854 L 213.26846,123.40065 z"
+       id="path3572"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 212.5,76.290753 C 161.78571,72.005041 154.13742,54.800627 163.57142,32.362182 C 173.0582,9.7981879 207.14286,-9.9301251 219.64286,52.005039"
+       id="path3584"
+       sodipodi:nodetypes="czc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 183.42857,67.005039 C 183.42857,67.005039 183.42857,67.005039 177.35714,69.147896 C 183.25,75.040751 183.25,75.040751 183.25,75.040751"
+       id="path3586"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 213.59725,170.47034 L 213.4298,122.89557"
+       id="path2595"
+       inkscape:connector-type="polyline"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <g
+       id="g3893"
+       transform="translate(-171.08195,55.509431)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <use
+         height="1052.3622"
+         width="744.09448"
+         transform="translate(146.42857,87.142857)"
+         id="use3789"
+         xlink:href="#g3757"
+         y="0"
+         x="0" />
+      <flowRoot
+         transform="translate(257.03939,-110.38756)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3338"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3340"><rect
+             style="text-align:start;text-anchor:start"
+             y="105.21932"
+             x="101.42857"
+             height="41.785713"
+             width="41.07143"
+             id="rect3342" /></flowRegion><flowPara
+           id="flowPara3344">folder_id</flowPara><flowPara
+           id="flowPara3352">title</flowPara></flowRoot>      <flowRoot
+         transform="translate(58.000001,-106.14286)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3363"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3365"><rect
+             y="146.6479"
+             x="298.21429"
+             height="9.2857141"
+             width="42.142857"
+             id="rect3367" /></flowRegion><flowPara
+           id="flowPara3369">parent_folder</flowPara></flowRoot>      <flowRoot
+         transform="translate(0,2)"
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3885"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3887"><rect
+             style="font-size:8px"
+             y="-24.066389"
+             x="353.21429"
+             height="15"
+             width="54.642857"
+             id="rect3889" /></flowRegion><flowPara
+           id="flowPara3891">Folders</flowPara></flowRoot>    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 352.94993,76.210012 L 442.9169,76.210012"
+       id="path3560"
+       inkscape:connector-type="polyline"
+       inkscape:connection-start="#g3990"
+       inkscape:connection-end="#g4060"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 313.14729,72.766752 C 313.14729,72.766752 313.14729,72.766752 307.08637,76.049748 C 312.89475,79.83782 312.89475,79.83782 312.89475,79.83782"
+       id="path3590"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#9a9a9a;stroke-width:0.69999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
+       d="M 343.527,303.5479 L 338.32321,314.24739"
+       id="path2573"
+       inkscape:connector-type="polyline"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503"
+       inkscape:transform-center-x="23.233508"
+       inkscape:transform-center-y="-55.053313" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#9a9a9a;stroke-width:0.69999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
+       d="M 343.50162,164.13912 L 348.70541,174.83861"
+       id="path2583"
+       inkscape:connector-type="polyline"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503"
+       inkscape:transform-center-x="-23.233508"
+       inkscape:transform-center-y="-55.053313" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#9a9a9a;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 343.5065,107.03977 L 343.5065,309.7026"
+       id="path3602"
+       inkscape:connector-type="polyline"
+       inkscape:connection-end="#g3436"
+       inkscape:connection-start="#g3990"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <g
+       id="g3990"
+       transform="translate(-74.728083,-50.561992)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <use
+         height="1052.3622"
+         width="744.09448"
+         transform="translate(180.35714,193.21428)"
+         id="use3909"
+         xlink:href="#g3757"
+         y="0"
+         x="0" />
+      <flowRoot
+         transform="translate(-97.169895,5.5)"
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3614"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3616"><rect
+             style="font-size:8px"
+             y="79.505043"
+             x="485.71429"
+             height="10.714286"
+             width="54.642857"
+             id="rect3618" /></flowRegion><flowPara
+           id="flowPara3620">Presentations</flowPara></flowRoot>      <flowRoot
+         transform="translate(-81.847882,10.642857)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3704"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3706"><rect
+             style="text-align:start;text-anchor:start"
+             y="135.21933"
+             x="473.57144"
+             height="22.142857"
+             width="48.214287"
+             id="rect3708" /></flowRegion><flowPara
+           id="flowPara3710">parent_folder</flowPara><flowPara
+           id="flowPara3714">first_transition</flowPara><flowPara
+           id="flowPara3712" /></flowRoot>      <flowRoot
+         transform="translate(289.89653,-4.3161339)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3598"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3600"><rect
+             style="text-align:start;text-anchor:start"
+             y="105.21932"
+             x="101.42857"
+             height="41.42857"
+             width="47.857143"
+             id="rect3602" /></flowRegion><flowPara
+           id="flowPara3612">presentation_id</flowPara><flowPara
+           id="flowPara3690">title</flowPara><flowPara
+           id="flowPara3692">description</flowPara><flowPara
+           id="flowPara3702">created_at</flowPara></flowRoot>    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4032"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:6;text-anchor:middle;text-align:center"><flowRegion
+         id="flowRegion4034"><rect
+           id="rect4036"
+           width="48.57143"
+           height="15.357142"
+           x="495"
+           y="140.57646" /></flowRegion><flowPara
+         id="flowPara4038" /></flowRoot>    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 445.44228,106.55113 L 352.15514,206.18805"
+       id="path3562"
+       inkscape:connector-type="polyline"
+       inkscape:connection-start="#g4060"
+       inkscape:connection-end="#g3365"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 474.73595,76.290753 C 525.45024,72.005041 533.09853,54.800627 523.66453,32.362182 C 514.17775,9.798188 480.09309,-9.9301252 467.59309,52.005039"
+       id="path3588"
+       sodipodi:nodetypes="czc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 473.76154,105.84925 L 473.76154,161.66018"
+       id="path3570"
+       inkscape:connector-type="polyline"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 437.58545,114.94062 C 443.01502,112.98345 443.39383,112.85718 443.39383,112.85718"
+       id="path3598"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <g
+       id="g4060"
+       transform="translate(-46.58854,-40.919142)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <use
+         height="1052.3622"
+         width="744.09448"
+         transform="translate(282.5,183.57143)"
+         id="use4010"
+         xlink:href="#g3757"
+         y="0"
+         x="0" />
+      <flowRoot
+         transform="translate(0,2)"
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot4012"
+         xml:space="preserve"><flowRegion
+           id="flowRegion4014"><rect
+             style="font-size:8px"
+             y="72.362183"
+             x="489.28571"
+             height="15"
+             width="57.142857"
+             id="rect4016" /></flowRegion><flowPara
+           id="flowPara4018">Transitions</flowPara></flowRoot>      <flowRoot
+         transform="translate(1.6428571,2)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot4020"
+         xml:space="preserve"><flowRegion
+           id="flowRegion4022"><rect
+             style="text-align:start;text-anchor:start"
+             y="90.219322"
+             x="492.85715"
+             height="42.857143"
+             width="50.357143"
+             id="rect4024" /></flowRegion><flowPara
+           id="flowPara4030">transition_id</flowPara><flowPara
+           id="flowPara3424">parameters</flowPara></flowRoot>      <flowRoot
+         transform="translate(2.1428571,-2.7142857)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot4044"
+         xml:space="preserve"><flowRegion
+           id="flowRegion4046"><rect
+             style="text-align:start;text-anchor:start"
+             y="137.00504"
+             x="492.14285"
+             height="22.5"
+             width="56.42857"
+             id="rect4048" /></flowRegion><flowPara
+           id="flowPara4050">effect</flowPara><flowPara
+           id="flowPara4054">slide</flowPara><flowPara
+           id="flowPara4058">next_transition</flowPara></flowRoot>    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 357.20591,229.24211 L 442.9169,321.68173"
+       id="path3564"
+       inkscape:connector-type="polyline"
+       inkscape:connection-start="#g3365"
+       inkscape:connection-end="#g3523"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#9a9a9a;stroke-width:0.69999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
+       d="M 343.40211,164.26539 L 338.19832,174.96488"
+       id="path2585"
+       inkscape:connector-type="polyline"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503"
+       inkscape:transform-center-x="23.233508"
+       inkscape:transform-center-y="-55.053313" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 342.00535,216.50786 C 291.29106,212.22215 283.64277,195.01773 293.07677,172.57929 C 302.56355,150.01529 336.64821,130.28698 349.14821,192.22214"
+       id="path3592"
+       sodipodi:nodetypes="czc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <g
+       id="g3365"
+       transform="translate(41.343342,3.31309)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <use
+         style="font-size:8px"
+         height="1052.3622"
+         width="744.09448"
+         transform="translate(64.285715,278.57142)"
+         id="use3327"
+         xlink:href="#g3757"
+         y="0"
+         x="0" />
+      <flowRoot
+         transform="translate(0,2.7142857)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3329"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3331"><rect
+             style="font-size:6px"
+             y="167.36218"
+             x="271.42856"
+             height="15"
+             width="56.785713"
+             id="rect3333" /></flowRegion><flowPara
+           style="font-size:8px"
+           id="flowPara3335">Slides</flowPara></flowRoot>      <flowRoot
+         transform="translate(1.0479911,1.7857143)"
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3337"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3339"><rect
+             style="text-align:start;text-anchor:start"
+             y="185.57646"
+             x="275"
+             height="40"
+             width="49.285713"
+             id="rect3341" /></flowRegion><flowPara
+           style="font-size:6px"
+           id="flowPara3343">slide_id</flowPara><flowPara
+           style="font-size:6px"
+           id="flowPara3422">title</flowPara><flowPara
+           style="font-size:6px"
+           id="flowPara3345">comment</flowPara></flowRoot>      <flowRoot
+         transform="translate(-0.4438002,-2.3571429)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3347"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3349"><rect
+             style="font-size:6px;text-align:start;text-anchor:start"
+             y="232.36218"
+             x="275"
+             height="21.785715"
+             width="51.785713"
+             id="rect3351" /></flowRegion><flowPara
+           id="flowPara3353">(in_presentation)</flowPara><flowPara
+           id="flowPara3355">first_animation</flowPara><flowPara
+           id="flowPara3357">original_slide</flowPara></flowRoot>    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 442.9169,354.6745 L 354.3785,354.6745"
+       id="path3566"
+       inkscape:connector-type="polyline"
+       inkscape:connection-start="#g3523"
+       inkscape:connection-end="#g3436"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#9a9a9a;stroke-width:0.69999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
+       d="M 343.56407,303.68844 L 348.76786,314.38793"
+       id="path2581"
+       inkscape:connector-type="polyline"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503"
+       inkscape:transform-center-x="-23.233508"
+       inkscape:transform-center-y="-55.053313" />
+    <g
+       id="g3436"
+       transform="translate(-48.299513,111.11678)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <use
+         height="1052.3622"
+         width="744.09448"
+         transform="translate(153.92857,310)"
+         id="use3359"
+         xlink:href="#g3757"
+         y="0"
+         x="0" />
+      <flowRoot
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3383"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3385"><rect
+             y="201.6479"
+             x="361.07144"
+             height="9.2857141"
+             width="56.785713"
+             id="rect3387" /></flowRegion><flowPara
+           id="flowPara3389">Elements</flowPara></flowRoot>      <flowRoot
+         transform="translate(0,-3.6428571)"
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3391"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3393"><rect
+             y="218.07646"
+             x="365.71429"
+             height="45"
+             width="49.285713"
+             id="rect3395" /></flowRegion><flowPara
+           style="font-size:6px;text-align:start;text-anchor:start"
+           id="flowPara3397">element_id</flowPara><flowPara
+           id="flowPara3426"
+           style="font-size:6px;text-align:start;text-anchor:start">type</flowPara><flowPara
+           style="font-size:6px;text-align:start;text-anchor:start"
+           id="flowPara3401">width</flowPara><flowPara
+           style="font-size:6px;text-align:start;text-anchor:start"
+           id="flowPara3403">height</flowPara><flowPara
+           id="flowPara3418"
+           style="font-size:6px;text-align:start;text-anchor:start">top</flowPara><flowPara
+           id="flowPara3420"
+           style="font-size:6px;text-align:start;text-anchor:start">left</flowPara><flowPara
+           style="font-size:6px"
+           id="flowPara3405" /></flowRoot>      <flowRoot
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3428"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3430"><rect
+             y="264.50504"
+             x="365.35715"
+             height="11.428572"
+             width="47.5"
+             id="rect3432" /></flowRegion><flowPara
+           style="font-size:6px;text-align:start;text-anchor:start"
+           id="flowPara3434">(in_slide)</flowPara></flowRoot>    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3467"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:6;text-anchor:middle;text-align:center"><flowRegion
+         id="flowRegion3469"><rect
+           id="rect3471"
+           width="48.214287"
+           height="38.214287"
+           x="468.92856"
+           y="232.71933"
+           style="font-size:6" /></flowRegion><flowPara
+         id="flowPara3473" /></flowRoot>    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 473.77507,309.7026 L 473.76154,265.70589"
+       id="path3568"
+       inkscape:connector-type="polyline"
+       inkscape:connection-start="#g3523"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <g
+       id="g3540"
+       transform="translate(-127.27922,-16.45954)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <use
+         height="1052.3622"
+         width="744.09448"
+         transform="translate(363.19068,298.34405)"
+         id="use3487"
+         xlink:href="#g3757"
+         y="0"
+         x="0" />
+      <flowRoot
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3489"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3491"><rect
+             y="190.19699"
+             x="570.98871"
+             height="9.5964489"
+             width="56.063465"
+             id="rect3493" /></flowRegion><flowPara
+           id="flowPara3495">Effects</flowPara></flowRoot>      <flowRoot
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3497"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3499"><rect
+             style="font-size:6px;text-align:start;text-anchor:start"
+             y="205.34927"
+             x="573.5141"
+             height="40.911179"
+             width="50.760166"
+             id="rect3501" /></flowRegion><flowPara
+           id="flowPara3503">effect_id</flowPara><flowPara
+           id="flowPara3517">hide/show/effect</flowPara><flowPara
+           id="flowPara3519">type</flowPara><flowPara
+           id="flowPara3521">parameters</flowPara><flowPara
+           id="flowPara2581">next_on</flowPara><flowPara
+           id="flowPara3507" /><flowPara
+           id="flowPara3505" /></flowRoot>    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 474.73595,355.99013 C 525.45024,351.70442 533.09853,334.5 523.66453,312.06156 C 514.17775,289.49756 480.09309,269.76925 467.59309,331.70441"
+       id="path3594"
+       sodipodi:nodetypes="czc"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 443.39286,351.6479 C 443.39286,351.6479 443.39286,351.6479 436.96429,354.68361 L 443.21429,358.25504"
+       id="path3600"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503" />
+    <g
+       id="g3523"
+       transform="translate(-21.58854,96.47392)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <use
+         height="1052.3622"
+         width="744.09448"
+         transform="translate(257.5,324.64286)"
+         id="use3457"
+         xlink:href="#g3757"
+         y="0"
+         x="0" />
+      <flowRoot
+         transform="translate(0,-1.0714286)"
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3459"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3461"><rect
+             y="217.36218"
+             x="464.64285"
+             height="9.6428576"
+             width="56.785713"
+             id="rect3463" /></flowRegion><flowPara
+           id="flowPara3465">Animations</flowPara></flowRoot>      <flowRoot
+         transform="translate(0,-2.5)"
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3475"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3477"><rect
+             style="font-size:6px;text-align:start;text-anchor:start"
+             y="278.07648"
+             x="467.5"
+             height="22.5"
+             width="50.714287"
+             id="rect3479" /></flowRegion><flowPara
+           id="flowPara3481">effect</flowPara><flowPara
+           id="flowPara3483">on_element</flowPara><flowPara
+           id="flowPara3485">next_animation</flowPara></flowRoot>      <flowRoot
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot3509"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3511"><rect
+             style="font-size:6px;text-align:start;text-anchor:start"
+             y="231.3607"
+             x="467.70062"
+             height="19.192898"
+             width="46.972092"
+             id="rect3513" /></flowRegion><flowPara
+           id="flowPara3515">animation_id</flowPara></flowRoot>    </g>
+    <g
+       id="g2575"
+       transform="translate(-4e-6,0)"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146.71503"
+       inkscape:export-ydpi="146.71503">
+      <g
+         inkscape:export-ydpi="146.71503"
+         inkscape:export-xdpi="146.71503"
+         inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+         transform="translate(-90.367661,150.45593)"
+         id="g3827">
+        <use
+           x="0"
+           y="0"
+           xlink:href="#g3757"
+           id="use3763"
+           transform="translate(65.714285,131.42858)"
+           width="744.09448"
+           height="1052.3622" />
+        <flowRoot
+           xml:space="preserve"
+           id="flowRoot3773"
+           style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           transform="translate(177.4887,-65.753217)"><flowRegion
+             id="flowRegion3775"><rect
+               id="rect3777"
+               width="41.07143"
+               height="41.785713"
+               x="101.42857"
+               y="105.21932"
+               style="text-align:start;text-anchor:start" /></flowRegion><flowPara
+             id="flowPara3779">user_id</flowPara><flowPara
+             id="flowPara3781">firstname</flowPara><flowPara
+             id="flowPara3783">lastname</flowPara><flowPara
+             id="flowPara3785">email</flowPara><flowPara
+             id="flowPara3787">password</flowPara></flowRoot>        <flowRoot
+           xml:space="preserve"
+           id="flowRoot3819"
+           style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           transform="translate(0,2)"><flowRegion
+             id="flowRegion3821"><rect
+               id="rect3823"
+               width="54.285713"
+               height="15"
+               x="272.85715"
+               y="20.576468"
+               style="font-size:8px" /></flowRegion><flowPara
+             id="flowPara3825">Users</flowPara></flowRoot>      </g>
+      <flowRoot
+         style="font-size:6px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="flowRoot2567"
+         xml:space="preserve"><flowRegion
+           id="flowRegion2569"><rect
+             style="font-size:6px;text-align:start;text-anchor:start"
+             y="237.67415"
+             x="188.39345"
+             height="15.152288"
+             width="45.456863"
+             id="rect2571" /></flowRegion><flowPara
+           id="flowPara2573">root_folder</flowPara><flowPara
+           id="flowPara2597">recycle_bin</flowPara></flowRoot>    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="473.75568"
+       y="169.4827"
+       id="text2587"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146"
+       inkscape:export-ydpi="146"><tspan
+         sodipodi:role="line"
+         id="tspan2589"
+         x="473.75568"
+         y="169.4827">?</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="473.76236"
+       y="264.56137"
+       id="text2591"
+       inkscape:export-filename="/home/lrbabe/workspace/webshow doc/Project specifications and Action plan/medias/Data Model.png"
+       inkscape:export-xdpi="146"
+       inkscape:export-ydpi="146"><tspan
+         sodipodi:role="line"
+         id="tspan2593"
+         x="473.76236"
+         y="264.56137">?</tspan></text>
+  </g>
+</svg>
