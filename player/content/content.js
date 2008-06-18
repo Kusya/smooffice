@@ -3,7 +3,7 @@ var presentation1 = {
     author: "The french team",
     description: "This presentation is a demo of our <i>presentation player</i>.",
     creation_date: new Date(2008, 3, 20),
-<<<<<<< .mine
+
     master : {
 		p: {
 			backgroundColor: '#888',
@@ -29,37 +29,10 @@ var presentation1 = {
 			t: [
 				null,
 				null
-=======
-    master : {
-		p: {
-			backgroundColor: 'black',
-			color: 'white'
-		},
-        t: [
-			{
-                fx: 'fade'
-            },{
-                fx: 'fade'
-            }
-		],
-        e: {
-		},
-        a: {
-			fx: 'fade'
-		}
-    },
-	slide: [
-		{
-			t: [
-				{
-	                fx: 'drop'
-	            },
-				null
->>>>>>> .r256
 			],
             e: [
                 {
-<<<<<<< .mine
+
                     t: "h3",
                     c: "What's next in<br/>jQuery and JavaScript?",
 					p: {
@@ -88,6 +61,30 @@ var presentation1 = {
                 },
                 {
                     o: 1
+                }
+            ]
+        },
+		{
+			t: [
+				null,
+				null
+			],
+            e: [
+                {
+
+                    t: "video",
+                    c: "http://www.youtube.com/v/c2pmVwFryV8",
+					p: {
+						width: '56%',
+						height: '56%',
+						top: '5%',
+	                    left: '5%'
+					}
+                }
+            ],
+            a: [
+                {
+                    o: 0
                 }
             ]
         },
@@ -107,20 +104,10 @@ var presentation1 = {
 	                    left: '5%',
 						fontSize: '150%'
 					}
-=======
-                    t: "h3",
-                    c: "What's next in<br/>jQuery and JavaScript?",
-					p: {
-						width: '75%',
-						height: '20%',
-						top: '65%',
-	                    left: '5%',
-						fontSize: '150%'
-					}
->>>>>>> .r256
+
                 },
 				{
-<<<<<<< .mine
+
                     t: "ul",
                     c: 	"<li>jQuery Core<ul><li><small>1.2.4 and 1.3</small></li></ul></li>"+
 						"<li>jQuery UI<ul><li><small>1.5</small></li></ul></li>"+
@@ -130,20 +117,11 @@ var presentation1 = {
 	                    height: '70%',
 	                    top: '20%',
 	                    left: '10%'
-=======
-                    t: "h4",
-                    c: "John Resig - May 2008",
-					p: {
-						width: '40%',
-	                    height: '13%',
-	                    top: '87%',
-	                    left: '5%',
-						fontSize: '50%'
->>>>>>> .r256
+
 					}
                 }
             ],
-<<<<<<< .mine
+
             a: [
                 {
                     o: 0
@@ -159,11 +137,9 @@ var presentation1 = {
 				null
 			],
             e: [
-=======
-            a: [
->>>>>>> .r256
+
                 {
-<<<<<<< .mine
+
                     t: "h3",
                     c: "jQuery Core: 1.2.4",
 					p: {
@@ -173,11 +149,9 @@ var presentation1 = {
 	                    left: '5%',
 						fontSize: '150%'
 					}
-=======
-                    on_element: 0
->>>>>>> .r256
+
                 },
-<<<<<<< .mine
+
 				{
                     t: "ul",
                     c: 	"<li>Coming Mid-May</li>"+
@@ -189,10 +163,7 @@ var presentation1 = {
 	                    top: '20%',
 	                    left: '10%'
 					}
-=======
-                {
-                    on_element: 1
->>>>>>> .r256
+
                 }
             ],
             a: [
@@ -209,7 +180,7 @@ var presentation1 = {
 				null,
 				null
 			],
-<<<<<<< .mine
+
             e: [
                 {
                     t: "h3",
@@ -235,27 +206,15 @@ var presentation1 = {
                 }
             ],
             a: [
-=======
-            e: [
->>>>>>> .r256
+
                 {
-<<<<<<< .mine
+
                     o: 0
                 },
                 {
                     o: 1
-=======
-                    t: "h3",
-                    c: "jQuery: Next",
-					p: {
-						width: '90%',
-						height: '15%',
-						top: '5%',
-	                    left: '5%',
-						fontSize: '150%'
-					}
->>>>>>> .r256
-<<<<<<< .mine
+
+
                 }
             ]
         },
@@ -291,23 +250,7 @@ var presentation1 = {
                 }
             ],
             a: [
-=======
-                },
-				{
-                    t: "ul",
-                    c: 	"<li>jQuery Core<ul><li><small>1.2.4 and 1.3</small></li></ul></li>"+
-						"<li>jQuery UI<ul><li><small>1.5</small></li></ul></li>"+
-						"<li><strong>jQuery Project</strong></li>",
-					p: {
-						width: '60%',
-	                    height: '70%',
-	                    top: '20%',
-	                    left: '10%'
-					}
-                }
-            ],
-            a: [
->>>>>>> .r256
+
                 {
                     o: 0
                 },
@@ -323,15 +266,11 @@ var presentation1 = {
 			],
             e: [
                 {
-<<<<<<< .mine
+
                     t: "h3",
                     c: "jQuery: Project",
 					p: {
-=======
-                    t: "h3",
-                    c: "jQuery Core: 1.2.4",
-					p: {
->>>>>>> .r256
+
 						width: '90%',
 						height: '15%',
 						top: '5%',
@@ -340,7 +279,7 @@ var presentation1 = {
 					}
                 },
 				{
-<<<<<<< .mine
+
                     t: "ul",
                     c: 	"<li>Fall jQuery Conference</li>"+
 						"<li>New logo/brand<ul><li>T-shirts</li></ul></li>"+
@@ -350,20 +289,10 @@ var presentation1 = {
 	                    height: '70%',
 	                    top: '20%',
 	                    left: '10%'
-=======
-                    t: "ul",
-                    c: 	"<li>Coming Mid-May</li>"+
-						"<li>Merging Dimensions.js</li>"+
-						"<li>Speed Improvements:<ul><li>Event Handlers</li><li>Drag &amp; Drop - 3x faster</li></ul></li>",
-					p: {
-						width: '60%',
-	                    height: '70%',
-	                    top: '20%',
-	                    left: '10%'
->>>>>>> .r256
+
 					}
                 }
-<<<<<<< .mine
+
             ],
             a: [
                 {
@@ -404,12 +333,11 @@ var presentation1 = {
 	                    left: '10%'
 					}
                 }
-=======
->>>>>>> .r256
+
             ],
             a: [
                 {
-<<<<<<< .mine
+
                     o: 0
                 },
                 {
@@ -451,11 +379,9 @@ var presentation1 = {
             a: [
                 {
                     o: 0
-=======
-                    on_element: 0
->>>>>>> .r256
+
                 },
-<<<<<<< .mine
+
                 {
                     o: 1
                 }
@@ -488,12 +414,9 @@ var presentation1 = {
 	                    top: '20%',
 	                    left: '10%'
 					}
-=======
-                {
-                    on_element: 1
->>>>>>> .r256
+
                 }
-<<<<<<< .mine
+
             ],
             a: [
                 {
@@ -503,9 +426,7 @@ var presentation1 = {
                     o: 1
                 }
             ]
-=======
-            ]
->>>>>>> .r256
+
         }
 	]
 };

@@ -235,8 +235,7 @@
 			return $('#'+id).css($.extend({display: 'none', width: '100%', height: '100%', fontSize: '100%'}, css));
 		};
 		
-		var title = json.title || '';
-		var comment = json.comment || '';
+		var comment = json.c || '';
 		var transition = [ json.t[0] || master.t[0], json.t[1] || master.t[1]];
 		
 		var $this = jQuerify($parent, id, $.extend({}, master.p, json.p));
@@ -282,6 +281,17 @@
 			switch(type) {
 				case 'img':
 					$parent.append('<img id="'+id+'" class="smooElement" src="'+content.src+'" title="'+content.title || ''+'"/>');
+					break;
+				case 'video':
+					$parent.append(	'<object id="'+id+'" class="smooElement smooClickable" width="100%" height="100%" style="z-index:1;position:absolute">' +
+										'<param name="movie" value="' + content + '&hl=en"></param>' +
+										'<param name="wmode" value="transparent"></param>' +
+										'<embed width="100%" height="100%" src="' + content + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>' +
+									'</object>');
+					break;
+				case 'map':
+					$parent.append('<div id="'+id+'" class="smooElement smooClickable"></div>');
+					new GoogleMap(document.getElementById(id), content);
 					break;
 				default:
 					$parent.append('<'+type+' id="'+id+'" class="smooElement">'+content+'</'+type+'>');
