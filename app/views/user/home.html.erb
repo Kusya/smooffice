@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>Welcome</title>
+		<%= stylesheet_link_tag 'stylesheet' %>
+	</head>
+	<body>
+		<div style="float:right">
+			<%= link_to "My presentations", :controller => 'index', :action => 'get' %>
+			<%= link_to "Logout", :controller => 'user', :action => 'logout' %>
+		</div>
+		<div align="center">
+			<h1>Welcome <%= @firstname %> to index page</h1>
+			<%= session[:pwdmodif] %>
+			<% session[:pwdmodif]="" %>
+		</div>
+		<fieldset style="width:15%;">
+			<legend>Profil editing</legend>
+			<%= link_to "Edit your profil", :controller => 'user', :action => 'modify' %>
+			<br />
+			<%= link_to "Change your password", :controller => 'user', :action => 'new_pwd' %>
+		</fieldset>
+		<% if (session[:user_id]==1) %>	
+			<fieldset style="width:15%;">
+				<legend>Users editing</legend>
+				<%= link_to "Add a user", :controller => 'user', :action => 'add' %>
+				<br />
+				<%= link_to "Delete", :controller => 'user', :action => 'list' %>
+				<br />
+				<%= link_to "Import users (CSV)", :controller => 'user', :action => 'csv_import' %>
+				<br />
+				<%= link_to "Logout", :controller => 'user', :action => 'logout' %>
+			</fieldset>
+		<% end %>
+	</body>
+</html>

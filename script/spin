@@ -1,0 +1,1 @@
+/usr/bin/mongrel_rails cluster::start -C /var/rails/netshow/current/config/mongrel_cluster.yml

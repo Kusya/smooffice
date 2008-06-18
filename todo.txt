@@ -1,0 +1,4 @@
+Dans le controller index/get mettre la clé server dans une variable
+Validation serveur de tous les champs transmis
+In the slide's browser, show the thumbnails in a lazy mode
+Create users with a CSV file
