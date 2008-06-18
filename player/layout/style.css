@@ -1,0 +1,42 @@
+.smooPresentation {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: black;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	display: block;
+}
+
+/* CSS reset */
+.smooPresentation *  {
+	margin: 0;
+	padding: 0;
+}
+
+.smooPresentation li  {
+	margin-left: 1em;
+}
+
+.smooFont, .smooFocus {
+	position: absolute;
+	right: 9999px;
+}
+
+.smooSlide {
+	display: none;
+	height: 100%;
+	width: 100%;
+	/*position: absolute;*/
+	position: relative;
+}
+
+.smooElement {
+	display: block;
+	position: absolute;
+	/* seems that it's better to have text at the wrong place than
+	 * to miss words
+	 */
+	/*overflow: hidden;*/
+	width: auto;
+	height: auto;
+}
