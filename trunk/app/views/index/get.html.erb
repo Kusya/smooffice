@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head id="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Webshow - Graphic User Interface</title>
+
+    <%= stylesheet_link_tag '../ext/resources/css/ext-all.css' %>
+	
+	<%= javascript_include_tag "../ext/adapter/ext/ext-base.js" %>
+	<%= javascript_include_tag "../ext/ext-all.js" %>
+	
+	<script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" type="text/javascript"></script>
+    <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" type="text/javascript"></script>
+    <script src="http://www.google.com/uds/solutions/localsearch/gmlocalsearch.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		function msg_log(msg){
+			if(window.console){
+				console.log(msg);
+			}else{
+				//alert(msg);
+			}
+		}
+
+		// decode language passed in url
+	    var locale = window.location.search 
+	                 ? Ext.urlDecode(window.location.search.substring(1)).locale 
+	                 : '';
+	 	
+	    // append locale script to the head
+	    var head = Ext.fly(document.getElementsByTagName('head')[0]);
+	    /*if(locale) {
+	        Ext.DomHelper.append(head, {
+	             tag:'script'
+	            ,type:'text/javascript'
+	            ,src:'../ext/source/locale/ext-lang-' + locale + '.js'
+	        });
+	    }*/
+		
+		//Declares the name space of the application
+		Ext.ns('NetShows');
+	</script>
+	
+	
+	<%= javascript_include_tag "NetShows.BrowserPanel.js" %>
+	<%= javascript_include_tag "NetShows.EditorToolbar.js" %>
+	<%= javascript_include_tag "NetShows.EditorAccordion.js" %>
+	<%= javascript_include_tag "NetShows.EditorAccordion.External.js" %>
+	<%= javascript_include_tag "NetShows.FolderWindow.js" %>
+	<%= javascript_include_tag "NetShows.FontType.js" %>
+	<%= javascript_include_tag "NetShows.MainPanel.js" %>
+	<%= javascript_include_tag "NetShows.PresentationBrowser.js" %>
+	<%= javascript_include_tag "NetShows.PresentationWindow.js" %>
+	<%= javascript_include_tag "NetShows.SlideBrowser.js" %>
+	<%= javascript_include_tag "Netshows.SlideView.js" %>
+	
+	<%= javascript_include_tag "Ext.ux.FileTreeMenu.js" %>
+	<%= javascript_include_tag "Ext.ux.FileTreePanel.js" %>
+	<%= javascript_include_tag "Ext.ux.FileUploader.js" %>
+	<%= javascript_include_tag "Ext.ux.form.BrowseButton.js" %>
+	<%= javascript_include_tag "Ext.ux.UploadPanel.js" %>
+	
+	<%= javascript_include_tag "TabCloseMenu.js" %>
+	<%= javascript_include_tag "SearchField.js" %>
+	<%= javascript_include_tag "Slide.js" %>
+	<%= javascript_include_tag "Element.js" %>
+	<%= javascript_include_tag "GoogleMap.js" %>
+	<%= javascript_include_tag "Ext.ux.HtmlEditorUsingGlobalToolbar.js" %>
+	<%= javascript_include_tag "Ext.ux.HTMLEditorUndoRedo.js" %>
+
+ 
+	<!-- Application localization javascript -->
+    <script type="text/javascript" id="applocale"></script>
+	
+    <!-- Set src for application localization javascript -->
+    <script type="text/javascript">
+		if(locale) {
+		    Ext.fly('applocale').set({src:'/javascripts/NetShows.lang.' + locale + '.js'});
+		}
+    </script>
+	
+	<%= javascript_include_tag "NetShows.js" %>
+
+    <%= stylesheet_link_tag 'netshows.css' %>
+	
+    <%= stylesheet_link_tag 'filetree.css' %>
+    <%= stylesheet_link_tag 'filetype.css' %>
+    <%= stylesheet_link_tag 'icons.css' %>
+	<link rel="stylesheet" type="text/css" href="http://www.google.com/uds/css/gsearch.css" />
+	<link rel="stylesheet" type="text/css" href="http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css" />
+</head>
+<body onunload="GUnload()">
+<div id="header">
+	<div style="float:left;margin:5px;">Welcome <%= @firstname + ' ' + @lastname %>, enjoy NetShows!</div>
+	<div style="float: right;">
+		<span style="float:right; clear: right; margin:5px;"><%= link_to "Logout", :controller => 'user', :action => 'logout' %></span>
+		<span id="form_lang" style="float: left; clear: left;margin:1px;"></span>
+	</div>
+</div>
+
+<!-- Template used for Presentation preview -->
+<div id="preview-tpl" style="display:none;">
+    <div class="post-data">
+        <span class="created-date">Created on {created_at:date("F j, Y, g:i a")}</span>
+        <span class="updated-date"><br />Last modification on {updated_at:date("F j, Y, g:i a")}</span>
+        <h3 class="post-title">{text}</h3>
+        <h4 class="post-author">by <%= @firstname + ' ' + @lastname %>{author:defaultValue("Unknown")}</h4>
+    </div>
+    <div class="post-body">{description}</div>
+</div>
+
+<!-- Template used for Home Tab -->
+<div id="home-tab-tpl" style="display:none;">
+    <div class="introduction">
+        <h2 class="intro-title">{introTitle}</h2>
+        <span class="intro-content">{introContent}</span>
+    </div>
+</div>
+</body>
+</html>

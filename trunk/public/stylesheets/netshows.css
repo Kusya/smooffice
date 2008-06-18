@@ -1,0 +1,391 @@
+/*
+ * Ext JS Library 2.0.2
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ * 
+ * to do
+ * - clean unused styles
+ * - add png files for icons
+ */
+
+html, body {
+	font: normal 12px tahoma, arial, verdana, sans-serif;
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+	overflow: hidden;
+	height: 100%;
+}
+
+body.x-border-layout-ct {
+    background:#c3d5ed url(/images/bg.gif) repeat-x left top !important;
+}
+
+.ext-el-mask {
+    background:#dadadb;
+}
+
+
+.x-tree {
+    background:#fff !important;
+}
+.x-border-layout-ct {
+    background:transparent;
+}
+.x-layout-split {
+    background-color:transparent !important;
+}
+
+/*For main nodes : my-presenations & trash-node*/
+.x-tree-node div.folder-node{
+    background:#eee url(/images/cmp-bg.gif) repeat-x;
+    margin-top:1px;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ccc;
+    padding-top:2px;
+    padding-bottom:1px;
+}
+.x-tree-node-el{
+	border:1px dotted #fff;
+}
+.x-tree-selected {
+    border:1px dotted #a3bae9;
+    background:#DFE8F6;
+}
+.x-tree-node .x-tree-selected a span{
+	background:transparent;
+	color:#15428b;
+    font-weight:bold;
+}
+.x-node-ctx {
+    background:#eee !important;
+    border:1px solid #ccc !important;
+}
+
+
+#main-tabs .x-tab-panel-body {
+    background:transparent;
+    border:0 none;
+}
+/*
+ * Slide View
+ */
+
+.x-html-editor-tb .x-edit-undo .x-btn-text {
+  background: transparent url(/images/htmleditorundoredo.gif) no-repeat;
+  background-position: 0 0;
+}
+
+.x-html-editor-tb .x-edit-redo .x-btn-text {
+  background: transparent url(/images/htmleditorundoredo.gif) no-repeat;
+  background-position: -16px 0;
+}
+
+.move-corner {
+	width:16px;
+	height:16px;
+	background-color:#bbbbbb;
+	z-index:200;
+	position:absolute;
+}
+
+#slide-view .x-panel-body{
+	background: #F3F3F3;
+	font: 11px Arial, Helvetica, sans-serif;
+	height: 100%;
+	width: 100%;
+}
+
+#slide-view #slide-wrap{
+	background: #fff;
+	margin: auto;
+	border: 1px solid black;
+	position: relative;
+}
+#slide-view #slide-wrap div.element{
+	
+}
+#slide-view #slide-wrap .text, #slide-view #slide-wrap .presentation_title{
+}
+
+#slide-view .x-view-selected{
+	background: #eff5fb url(/images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}
+#slide-view .x-view-selected #slide{
+	background:transparent;
+}
+
+#slide-view .loading-indicator {
+	font-size:11px;
+	background-image:url('/ext/resources/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;	
+	margin:10px;
+}
+
+/* Resizable style */
+#slide-view .x-resizable-pinned{
+    /*z-index: 100; TODO : manage the index in JavaScript*/
+	overflow: hidden;
+	border: 1px solid #898989;
+	margin:-1px;
+}
+#slide-view .x-resizable-pinned .x-resizable-handle{
+    width:6px;
+    height:6px;
+    background:transparent url(/images/square.gif) no-repeat;
+    margin:0px;
+}
+#slide-view .x-resizable-pinned .x-resizable-handle-east, #slide-view .x-resizable-pinned .x-resizable-handle-west{
+    top:45%;
+}
+#slide-view .x-resizable-pinned .x-resizable-handle-north, #slide-view .x-resizable-pinned .x-resizable-handle-south{
+    left:45%;
+}
+
+/*
+ * Slide Browser
+ */
+p.msg {
+	margin : 1em;
+}
+
+/*
+ * TEMPLATES
+ */
+
+/* Home Tab Preview */
+.preview .introduction {
+	width: 25em;
+    background:#f1f1f1;
+    color:#222;
+    font: normal 12px georgie,verdana,arial,sans-serif;
+	text-align: justify;
+	padding: 0.8em;
+	margin: 0.7em;
+	border-right: 1px dotted #000;
+}
+.preview .introduction h2{
+	padding-bottom: 1em;
+	font-size: 1.2em;
+}
+
+/* Presentation Preview */
+.preview .x-panel-body {
+    background:#fff;
+    color:#222;
+    font:normal 12px tahoma,verdana,arial,sans-serif;
+}
+
+.preview .x-panel-body p {
+    line-height:18px;
+    margin:8px 0;
+}
+
+.preview .x-panel-body ul {
+    margin-left:18px;
+}
+
+.preview .x-panel-body ul li {
+    display:list-item;
+    list-style-image:none !important;
+    list-style-position:outside !important;
+    list-style-type:disc !important;
+    margin-left:18px;
+}
+
+.preview .x-panel-body pre, .preview .x-panel-body code {
+    background:#f1f1f1;
+    display:block;
+}
+
+.post-date {
+    font-weight:bold;
+    color:#333;
+}
+
+.author {
+    color:#333;
+}
+
+.preview .x-panel-body h4.post-author {
+    font-weight:normal;
+    color:#555;
+    font-size:11px;
+}
+
+.preview .x-panel-body span.created-date {
+    font-weight:normal;
+    color:#555;
+    float:right;
+    font-size:11px;
+}
+
+.preview .x-panel-body span.updated-date {
+    font-weight:normal;
+    color:#555;
+    float:right;
+    font-size:11px;
+}
+
+.preview .x-panel-body div.post-data {
+    background:#f1f2f4;
+    padding:5px;
+    border-bottom:1px solid #dadadb;
+}
+
+.preview .x-panel-body div.post-body {
+    padding:10px;
+}
+
+
+/* Slide Thumbnails */
+#slides-preview .x-panel-body{
+	background: white;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+#slides-preview .thumb{
+	background: #dddddd;
+	padding: 3px;
+}
+#slides-preview .thumb-wrap{
+	float: left;
+	position: relative;
+	display: block;
+	border: 1px solid #aaa;
+	margin: 5px;
+	padding: 4px;
+	width: 131px;
+	height: 95px;
+	overflow: hidden;
+}
+#slides-preview .thumb-wrap *{
+	/*position: absolute;*/
+}
+
+#slides-preview .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url(/ext/resources/images/default/grid/row-over.gif) repeat-x left top;
+	padding: 4px;
+}
+
+#slides-preview .x-view-selected{
+	background: #eff5fb url(/images/selected.gif) no-repeat right bottom;
+	border:2px solid #99bbe8;
+	padding: 4px;
+	margin: 4px;
+}
+#slides-preview .x-view-selected .thumb{
+	background:transparent;
+}
+
+#slides-preview .loading-indicator {
+	font-size:11px;
+	background-image:url('/ext/resources/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:10px;
+}
+
+
+/* Flickr Thumbnails */
+#flickr-view .x-panel-body{
+	background: white;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+#flickr-view .thumb{
+	background: #dddddd;
+	padding: 3px;
+}
+#flickr-view .thumb img{
+	width: 130px;
+}
+#flickr-view .thumb-wrap{
+	float: left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+#flickr-view .thumb-wrap span{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+}
+
+#flickr-view .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url(/ext/resources/images/default/grid/row-over.gif) repeat-x left top;
+	padding: 4px;
+}
+
+#flickr-view .x-view-selected{
+	background: #eff5fb url(/images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}
+#flickr-view .x-view-selected .thumb{
+	background:transparent;
+}
+
+#flickr-view .loading-indicator {
+	font-size:11px;
+	background-image:url('/ext/resources/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:10px;
+}
+
+/* Youtube Thumbnails */
+#youtube-view .x-panel-body{
+	background: white;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+#youtube-view .thumb{
+	background: #dddddd;
+	padding: 3px;
+}
+#youtube-view .thumb img{
+	width: 130px;
+}
+#youtube-view .thumb-wrap{
+	float: left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+#youtube-view .thumb-wrap span{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+}
+
+#youtube-view .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url(/ext/resources/images/default/grid/row-over.gif) repeat-x left top;
+	padding: 4px;
+}
+
+#youtube-view .x-view-selected{
+	background: #eff5fb url(/images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}
+#youtube-view .x-view-selected .thumb{
+	background:transparent;
+}
+
+#youtube-view .loading-indicator {
+	font-size:11px;
+	background-image:url('/ext/resources/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:10px;
+}

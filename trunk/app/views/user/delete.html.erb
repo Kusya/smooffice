@@ -1,0 +1,7 @@
+def delete
+	if request.post?
+		user = User.find(params[:id])
+		user.destroy
+	end
+	redirect_to(:action => :list)
+end
