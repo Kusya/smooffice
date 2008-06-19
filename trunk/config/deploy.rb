@@ -12,9 +12,3 @@ set :mongrel_conf, "#{deploy_to}/current/config/mongrel_cluster.yml"
 role :app, "92.243.7.238"
 role :web, "92.243.7.238"
 role :db,  "92.243.7.238", :primary => true
-
-namespace :deploy do
-  task :restart do
-    restart_mongrel_cluster
-  end
-end
