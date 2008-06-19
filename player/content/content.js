@@ -73,7 +73,7 @@ var presentation1 = {
                 {
 
                     t: "video",
-                    c: "http://www.youtube.com/v/c2pmVwFryV8",
+                    c: "http://www.youtube.com/v/iDuo1_PyO-4",
 					p: {
 						width: '56%',
 						height: '56%',

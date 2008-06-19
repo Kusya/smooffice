@@ -283,14 +283,14 @@
 					$parent.append('<img id="'+id+'" class="smooElement" src="'+content.src+'" title="'+content.title || ''+'"/>');
 					break;
 				case 'video':
-					$parent.append(	'<object id="'+id+'" class="smooElement smooClickable" width="100%" height="100%" style="z-index:1;position:absolute">' +
+					$parent.append(	'<div id="'+id+'" class="smooElement"><object width="100%" height="100%" style="z-index:1;position:absolute">' +
 										'<param name="movie" value="' + content + '&hl=en"></param>' +
 										'<param name="wmode" value="transparent"></param>' +
 										'<embed width="100%" height="100%" src="' + content + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>' +
-									'</object>');
+									'</object></div>');
 					break;
 				case 'map':
-					$parent.append('<div id="'+id+'" class="smooElement smooClickable"></div>');
+					$parent.append('<div id="'+id+'" class="smooElement"></div>');
 					new GoogleMap(document.getElementById(id), content);
 					break;
 				default:
