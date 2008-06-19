@@ -1,7 +1,7 @@
 require 'mongrel_cluster/recipes'
 
 set :application, "netshow"
-set :repository,  "http://92.243.7.238/svn/webshow/trunk"
+set :repository,  "http://smooffice.googlecode.com/svn/trunk"
 set :deploy_to, "/var/rails/#{application}"
 #set :user, "root"
 # Thew new way of telling capistrano 2.1 to use export rather than checkout
