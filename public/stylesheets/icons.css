@@ -35,8 +35,11 @@
 .new-tab {
     background-image:url(/images/new_tab.gif) !important;
 }
-.new-win {
+.icon-full {
     background-image:url(/images/icons/monitor_go.png) !important;
+}
+.icon-preview {
+    background-image:url(/images/icons/control_play.png) !important;
 }
 .edit-icon {
     background-image:url(/images/icons/page_white_edit.png) !important;
@@ -87,7 +90,7 @@
 }
 
 .icon-text {
-    background-image:url(/images/icons/text_smallcaps.png) !important;
+    background-image:url(/images/icons/font.png) !important;
 }
 /*
  * NetShows.EditorAccordion

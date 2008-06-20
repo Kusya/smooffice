@@ -1,35 +1,42 @@
-.jssvPresentation {
+.smooPresentation {
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: black;
 	margin: 0 auto;
 	padding: 0;
 	position: relative;
+	display: block;
 }
 
-.jssvInput, .jssvFont {
-	position: absolute;
-	right: 9999px;
+/* CSS reset */
+.smooPresentation *  {
 	margin: 0;
 	padding: 0;
-	color: white;
 }
 
-.jssvSlide {
-	background-color: red;
+.smooPresentation li  {
+	margin-left: 1em;
+}
+
+.smooFont, .smooFocus {
+	position: absolute;
+	right: 9999px;
+}
+
+.smooSlide {
 	display: none;
 	height: 100%;
 	width: 100%;
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	/*position: relative;*/
+	/*position: absolute;*/
+	position: relative;
 }
 
-.jssvElement {
-	background-color: yellow;
-	display: none;
+.smooElement {
+	display: block;
 	position: absolute;
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
+	/* seems that it's better to have text at the wrong place than
+	 * to miss words
+	 */
+	/*overflow: hidden;*/
+	width: auto;
+	height: auto;
 }

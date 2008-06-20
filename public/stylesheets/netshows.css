@@ -104,17 +104,13 @@ body.x-border-layout-ct {
 	border: 1px solid black;
 	position: relative;
 }
-#slide-view #slide-wrap div.element{
-	
-}
-#slide-view #slide-wrap .text, #slide-view #slide-wrap .presentation_title{
-}
 
 #slide-view .x-view-selected{
 	background: #eff5fb url(/images/selected.gif) no-repeat right bottom;
 	border:1px solid #99bbe8;
 	padding: 4px;
 }
+
 #slide-view .x-view-selected #slide{
 	background:transparent;
 }
@@ -133,6 +129,7 @@ body.x-border-layout-ct {
     /*z-index: 100; TODO : manage the index in JavaScript*/
 	overflow: hidden;
 	border: 1px solid #898989;
+	cursor: move;
 	margin:-1px;
 }
 #slide-view .x-resizable-pinned .x-resizable-handle{

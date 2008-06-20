@@ -1,6 +1,20 @@
-Dans le controller index/get mettre la clé server dans une variable
-Validation serveur de tous les champs transmis
-In the slide's browser, show the thumbnails in a lazy mode
-Create users with a CSV file
+protect-from-forgery : Dans le controller index/get mettre la clé server dans une variable
 
-zob
+Supprimer le controlleur index/get pour utiliser application.rb et public/index.html
+
+Validation serveur de tous les champs transmis
+
+Créer l'action presentation/export?mode=offline|online&id=presentation-1
+	- Parcours tous les contenus, les télécharge et remplace les nouveau url
+	
+Slide/save : vérifier si le contenu a bien changé avant d'ajouter un enregistrement de révision
+
+Youtube : totalCount
+
+Google Maps : remove markers, directions
+
+File manager
+
+Drawing Applet
+
+Dans folder/get_all : ne retourner que les presentations que possède l'utilisateur

@@ -20,15 +20,26 @@ NetShows.EditorToolbar = function(){
 			title: 'Print',
 			handler: function(){
 				//Catched in MainPanel.openPresentation
-				this.fireEvent('printpresentation');
-			}
+				this.fireEvent('print');
+			},
+			scope:this
 		}, {
-			text: 'Go to Presentation',
-			iconCls: 'new-win',
+			tooltip: (this.fullScreenText)?this.fullScreenText:'Full screen',
+			iconCls: 'icon-full',
 			handler: function(){
 				//Catched in MainPanel.openPresentation
-				this.fireEvent('showpresentation');
-			}
+				this.fireEvent('play');
+			},
+			scope:this
+		}, {
+			text: (this.previewText)?this.previewText:'Preview',
+			tooltip:(this.previewTooltip)?this.previewTooltip:'Preview the current slide',
+			iconCls: 'icon-preview',
+			handler: function(){
+				//Catched in MainPanel.openPresentation
+				this.fireEvent('preview');
+			},
+			scope:this
 		}, '-', {
 			//handler: this.onButtonClick,
 			iconCls: 'icon-copy',

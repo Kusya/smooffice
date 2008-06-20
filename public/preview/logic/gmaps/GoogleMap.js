@@ -1,5 +1,5 @@
 GoogleMap = function(element,attrs){
-	var el;
+	var map;
 	var zoom = attrs.zoom?attrs.zoom:17;
 	var markers = attrs.markers?attrs.markers:new Array();
 	var center = attrs.center?new GLatLng(attrs.center.y,attrs.center.x):new GLatLng(54.56997, -1.23608);
@@ -18,7 +18,7 @@ GoogleMap = function(element,attrs){
 	// DIV which is returned as our control element. We add the control to
 	// to the map container and return the element for the map class to
 	// position properly.
-	AddAMarkerControl.prototype.initialize = function(el){
+	AddAMarkerControl.prototype.initialize = function(map){
 		var container = document.createElement("div");
 		
 		var addAMarkerDiv = document.createElement("div");
@@ -32,25 +32,25 @@ GoogleMap = function(element,attrs){
 		var buttonClick = GEvent.addDomListener(addAMarkerDiv, "click", function(){
 			msg_log("Click where you want to put a marker.");
 			
-			var mouseClick = GEvent.addListener(el, "click", function(overlay, latlng){
+			var mouseClick = GEvent.addListener(map, "click", function(overlay, latlng){
 				var marker = new GMarker(latlng, {
 					draggable: true
 				});
-				el.addOverlay(marker);
+				map.addOverlay(marker);
 				
 				markers.push([latlng.lat(), latlng.lng()]);
 				
 				GEvent.removeListener(mouseClick);
 				msg_log("A new marker is created.");
 				GEvent.addListener(marker, "dragstart", function(){
-					el.closeInfoWindow();
+					map.closeInfoWindow();
 				});
 				GEvent.addListener(marker, "dragend", function(){
 					//msg_log(this.latlng.lat());
 				});
 			});
 		});
-		el.getContainer().appendChild(container);
+		map.getContainer().appendChild(container);
 		return container;
 	}
 	
@@ -76,23 +76,23 @@ GoogleMap = function(element,attrs){
 	
 		if (GBrowserIsCompatible()) {
 			// Create a Map
-			el = new GMap2(element);
+			map = new GMap2(element);
 			
 			// Center the map
-			el.setCenter(center, zoom);
+			map.setCenter(center, zoom);
 			
 			// Type of map
-			el.setMapType(G_HYBRID_MAP);
+			map.setMapType(G_HYBRID_MAP);
 			
 			// Add markers if exist
 			for (var i = 0; i < markers.length; i++) {
 				var marker = new GMarker(markers[i], {
 					draggable: true
 				});
-				el.addOverlay(marker);
+				map.addOverlay(marker);
 				
 				GEvent.addListener(marker, "dragstart", function(){
-					el.closeInfoWindow();
+					map.closeInfoWindow();
 				});
 				GEvent.addListener(marker, "dragend", function(){
 					msg_log(latlng.lat());
@@ -100,21 +100,21 @@ GoogleMap = function(element,attrs){
 			}
 			
 			// Controls //
-			el.addControl(new GLargeMapControl());
-			el.addControl(new GMapTypeControl());
-			el.addControl(new AddAMarkerControl());
+			map.addControl(new GLargeMapControl());
+			map.addControl(new GMapTypeControl());
+			map.addControl(new AddAMarkerControl());
 			// bind a search control to the map, suppress result list
 			var bottomRight = new GControlPosition(G_ANCHOR_BOTTOM_RIGHT, new GSize(5, 15));
-			el.addControl(new google.maps.LocalSearch(), bottomRight);
+			map.addControl(new google.maps.LocalSearch(), bottomRight);
 		}
 	this.getContent = function(){		
 		return {
 			markers: markers,
 			center: {
-				x: el.getCenter().x,
-				y: el.getCenter().y
+				x: map.getCenter().x,
+				y: map.getCenter().y
 			},
-			zoom: el.getZoom()
+			zoom: map.getZoom()
 		};
 	}
 	//GSearch.setOnLoadCallback(this.load);
