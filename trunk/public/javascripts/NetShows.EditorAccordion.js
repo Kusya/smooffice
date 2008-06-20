@@ -40,13 +40,13 @@ NetShows.EditorAccordion = function(){
 	
 	this.flickr = new NetShows.EditorAccordion.External({
 		id: 'flickr-view',
-		type: 'image',
+		type: 'img',
 		tpl: flickrTpl,
 		url: '/flickr/search',
 		fields: ['thumbnail', 'url', 'title'],
 		root: 'images',
 		loadingText: (this.loadingFlickrText) ? this.loadingFlickrText : 'Loading images...',
-		noElements: (this.noElementsFlickrText) ? this.noElementsFlickrText : 'No images available',
+		noElements: (this.noElementsFlickrText) ? this.noElementsFlickrText : 'No images',
 		title: 'Flickr',
 		limit: 6,
 		iconCls: 'flickr-icon'
@@ -64,7 +64,7 @@ NetShows.EditorAccordion = function(){
 		fields: ['thumbnail', 'url', 'title'],
 		root: 'videos',
 		loadingText: (this.loadingYoutubeText) ? this.loadingYoutubeText : 'Loading videos...',
-		noElements: (this.noElementsYoutubeText) ? this.noElementsYoutubeText : 'No videos available',
+		noElements: (this.noElementsYoutubeText) ? this.noElementsYoutubeText : 'No videos',
 		title: 'Youtube',
 		limit: 6,
 		iconCls: 'youtube-icon'

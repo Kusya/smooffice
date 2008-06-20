@@ -79,13 +79,10 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 					wrap: false
 				});
 				
-				h = element.el.getHeight();
-				if(h<80)h = 80;
 				element.el.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
 					globalToolBar: NetShows.mainPanel.getTopToolbar(),
 					value: element.el.dom.innerHTML,
-					width: '100%',//element.el.getWidth()
-					height: '100%'//h
+					bodyStyle: 'width: 100%;height: 100%'
 				});
 				element.el.hide();
 				element.el.dom.innerHTML = '';
