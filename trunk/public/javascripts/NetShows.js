@@ -14,7 +14,7 @@ Ext.BLANK_IMAGE_URL = '/ext/resources/images/default/s.gif';
 
 
 Ext.onReady(function(){
-    Ext.QuickTips.init();
+	Ext.QuickTips.init();
 	//AthenticityToken
 	NetShows.key = '3890f2b6fb69ca90fe7e19bdedbe26c0ad165f89';
 	
@@ -22,33 +22,31 @@ Ext.onReady(function(){
 	/*
 	 * Templates
 	 */
-
 	//Preview
-    NetShows.getPreviewTemplate = function(){
+	NetShows.getPreviewTemplate = function(){
 		var previewtpl = Ext.Template.from('preview-tpl', {
-			compiled:true
+			compiled: true
 		});
-        return previewtpl;
-    }
-    
-
+		return previewtpl;
+	}
+	
+	
 	//Home tab
-    NetShows.getHomeTemplate = function(){
+	NetShows.getHomeTemplate = function(){
 		var hometpl = Ext.Template.from('home-tab-tpl', {
-			compiled:true
+			compiled: true
 		});
-        return hometpl;
-    }
+		return hometpl;
+	}
 	
 	/*
 	 * Components
 	 */
-	
 	// Browser Panel
 	NetShows.browserPanel = new NetShows.BrowserPanel();
 	
 	// Main view
-    NetShows.mainPanel = new NetShows.MainPanel();
+	NetShows.mainPanel = new NetShows.MainPanel();
 	
 	// Accordion for editor mode
 	NetShows.accordion = new NetShows.EditorAccordion();
@@ -59,14 +57,13 @@ Ext.onReady(function(){
 	/*
 	 * Events
 	 */
-	
 	// Removing a presentation from the presentation panel
 	NetShows.browserPanel.presentationBrowser.on('removepresentation', function(id){
 		NetShows.mainPanel.removeTab(id);
 	});
 	
 	NetShows.getSlideView = function(){
-		if(NetShows.state == "editor"){
+		if (NetShows.state == "editor") {
 			return NetShows.mainPanel.getActiveTab().getComponent("slide-view");
 		}
 		return false;
@@ -77,36 +74,36 @@ Ext.onReady(function(){
 		NetShows.browserPanel.fireEvent('previewview');
 		NetShows.accordion.collapse();
 		NetShows.accordion.disable();
-    }
-    NetShows.browserPanel.presentationBrowser.on('presentationselect', function(presentation){
-        NetShows.mainPanel.loadPresentation(presentation);
+	}
+	NetShows.browserPanel.presentationBrowser.on('presentationselect', function(presentation){
+		NetShows.mainPanel.loadPresentation(presentation);
 		onPreviewView();
-	});	
+	});
 	NetShows.mainPanel.on('previewview', onPreviewView);
 	
-
+	
 	// Event : switch to a tab in Editor Mode
 	function onEditorView(presentation){
 		NetShows.browserPanel.loadSlides(presentation);
 		NetShows.browserPanel.fireEvent('editorview');
 		NetShows.accordion.expand();
 		NetShows.accordion.enable();
-    }
+	}
 	NetShows.mainPanel.on('editorview', onEditorView);
-
+	
 	
 	// A new presentation is opened
-	function onOpenPresentation(presentation) {
+	function onOpenPresentation(presentation){
 		//Loading the slides from the server
 		if (!presentation.store) {
 			presentation.store = new Ext.data.JsonStore({
-		        url: '/presentation/get_slides',
-		        fields: ['id', 'comment', 'animation', 'element', 'transition'],
-			    listeners: {
-			    	'load': {
+				url: '/presentation/get_slides',
+				fields: ['id', 'comment', 'a', 'e', 't'],
+				listeners: {
+					'load': {
 						fn: function(){
-							
-							
+						
+						
 							//Array of slides
 							presentation.slides = [];
 							
@@ -114,7 +111,7 @@ Ext.onReady(function(){
 							presentation.updatePreview = function(){
 								Ext.each(this.slides, function(item){
 									var index = this.slides.indexOf(item);
-									this.store.getAt(index).data.html = item.getPreview();		
+									this.store.getAt(index).data.html = item.getPreview();
 								}, this);
 							}
 							
@@ -127,8 +124,6 @@ Ext.onReady(function(){
 								});
 								this.updatePreview();
 							}
-							
-							
 							
 							//Send slides order
 							presentation.saveState = function(){
@@ -164,8 +159,8 @@ Ext.onReady(function(){
 						},
 						scope: this
 					}
-			    }
-		    });
+				}
+			});
 			presentation.store.load({
 				params: {
 					id: presentation.id,
@@ -173,8 +168,9 @@ Ext.onReady(function(){
 				}
 			});
 			
-		//The slides already exists
-		}else{
+			//The slides already exists
+		}
+		else {
 			//Creating the slide's browser
 			NetShows.browserPanel.loadSlides(presentation);
 			
@@ -187,8 +183,8 @@ Ext.onReady(function(){
 	}
 	NetShows.mainPanel.on('presentationopen', onOpenPresentation);
 	NetShows.browserPanel.presentationBrowser.on('presentationopen', onOpenPresentation);
-
-
+	
+	
 	//Manage the selection of a new slide in the slides browser
 	NetShows.browserPanel.slideBrowser.on('selectslide', NetShows.mainPanel.setSlide, NetShows.mainPanel);
 	
@@ -198,54 +194,49 @@ Ext.onReady(function(){
 		border: false,
 		bodyStyle: {
 			'background-color': 'transparent'
-		}
-		,width: 180
-		,height: 24
-		,defaultType:'textfield'
-		,items: {
-			xtype:'combo'
-			,fieldLabel:'Select Language'
-			,name:'locale'
-			,width: 75
-			,store:new Ext.data.SimpleStore({
-				id:0
-				,fields:['file', 'locale']
-				,data:[
-					['', 'English']
-					,['fr', 'French']
-				]
-			})
-			,listeners:{
-				select:{fn:function(combo){
-						window.location.search = '?' + Ext.urlEncode({locale:combo.getValue()});
+		},
+		width: 180,
+		height: 24,
+		defaultType: 'textfield',
+		items: {
+			xtype: 'combo',
+			fieldLabel: 'Select Language',
+			name: 'locale',
+			width: 75,
+			store: new Ext.data.SimpleStore({
+				id: 0,
+				fields: ['file', 'locale'],
+				data: [['', 'English'], ['fr', 'French']]
+			}),
+			listeners: {
+				select: {
+					fn: function(combo){
+						window.location.search = '?' + Ext.urlEncode({
+							locale: combo.getValue()
+						});
 					}
 				}
-			}
-			,mode:'local'
-			,editable:false
-			,forceSelection:true
-			,valueField:'file'
-			,displayField:'locale'
-			,triggerAction:'all'
-			,value:locale
+			},
+			mode: 'local',
+			editable: false,
+			forceSelection: true,
+			valueField: 'file',
+			displayField: 'locale',
+			triggerAction: 'all',
+			value: locale
 		}
 	});
 	
 	/*
 	 * The global application view port
 	 */
-    NetShows.viewport = new Ext.Viewport({
-        layout:'border',
-        items:[
-			new Ext.BoxComponent({ // raw element
-				border: false,
-				region:'north',
-				el: 'header',
-				height:24
-			}),
-			NetShows.browserPanel,
-            NetShows.mainPanel,
-			NetShows.accordion
-         ]
-    });
+	NetShows.viewport = new Ext.Viewport({
+		layout: 'border',
+		items: [new Ext.BoxComponent({ // raw element
+			border: false,
+			region: 'north',
+			el: 'header',
+			height: 24
+		}), NetShows.browserPanel, NetShows.mainPanel, NetShows.accordion]
+	});
 });

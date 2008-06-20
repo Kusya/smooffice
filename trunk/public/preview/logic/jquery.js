@@ -859,8 +859,7 @@ jQuery.extend({
 
 		if ( !force && style && style[ name ] )
 			ret = style[ name ];
-		
-		//else if ( defaultView.getComputedStyle ) {
+
 		else if ( defaultView.getComputedStyle && !(jQuery.browser.opera && (name == 'width' || name == 'height') && jQuery.curCSS(elem, 'display') == 'none')) {
 
 			// Only "float" is needed here
@@ -1105,7 +1104,7 @@ jQuery.extend({
 
 				// Set the alpha filter to set the opacity
 				elem.filter = (elem.filter || "").replace( /alpha\([^)]*\)/, "" ) +
-					(parseInt( value ) + '' == "NaN" ? "" : "alpha(opacity=" + value * 100 + ")");
+					(isNaN(parseInt( value ))? "" : "alpha(opacity=" + value * 100 + ")");
 			}
 
 			return elem.filter && elem.filter.indexOf("opacity=") >= 0 ?
@@ -2090,6 +2089,8 @@ jQuery.event = {
 		return val;
 	},
 
+	props: "altKey attrChange attrName bubbles button cancelable charCode clientX clientY ctrlKey currentTarget data detail eventPhase fromElement handler keyCode metaKey newValue originalTarget pageX pageY prevValue relatedNode relatedTarget screenX screenY shiftKey srcElement target timeStamp toElement type view wheelDelta which".split(" "),
+
 	fix: function(event) {
 		if ( event[expando] == true )
 			return event;
@@ -2098,9 +2099,11 @@ jQuery.event = {
 		// and "clone" to set read-only properties
 		var originalEvent = event;
 		event = { originalEvent: originalEvent };
-		var props = "altKey attrChange attrName bubbles button cancelable charCode clientX clientY ctrlKey currentTarget data detail eventPhase fromElement handler keyCode metaKey newValue originalTarget pageX pageY prevValue relatedNode relatedTarget screenX screenY shiftKey srcElement target timeStamp toElement type view wheelDelta which".split(" ");
-		for ( var i=props.length; i; i-- )
-			event[ props[i] ] = originalEvent[ props[i] ];
+
+		for ( var i = this.props.length, prop; i; ){
+			prop = this.props[ --i ];
+			event[ prop ] = originalEvent[ prop ];
+		}
 
 		// Mark it as fixed
 		event[expando] = true;

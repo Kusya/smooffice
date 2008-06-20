@@ -22,8 +22,8 @@ NetShows.MainPanel = function(){
 	//this.actionEdit.hide();
 	
 	this.actionFullScreen = new Ext.Action({
-        text: (this.fullScreenText)?this.fullScreenText:'View in full screen',
-        iconCls: 'new-win',
+        text: (this.fullScreenText)?this.fullScreenText:'Full screen',
+        iconCls: 'icon-full',
         handler: function(){
                 window.open('/presentation/show?id=' + this.getActiveTab().presentation.id);
         },
@@ -56,7 +56,7 @@ NetShows.MainPanel = function(){
 			// Delete Key = Delete
 			key: 46,
 			stopEvent: true,
-			scope: this,
+			scope: this
 			//fn: this.getActiveTab().getTopToolbar().fireEvent('remove')
 		}],
 		
@@ -154,14 +154,14 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 	},
 	removeElement:function(){
 		if(this.getActiveTab().getComponent('slide-view').focusElement)
-			this.getActiveTab().getComponent('slide-view').slide.removeElement(this.getActiveTab().getComponent('slide-view').resizableElement);
+			this.getActiveTab().getComponent('slide-view').slide.removeElement(this.getActiveTab().getComponent('slide-view').resizableElement,this.getActiveTab().getComponent('slide-view').focusElement);
 	},
 	//open a presentation in a new tab
     openPresentation : function(presentation){
         var id = !presentation.id ? Ext.id():presentation.id;
         var tab;
         if(!(tab = this.getItem('tab-' + id))){
-            tab = new Ext.Panel({
+            tab = this.add({
                 id: 'tab-' + id,
                 cls:'editor',
                 title: presentation.text,
@@ -180,17 +180,44 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 						tab.getTopToolbar().on('newmap', this.getActiveTab().getComponent('slide-view').newMap, this.getActiveTab().getComponent('slide-view'));
 						tab.getTopToolbar().on('newdrawapplet', this.getActiveTab().getComponent('slide-view').newDrawApplet, this.getActiveTab().getComponent('slide-view'));
 						tab.getTopToolbar().on('remove', this.removeElement, this);
-						tab.getTopToolbar().on('showpresentation',this.actionFullScreen);
+						tab.getTopToolbar().on('play',function(){
+                            tab.getComponent("slide-view").slide.save(), this.actionFullScreen.execute();
+						},this);
+						tab.getTopToolbar().on('print',function(){
+							msg_log('print');
+						},this);
+						tab.getTopToolbar().on('preview',function(){
+							if (!this.previewWindow) {
+								this.previewWindow = new Ext.Window({
+									title: (this.previewWindowTitle) ? this.previewWindowTitle : "Presentation preview",
+									iconCls: 'icon-preview',
+									width: 500,
+									height:400,
+									resizable: true,
+									plain: false,
+									modal: true,
+									autoScroll: true,
+									closeAction: 'hide',
+									bodyBorder: true,
+									html: '<iframe id="preview-frame" style="border:0" width="100%" height="100%" src="/presentation/show?id=' + tab.presentation.id + '&slide_id=' + tab.getComponent("slide-view").slide.id + '"></iframe>'
+								});
+								this.previewWindow.show();
+							}else{
+								Ext.get('preview-frame').set({
+									src: '/presentation/show?id=' + tab.presentation.id + '&slide_id=' + tab.getComponent("slide-view").slide.id
+								});
+								Ext.get('preview-frame').on('load', this.previewWindow.show, this.previewWindow);
+							}
+						},this);
 					}, 
 					close: this.onTabClose,
 					scope: this
 				}
             });
-            this.add(tab);
         }
 		//Refreshes the panel
 		tab.on('resize', tab.getComponent("slide-view").resizeEvent, tab.getComponent("slide-view"));
 		
-        this.setActiveTab(tab);
+		tab.show();
     }
 });

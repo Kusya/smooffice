@@ -30,8 +30,8 @@ Slide = function(data){
 	
 	this.data = data;
 	this.elements = [];
-	this.transitions = data.transition?data.transition:[];
-	this.animations = data.animation?data.animation:[];
+	this.transitions = data.t?data.t:[{f:null},{f:null}];
+	this.animations = data.a?data.a:[];
 	
 	//The generated dom corresponding to the slide
 	this.el = null;
@@ -42,8 +42,8 @@ Slide = function(data){
 	//Generate slide content
 	this.init = function(){
 		//If the slide has elements
-		if (this.data.element) {
-			Ext.each(this.data.element, function(item){
+		if (this.data.e) {
+			Ext.each(this.data.e, function(item){
 				this.elements.push(new Element(item, this.slideId));
 			}, this);
 		}
@@ -84,16 +84,21 @@ Slide = function(data){
 		return element;
 	}
 	
-	this.removeElement = function(element){
+	this.removeElement = function(resizable, element){
 		//Remove the element from the elements table
 		var index = this.elements.indexOf(element);
 		this.elements.splice(index);
 		
+		//Destroy the element
+		element.destroy();
+		
 		//Delete the element
-		element.getEl().remove();
+		//resizable.getEl().remove();
 		
 		//Destroy the resizable element
-		element.destroy();
+		resizable.destroy();
+		resizable = null;
+		element = null;
 	}
 	
 	this.getPreview = function(){
@@ -104,9 +109,9 @@ Slide = function(data){
 		return globalHtml;
 	}
 	
-	this.getMeasures = function(){
+	this.getProperties = function(){
 		Ext.each(this.elements, function(item){
-			item.getMeasures();
+			item.getProperties();
 		}, this);
 	}
 	
@@ -136,10 +141,10 @@ Slide = function(data){
 		}, this);
 		
 		this.json = Ext.util.JSON.encode({
-			comment: '',
-			animation: this.animations,
-			transition: this.transitions,
-			element: elementJSON
+			c: '',//Commentaires
+			a: this.animations,
+			t: this.transitions,
+			e: elementJSON
 		});
 		
 		msg_log(this.json);

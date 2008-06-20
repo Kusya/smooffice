@@ -6,42 +6,14 @@
  */
 
 NetShows.EditorAccordion = function(){
-	/*
-	// add a combobox to the toolbar
-	this.fontstore = new Ext.data.SimpleStore({
-		fields: ['name', 'preview'],
-		data: NetShows.fonts //from FontType.js
-	});
-	this.fontscombo = new Ext.form.ComboBox({
-		store: this.fontstore,
-		displayField: 'name',
-		typeAhead: true,
-		mode: 'local',
-		triggerAction: 'all',
-		emptyText: this.emptyText,
-		selectOnFocus: true,
-		width: 135
-	});
-	this.textFormat = new Ext.Panel({
-		title: this.textFormatTitle ? this.textFormatTitle : 'Text &amp; Formats',
-		cls: 'empty',
-		iconCls: 'icon-text-format',
-		bodyStyle: "padding:5px",
-		border: false,
-		items: [{id:'editorToolbar'}]
-	});
-	*/
 	var filetreepanel = new Ext.ux.FileTreePanel({
-		 border:false,
-		 //autoWidth:true,
-		 id:'filetree',
-		 rootPath:'root',
-		 rootVisible: true,
-		 topMenu:true,
-		 autoScroll:true,
-		 enableProgress:false
-		 //baseParams:{additional:'haha'},
-		 //singleUpload:true
+		border: false,
+		autoScroll: true,
+		id: 'filetreepanel',
+		rootPath: 'root',
+		rootVisible: true,
+		topMenu: false,
+		autoScroll: true
 	});
 
 	this.myFolder = new Ext.Panel({
@@ -58,7 +30,7 @@ NetShows.EditorAccordion = function(){
 			url: '/file/do',
 			path: 'root',
 			maxFileSize: 1048576,
-			enableProgress: true,
+			enableProgress: true
 			//singleUpload:true
 		}*/
 		]

@@ -57,8 +57,8 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		//SetNoFocus
 		if(element == null){
 			if (this.focusElement) {
-				if (this.focusElement.data.type == 'text') {
-					this.focusElement.el.dom.innerHTML = this.focusElement.data.content = this.focusElement.el.editor.getValue();
+				if (this.focusElement.data.className == 'text') {
+					this.focusElement.el.dom.innerHTML = this.focusElement.data.c = this.focusElement.el.editor.getValue();
 					this.focusElement.el.editor.destroy();
 				}
 			}
@@ -71,7 +71,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			handles: 'all',
 			draggable: true,
 			dynamic: true};
-		switch (element.data.type) {
+		switch (element.data.className) {
 			case 'text':
 				//msg_log("text");
 				Ext.apply(config, {
@@ -98,7 +98,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		        	plugins: new Ext.ux.HTMLEditorUndoRedo()
 		        });*/
 				break;
-			case 'image':
+			case 'img':
 				//msg_log("image");
 				Ext.apply(config, {
 					preserveRatio: true,
@@ -112,13 +112,13 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 					wrap: false
 				});
 				break;
-			/*case 'map':
+			case 'map':
 				//msg_log("video");
 				Ext.apply(config, {
 					preserveRatio: false,
 					wrap: false
 				});
-				break;*/
+				break;
 			default:
 				msg_log("No class");
 				return false;
@@ -178,10 +178,12 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			onNodeDrop: function(target, dd, e, data){
 				var LeftTop = panel.getLeftTop(e);
 				var myElement = panel.slide.addElement({
-					type: data.elementData.type,
-					url: data.elementData.url,
-					top: LeftTop.top,
-					left: LeftTop.left
+					t: data.elementData.type,
+					c: data.elementData.url,
+					p: {
+						top: LeftTop.top,
+						left: LeftTop.left
+					}
 				});
 				
 				panel.setFocusElement(myElement);
@@ -192,23 +194,27 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 	},
 	newText: function(){
 		var myElement = this.slide.addElement({
-			type: 'text',
-			content: 'Text',
-			top: '45%',
-			left: '45%',
-			width: '38%',
-			height: '20%'
+			t: 'p',
+			c: 'Text',
+			p: {
+				top: '45%',
+				left: '45%',
+				width: '38%',
+				height: '20%'
+			}
 		});
 		this.setFocusElement(myElement);
 	},
 	newMap: function(){
 		var myElement = this.slide.addElement({
-			type: 'map',
-			top: '10%',
-			left: '10%',
-			width: '80%',
-			height: '80%',
-			params: {}
+			t: 'map',
+			c: {},
+			p: {
+				top: '10%',
+				left: '10%',
+				width: '80%',
+				height: '80%'
+			}
 		});
 		this.setFocusElement(myElement);
 	},
@@ -252,7 +258,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 	resizeEvent: function(){
 		//Save the current measures before resizing
 		if (this.slide) 
-			this.slide.getMeasures();
+			this.slide.getProperties();
 			
 		var margin = 33;
 		//var width = this.ownerCt.getEl().getWidth() - margin;
