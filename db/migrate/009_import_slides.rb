@@ -2,7 +2,7 @@ class ImportSlides < ActiveRecord::Migration
   def self.up
     Presentation.create(:title => 'First presentation',
     :description => 'It is the first presentation, there is not slide yet',
-    :parent_id => '-1',
+    :parent_id => '-7',
     :last_order => 1,
     :author => 4)
     Order.create(:json => '[{"id":"slide-1"},{"id":"slide-2"},{"id":"slide-3"},{"id":"slide-4"},{"id":"slide-5"}]',
@@ -41,7 +41,7 @@ class ImportSlides < ActiveRecord::Migration
     
     Presentation.create(:title => 'Demo presentation',
     :description => 'This presentation is a demo of our <i>presentation player</i>.',
-    :parent_id => '-1',
+    :parent_id => '-3',
     :last_order => 2,
     :author => 2)
     

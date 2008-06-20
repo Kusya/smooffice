@@ -18,3 +18,7 @@ File manager
 Drawing Applet
 
 Dans folder/get_all : ne retourner que les presentations que possède l'utilisateur
+
+Install gem into lib folder to keep it in SVN
+
+Gestion des erreurs AJAX à la FileUploader
