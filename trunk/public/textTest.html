@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>Untitled Document</title>
+        <style type="text/css">
+            html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+            
+            html, body {
+                font-size: 100%;
+                font-family: arial, verdana, sans-serif;
+                font-style: normal;
+                font-weight: normal;
+                font-size-adjust: none;
+                font-stretch: normal;
+                font-style: normal;
+                font-variant: normal;
+                line-height: normal;
+            }
+            
+            .wrap {
+                font-weight: normal;
+            	font-size:12px;
+                clear: right;
+                float: left;
+                position: absolute;
+                top: 50px;
+                left: 50%;
+                border: 1px solid black;
+            }
+        </style>
+        <script type="text/javascript">
+                        			load = function(){
+                        				var textEl = document.getElementById("text"),
+            								compWidth = document.defaultView.getComputedStyle(textEl, null).width,
+                        					compHeight = document.defaultView.getComputedStyle(document.getElementById("text"), null).height,
+            								width = textEl.offsetWidth,
+            								height = textEl.offsetHeight,
+            								scrollWidth = textEl.scrollWidth,
+            								scrollHeight = textEl.scrollHeight,
+            								clientWidth = textEl.clientWidth,
+            								clientHeight = textEl.clientHeight;
+            								var html = "Computed width : " + compWidth + ' Computed height: ' + compHeight;
+            								html += '<br />clientWidth : ' + clientWidth + ' clientHeight: ' + clientHeight;
+            								html += '<br />scrollWidth : ' + scrollWidth + ' scrollHeight: ' + scrollHeight;
+            								html += '<br />width : ' + width + ' height: ' + height;
+                        					document.getElementById("debug").innerHTML = html;
+                        			}
+                        		
+                    
+        </script>
+    </head>
+    <body onload="load()">
+        <div style="">
+            <div class="wrap">
+                <p id="text" style="font-size:12em">
+                    Bonjour
+                </p>
+            </div>
+        </div>
+        <div id="debug" style="border-top:1px solid black;margin:5px;">
+        </div>
+    </body>
+</html>

@@ -133,7 +133,7 @@ Slide = function(data){
 	}
 	
 	//Send the JSON string of the actual slide
-	this.save = function(){
+	this.save = function(callback,scope){
 		//For each element, we get the object used to the JSON
 		var elementJSON = [];
 		Ext.each(this.elements, function(item){
@@ -155,7 +155,9 @@ Slide = function(data){
 				authenticity_token: NetShows.key,
 				id: this.id,
 				content: this.json
-			}
+			},
+			callback: callback,
+			scope: scope
 		});
 	};
 }
