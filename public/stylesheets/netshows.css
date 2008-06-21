@@ -261,8 +261,20 @@ p.msg {
 	height: 95px;
 	overflow: hidden;
 }
-#slides-preview .thumb-wrap *{
-	/*position: absolute;*/
+
+#slides-preview .wrap-under{
+	z-index:1;
+}
+#slides-preview .thumb-mask{
+	position:absolute;
+	width:100%;
+	height:100%;
+	-moz-opacity:0.01;
+	opacity:.01;
+	filter:alpha(opacity=1);
+	z-index:20000;
+	background-color:#FFF;
+	zoom:1;
 }
 
 #slides-preview .x-view-over{

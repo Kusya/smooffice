@@ -111,7 +111,7 @@ NetShows.SlideBrowser = function(){
 		root: 'slides'
 	});
 	
-	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="{id}">', '{html}','</div>', '</tpl>', '<div class="x-clear"></div>');
+	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="{id}">', '<div class="thumb-mask">&nbsp;</div>', '<div class="wrap-under">{html}</div>','</div>', '</tpl>', '<div class="x-clear"></div>');
 	
 	this.slideDataView = new Ext.DataView({
 		//reader: this.reader,
