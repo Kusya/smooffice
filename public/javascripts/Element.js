@@ -37,12 +37,12 @@
 					html = '<img src="' + this.data.c + '" alt="" title="" width="100%" height="auto" />';
 					break;
 				case 'video':
-					html = '<div class="move-corner">&nbsp;</div>';
-					html += '<object width="100%" height="100%" style="z-index:1;position:absolute">';
+					html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
 					html += '<param name="movie" value="' + this.data.c + '&hl=en"></param>';
 					html += '<param name="wmode" value="transparent"></param>';
 					html += '<embed width="100%" height="100%" src="' + this.data.c + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>';
 					html += '</object>';
+					html += '<div class="move-corner">&nbsp;</div>';
 					break;
 				case 'map':
 					html = '<div class="move-corner">&nbsp;</div>';
@@ -89,14 +89,13 @@
 				this.el.applyStyles('height:' + this.getPixelFromPercent(this.data.p.height,Ext.get(this.slideId).getHeight()) + 'px;');
 			}else{
 				this.el.applyStyles('width:80%;');
-				this.el.applyStyles('height:auto;');
+				var heightValue = (this.data.t == 'video')?'80%':'auto'
+				this.el.applyStyles('height:' + heightValue +';');
 				this.el.first().addListener('load', function(){
-					//msg_log('computed height ' + this.el.first().getComputedHeight());
+					msg_log('computed height ' + this.el.first().getComputedHeight());
 					this.el.applyStyles('width:'+this.el.first().getComputedWidth()+'px;');
 					this.el.applyStyles('height:'+this.el.first().getComputedHeight()+'px;');
 				},this);
-				
-				
 			}
 			
 			this.el.applyStyles('top:' + this.getPixelFromPercent(this.data.p.top,Ext.get(this.slideId).getHeight()) + 'px;');
