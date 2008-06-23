@@ -16,7 +16,6 @@ class FileController < ApplicationController
         @result = upload
       end
     end
-    
     def rename
       begin
         username = User.find(session[:user_id]).name
@@ -108,8 +107,7 @@ class FileController < ApplicationController
         result = { :success => false, :error => "Cannot create directory: #{params[:dir][4, params[:dir].size]}" }
       end
       result
-    end
-    
+    end    
     def delete
       username = User.find(session[:user_id]).name
       
@@ -118,7 +116,7 @@ class FileController < ApplicationController
       case File.ftype(path)
         when "directory"
         path = "#{path}/"
-        Dir.unlink path
+		FileUtils.rm_rf(path)
         when "file"
         File.unlink path
       end
@@ -129,34 +127,20 @@ class FileController < ApplicationController
     #####################################################
     def save_file
       puts "save_file :"
-      username = User.find(session[:user_id]).name
+      username = User.find(session[:user_id])['name']
       
-      begin
+
         File.open("user_doc/#{username}/#{params[:file].original_filename}", "wb") { |file| 
           file.write(params[:file].read)
         }
-      rescue
-        puts "	Error : can't copy the file one." 
-      end
-      
-      redirect_to :action => 'upload'
+   
+  
+    end
+    #####################################################  
+    def filetree
+		if (params[:file] != nil)
+			save_file
+		end
     end
     #####################################################
-    
-    def upload
-      puts "upload : #{params[:UPLOAD_IDENTIFIER]}"
-      begin
-        save_file
-        result = { :success => true }
-      rescue
-         result={ :success => false, :error=>"I don't no !" }
-    end
-    
-    end
-    #####################################################
-    
-    def progress
-      puts "progress for : #{params[:UPLOAD_IDENTIFIER]}"
-      result = { :success => true }
-    end
   end
