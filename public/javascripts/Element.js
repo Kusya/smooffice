@@ -106,61 +106,10 @@
 		this.getJSON = function(){
 			this.getProperties();
 			return {
-						t: this.data.t,
-						c: this.data.c,
-						p: {
-							top: this.data.p.top,
-							left: this.data.p.left,
-							height: this.data.p.height,
-							width: this.data.p.width
-						}
-					};
-					/*
-			switch (this.data.t) {
-				case 'text':
-					return {
-						t: this.data.t,
-						c: this.data.c,
-						p: {
-							top: this.data.top,
-							left: this.data.left,
-							height: this.data.height,
-							width: this.data.width
-						}
-					};
-					break;
-				case 'image':
-					return {
-						type: this.data.type,
-						url: this.data.url,
-						top: this.data.top,
-						left: this.data.left,
-						height: this.data.height,
-						width: this.data.width
-					};
-					break;
-				case 'video':
-					return {
-						type: this.data.type,
-						url: this.data.url,
-						top: this.data.top,
-						left: this.data.left,
-						height: this.data.height,
-						width: this.data.width
-					};
-					break;
-				case 'map':
-					return {
-						type: this.data.type,
-						top: this.data.top,
-						left: this.data.left,
-						height: this.data.height,
-						width: this.data.width,
-						params: this.map.getContent()
-					};
-					break;
-			}
-			*/
+				t: this.data.t,
+				c: this.data.c,
+				p: this.data.p
+			};
 		}
 		
 		this.getProperties = function(){
@@ -180,6 +129,8 @@
 			
 			if(this.data.t == 'map'){
 				this.data.c = this.map.getContent();
+			}else if(this.data.className == 'text'){
+				this.data.p.fontSize = '100%';
 			}
 		}
 		
