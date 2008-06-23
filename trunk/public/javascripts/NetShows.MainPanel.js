@@ -182,9 +182,10 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                         tab.getTopToolbar().on('remove', this.removeElement, this);
                         tab.getTopToolbar().on('play', function(){
 							tab.getComponent("slide-view").setNoFocus(true);
-                            tab.getComponent("slide-view").slide.save(this.actionFullScreen.execute, this);
-                            //this.actionFullScreen.execute();
-                        }, this);
+							tab.getComponent("slide-view").slide.save(function(){
+								window.open('/presentation/show?id=' + this.getActiveTab().presentation.id);
+							}, this);
+						}, this);
                         tab.getTopToolbar().on('print', function(){
                             msg_log('print');
                         }, this);

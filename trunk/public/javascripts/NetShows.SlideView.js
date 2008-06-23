@@ -217,8 +217,29 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
     },
     
     newDrawApplet: function(){
-        window.open('/drawapplet/draw?id=' + this.slide.id);
-    },
+		if (!this.drawWindow) {
+			this.drawWindow = new Ext.Window({
+				title: (this.drawWindowTitle) ? this.drawWindowTitle : "Drawing",
+				iconCls: 'icon-preview',
+				width: 800,
+				height: 600,
+				resizable: true,
+				plain: false,
+				modal: true,
+				autoScroll: true,
+				closeAction: 'hide',
+				bodyBorder: true,
+				html: '<iframe id="draw-frame" style="border:0" width="100%" height="100%" src="/applet/draw?id=' + this.slide.id + '"></iframe>'
+			});
+			this.drawWindow.show();
+		}
+		else {
+			Ext.get('draw-frame').set({
+				src: '/applet/draw?id=' + this.slide.id
+			});
+			Ext.get('draw-frame').on('load', this.drawWindow.show, this.drawWindow);
+		}
+	},
     
     //Get the top left value of the mouse
     getLeftTop: function(e){

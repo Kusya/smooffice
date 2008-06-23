@@ -133,7 +133,7 @@ Slide = function(data){
 	}
 	
 	//Send the JSON string of the actual slide
-	this.save = function(callback,scope){
+	this.save = function(callbackFn,scopeFn){
 		//For each element, we get the object used to the JSON
 		var elementJSON = [];
 		Ext.each(this.elements, function(item){
@@ -156,8 +156,8 @@ Slide = function(data){
 				id: this.id,
 				content: this.json
 			},
-			callback: callback,
-			scope: scope
+			callback: callbackFn,
+			scope: scopeFn
 		});
 	};
 }
