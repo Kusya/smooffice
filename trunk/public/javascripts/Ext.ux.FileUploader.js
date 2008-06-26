@@ -173,7 +173,7 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 			,action:this.url
 			,method:'post'
 			,cls:'x-hidden'
-			,id:Ext.id()
+			,id:'form'-Ext.id()
 			,cn:[{
 				 tag:'input'
 				,type:'hidden'
@@ -604,7 +604,7 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 
 		// append input to the form
 		var inp = record.get('input');
-		inp.set({name:inp.id});
+		inp.set({name:'file'});
 		form.appendChild(inp);
 
 		// get params for request
@@ -642,7 +642,7 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 		var form = this.createForm();
 		records.each(function(record) {
 			var inp = record.get('input');
-			inp.set({name:inp.id});
+			inp.set({name:'file'});
 			form.appendChild(inp);
 			record.set('state', 'uploading');
 		}, this);

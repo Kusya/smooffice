@@ -39,6 +39,14 @@
 		
 		//Declares the name space of the application
 		Ext.ns('NetShows');
+		
+		//AthenticityToken
+		NetShows.key = '3890f2b6fb69ca90fe7e19bdedbe26c0ad165f89';
+		NetShows.user = {
+			username:"<%= @username %>",
+			firstname:"<%= @firstname %>",
+			lastname:"<%= @lastname %>"
+		}
 	</script>
 	
 	
@@ -66,7 +74,6 @@
 	<%= javascript_include_tag "Element.js" %>
 	<%= javascript_include_tag "GoogleMap.js" %>
 	<%= javascript_include_tag "Ext.ux.HtmlEditorUsingGlobalToolbar.js" %>
-	<%= javascript_include_tag "Ext.ux.HTMLEditorUndoRedo.js" %>
 
  
 	<!-- Application localization javascript -->
