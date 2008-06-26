@@ -19,8 +19,8 @@ class FileController < ApplicationController
     def rename
       begin
         username = User.find(session[:user_id]).name
-        newname = "user_doc/#{username}#{params[:newname][4,params[:newname].size]}"
-        oldname = "user_doc/#{username}#{params[:oldname][4,params[:oldname].size]}"
+        newname = "public/user_doc/#{username}#{params[:newname][4,params[:newname].size]}"
+        oldname = "public/user_doc/#{username}#{params[:oldname][4,params[:oldname].size]}"
         File.rename(oldname, newname)
         result = { :success => true }
       rescue
@@ -40,7 +40,7 @@ class FileController < ApplicationController
       
       # Test error with the parameter path
       if (params[:path] == nil or params[:path] == "") # there is no parameter 
-        puts "	There isn't parameter, you gonna be redirected to the root path."
+        puts "	There is no parameter, you will be redirected to the root path."
       elsif ((params[:path] =~ /[.]/) != nil) # there is a point in the path (forbidden)
         puts "	Point in the path is forbidden, you gonna be redirected to the root path."
       else
@@ -51,7 +51,7 @@ class FileController < ApplicationController
           params[:path] = "#{params[:path][4,params[:path].size]}/"
         end
         # Completing of the path
-        absolute_path = "user_doc/#{username}#{params[:path]}"
+        absolute_path = "public/user_doc/#{username}#{params[:path]}"
         relative_path = params[:path]
         
         # Normally, the path is corect now but we never know...
@@ -59,7 +59,7 @@ class FileController < ApplicationController
           puts "	#{absolute_path} : This file exist."
         else
           puts "	The file doesn't exist, you gonna be redirected to your root path."
-          absolute_path = "user_doc/#{username}/"
+          absolute_path = "public/user_doc/#{username}/"
         end
         
         puts params[:path]
@@ -93,7 +93,7 @@ class FileController < ApplicationController
     end
     def newdir
       username = User.find(session[:user_id]).name
-      path = "user_doc/#{username}#{params[:dir][4, params[:dir].size]}/"
+      path = "public/user_doc/#{username}#{params[:dir][4, params[:dir].size]}/"
       
       begin
         if ( ( path =~ /[.]/ ) != nil ) # there is a point in the path (forbidden)
@@ -111,7 +111,7 @@ class FileController < ApplicationController
     def delete
       username = User.find(session[:user_id]).name
       
-      path = "user_doc/#{username}#{params[:file][4, params[:file].size]}"
+      path = "public/user_doc/#{username}#{params[:file][4, params[:file].size]}"
       
       case File.ftype(path)
         when "directory"
@@ -128,19 +128,26 @@ class FileController < ApplicationController
     def save_file
       puts "save_file :"
       username = User.find(session[:user_id])['name']
-      
+      @file_path = "public/user_doc/#{username}/#{params[:dir]}/#{params[:file].original_filename}"
+      puts @file_path
 
-        File.open("user_doc/#{username}/#{params[:file].original_filename}", "wb") { |file| 
+        File.open(@file_path, "wb") { |file| 
           file.write(params[:file].read)
         }
-   
-  
-    end
-    #####################################################  
-    def filetree
-		if (params[:file] != nil)
-			save_file
-		end
+      rescue
+        puts "	Error : can't copy the file one." 
+      end
+      
+      #redirect_to :action => 'upload'
     end
     #####################################################
-  end
+    
+    def upload
+      puts "upload : #{params[:UPLOAD_IDENTIFIER]}"
+      begin
+        save_file
+        result = { :success => true }
+      rescue
+        result={ :success => false, :error=>"I don't no !" }
+      end
+    end

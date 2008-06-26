@@ -35,18 +35,18 @@ class ImportUsers < ActiveRecord::Migration
           :binfolder => '-8')
 	
 	# Creating of User Docs
-	File.makedirs("user_doc/admin/")
-	File.makedirs("user_doc/lrbabe/")
-	File.makedirs("user_doc/sgarnier/")
-	File.makedirs("user_doc/cgonnet/")
+	File.makedirs("public/user_doc/admin/")
+	File.makedirs("public/user_doc/lrbabe/")
+	File.makedirs("public/user_doc/sgarnier/")
+	File.makedirs("public/user_doc/cgonnet/")
 	end
 
 	def self.down
 		User.delete_all
 		# Deleting of User Docs
-		FileUtils.rm_rf("user_doc/admin/")
-		FileUtils.rm_rf("user_doc/lrbabe/")
-		FileUtils.rm_rf("user_doc/sgarnier/")
-		FileUtils.rm_rf("user_doc/cgonnet/")
+		FileUtils.rm_rf("public/user_doc/admin/")
+		FileUtils.rm_rf("public/user_doc/lrbabe/")
+		FileUtils.rm_rf("public/user_doc/sgarnier/")
+		FileUtils.rm_rf("public/user_doc/cgonnet/")
 	end
 end

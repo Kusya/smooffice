@@ -173,6 +173,14 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
             //      We can use the data set up by the DragZone's getDragData method to read
             //      any data we decided to attach.
             onNodeDrop: function(target, dd, e, data){
+				if(data.node){
+					data.elementData = {};
+					if(data.node.attributes.iconCls == 'file-jpg'){
+						data.elementData.type = 'img';
+					}
+					
+					data.elementData.url = '/user_doc/'+NetShows.user.username + data.node.attributes.id;
+				}
                 var LeftTop = panel.getLeftTop(e);
                 var myElement = panel.slide.addElement({
                     t: data.elementData.type,

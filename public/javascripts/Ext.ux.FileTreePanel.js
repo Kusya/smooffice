@@ -1075,13 +1075,14 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 			break;
 
 			case 'open':
-				this.openNode(node);
+				//this.openNode(node);
+				this.openNode(node, 'download');
 			break;
 
+			/*
 			case 'open-self':
 				this.openNode(node, '_self');
 			break;
-
 			case 'open-popup':
 				this.openNode(node, 'popup');
 			break;
@@ -1092,7 +1093,7 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 
 			case 'open-dwnld':
 				this.openNode(node, 'download');
-			break;
+			break;*/
 
 			case 'rename':
 				this.treeEditor.triggerEdit(node);

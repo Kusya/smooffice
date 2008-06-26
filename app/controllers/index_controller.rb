@@ -4,7 +4,8 @@ class IndexController < ApplicationController
 
 	def get
     @firstname = User.find_by_id(session[:user_id])['firstname'].capitalize
-    @lastname = User.find_by_id(session[:user_id])['lastname'].capitalize
+    @lastname = User.find_by_id(session[:user_id])['lastname']
+    @username = User.find_by_id(session[:user_id])['name']
 	end
   
 	private

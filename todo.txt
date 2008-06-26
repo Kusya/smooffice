@@ -11,15 +11,22 @@ Slide/save : vérifier si le contenu a bien changé avant d'ajouter un enregistr
 
 Youtube : totalCount
 
-Google Maps : remove markers, directions
+Google Maps : remove markers, travel directions,  resize problem
 
 File manager
 
 Drawing Applet
 
-Dans folder/get_all : ne retourner que les presentations que possède l'utilisateur
++ Dans folder/get_all : ne retourner que les presentations que possède l'utilisateur
 
-Install gem into lib folder to keep it in SVN
++ Install gem into lib folder to keep it in SVN
 
 Gestion des erreurs AJAX à la FileUploader
 
+
+##### Think about ######
+- Text description on objects (screen reader)
+- Icorporate a widget such as flickr but for the university multimedia database + sounds
+- Make a fake lecture of any subject to take the place of academics and students
+- Separation between editing, lecture and students
+- Integrate users own script or html

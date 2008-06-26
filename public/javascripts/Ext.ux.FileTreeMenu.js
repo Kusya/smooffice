@@ -51,25 +51,6 @@ Ext.ux.FileTreeMenu = function(config) {
 			 text:this.openText + ' (Enter)'
 			,iconCls:this.openIconCls
 			,cmd:'open'
-			,menu:{
-				items:[{
-					 text:this.openSelfText
-					,iconCls:this.openSelfIconCls
-					,cmd:'open-self'
-				},{
-					 text:this.openPopupText
-					,iconCls:this.openPopupIconCls
-					,cmd:'open-popup'
-				},{
-					 text:this.openBlankText
-					,iconCls:this.openBlankIconCls
-					,cmd:'open-blank'
-				},{
-					 text:this.openDwnldText
-					,iconCls:this.openDwnldIconCls
-					,cmd:'open-dwnld'
-				}]
-			}
 		}
 		,new Ext.menu.Separator({cmd:'sep-open'})
 		,{
@@ -118,7 +99,7 @@ Ext.ux.FileTreeMenu = function(config) {
 	Ext.ux.FileTreeMenu.superclass.constructor.call(this, config);
 
 	// relay event from submenu
-	this.relayEvents(this.getItemByCmd('open').menu, ['click', 'itemclick']);
+	//this.relayEvents(this.getItemByCmd('open').menu, ['click', 'itemclick']);
 
 }; // eo constructor
 

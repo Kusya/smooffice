@@ -14,10 +14,7 @@ Ext.BLANK_IMAGE_URL = '/ext/resources/images/default/s.gif';
 
 
 Ext.onReady(function(){
-	Ext.QuickTips.init();
-	//AthenticityToken
-	NetShows.key = '3890f2b6fb69ca90fe7e19bdedbe26c0ad165f89';
-	
+	Ext.QuickTips.init();	
 	
 	/*
 	 * Templates

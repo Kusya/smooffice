@@ -9,18 +9,28 @@ NetShows.EditorAccordion = function(){
 	var filetreepanel = new Ext.ux.FileTreePanel({
 		border: false,
 		autoScroll: true,
+		autoHeight:true,
 		id: 'filetreepanel',
 		rootPath: 'root',
 		rootVisible: true,
+		url: '/file/do',
 		topMenu: false,
-		autoScroll: true
+		autoScroll: true,
+		maxFileSize: 1048576,
+		singleUpload:true,
+		enableProgress:false,
+		rootText: NetShows.user.username,
+		ddGroup:'slide',
+		baseParams: {
+			authenticity_token: NetShows.key
+		}
 	});
 
 	this.myFolder = new Ext.Panel({
 		title: this.myFolderText ? this.myFolderText : 'My Folder',
 		border: false,
 		iconCls: 'icon-my-folder',
-		//autoHeight:true,
+		autoHeight:true,
 		bodyStyle: "padding:0px",
 		items: [filetreepanel
 		/*, {
