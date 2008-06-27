@@ -14,6 +14,7 @@ Youtube : totalCount
 Google Maps : remove markers, travel directions,  resize problem
 
 File manager
+	- Return the real size of each files
 
 Drawing Applet
 

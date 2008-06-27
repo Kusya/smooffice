@@ -88,12 +88,6 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
                 element.el.dom.innerHTML = '';
                 element.el.editor.render(element.el.dom)
                 element.el.show();
-                
-                /*var editor = new Ext.ux.HTMLEditor({
-             value:element.el.dom.innerHTML,
-             renderTo: element.el,
-             plugins: new Ext.ux.HTMLEditorUndoRedo()
-             });*/
                 break;
             case 'img':
                 //msg_log("image");
@@ -173,11 +167,22 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
             //      We can use the data set up by the DragZone's getDragData method to read
             //      any data we decided to attach.
             onNodeDrop: function(target, dd, e, data){
+				var imagesFileTypes = ['file-bmp','file-gif','file-jp2','file-jpeg','file-jpg','file-png','file-tga','file-tif','file-tiff'];
 				if(data.node){
+					var t = data.node.attributes.iconCls;
 					data.elementData = {};
-					if(data.node.attributes.iconCls == 'file-jpg'){
+					if (imagesFileTypes.indexOf(t) != -1) {
 						data.elementData.type = 'img';
 					}
+					
+					else 
+						if (t == 'file-mov' || t == 'file-mp4' || t == 'file-mpg' || t == 'file-rm' || t == 'file-wmv') {
+							data.elementData.type = 'video';
+						}
+						else {
+							return false;
+						}
+								
 					
 					data.elementData.url = '/user_doc/'+NetShows.user.username + data.node.attributes.id;
 				}

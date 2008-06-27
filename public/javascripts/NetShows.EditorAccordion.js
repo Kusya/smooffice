@@ -51,6 +51,7 @@ NetShows.EditorAccordion = function(){
 	this.flickr = new NetShows.EditorAccordion.External({
 		id: 'flickr-view',
 		type: 'img',
+		ext: 'jpg',
 		tpl: flickrTpl,
 		url: '/flickr/search',
 		fields: ['thumbnail', 'url', 'title'],
@@ -70,6 +71,7 @@ NetShows.EditorAccordion = function(){
 		id: 'youtube-view',
 		tpl: youtubeTpl,
 		type: 'video',
+		ext: 'swf',
 		url: '/youtube/search',
 		fields: ['thumbnail', 'url', 'title'],
 		root: 'videos',

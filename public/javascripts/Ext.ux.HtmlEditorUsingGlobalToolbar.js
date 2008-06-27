@@ -280,10 +280,24 @@ Ext.ux.HtmlEditorUsingGlobalToolbar = Ext.extend(Ext.form.HtmlEditor, {
         Ext.TaskMgr.start(task);
         
 		this.wrap.applyStyles("width:100%;height:100%;");
-		Ext.get(this.iframe).applyStyles("width:100%;height:98%;");
+		Ext.get(this.iframe).applyStyles("width:100%;height:96%;");
         /*if (!this.width) {
             this.setSize(this.el.getSize());
         }*/
+    },
+	
+
+    getDocMarkup : function(){
+
+        return '<html><head><style type="text/css">'+
+		'html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {'+
+        '        margin: 0;'+
+        '        padding: 0;'+
+        '        border: 0;'+
+        '    }'+
+		'html,body{height:98%;cursor:text;}'+
+		'</style></head><body></body></html>';
+
     },
 	    // private
 
