@@ -30,26 +30,54 @@
 		}
 		
 		this.getHTML = function(){
-			var html= '';
+			var html = '';
 			this.data.className = this.data.t;
 			switch (this.data.t) {
 				case 'img':
 					html = '<img src="' + this.data.c + '" alt="" title="" width="100%" height="auto" />';
 					break;
 				case 'video':
-					html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-					html += '<param name="movie" value="' + this.data.c + '&hl=en"></param>';
-					html += '<param name="wmode" value="transparent"></param>';
-					html += '<embed width="100%" height="100%" src="' + this.data.c + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>';
-					html += '</object>';
+					var e = this.data.c.substring(this.data.c.length - 3, this.data.c.length);
+					if (e == 'swf' || e == 'flv') {
+						html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
+						html += '<param name="movie" value="' + this.data.c + '&hl=en"></param>';
+						html += '<param name="wmode" value="transparent"></param>';
+						html += '<embed width="100%" height="100%" src="' + this.data.c + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+						html += '</object>';
+					}
+					else 
+						if (e == 'wmv' || e == 'wma' || e == 'asx' || e == 'asf') {
+							html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c + '" autostart="0" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"></embed>';
+							
+						}
+						else 
+							if (e == 'mov' || e == 'mp4') {
+								html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c + '" autoplay="false" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
+								
+							}
+							else 
+								if (e == '.rm') {
+									html += '<embed type="audio/x-pn-realaudio-plugin" style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c + '" autostart="false" controls="imagewindow" nojava="true" console="c1212599607702" pluginspage="http://www.real.com/"></embed>';
+									html += '<br><embed type="audio/x-pn-realaudio-plugin"  style="z-index:1;position:absolute" width="100%" height="26" src="' + this.data.c + '" autostart="false" nojava="true" controls="ControlPanel" console="c1212599607702"></embed>';
+								}
+								else {
+									html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
+									html += '<param name="movie" value="' + this.data.c + '&hl=en"></param>';
+									html += '<param name="wmode" value="transparent"></param>';
+									html += '<embed width="100%" height="100%" src="' + this.data.c + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+									html += '</object>';
+								}
+					
 					html += '<div class="move-corner">&nbsp;</div>';
 					break;
+					
 				case 'map':
 					html = '<div class="move-corner">&nbsp;</div>';
 					html += '<img src="/images/map.gif" alt="" title="" style="width:100%;height:auto;position:absolute;" />';
 					break;
+					
 				default:
-					html = '<' + this.data.t + '>' + this.data.c + '</' + this.data.t +'>';
+					html = '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
 					this.data.className = 'text';
 			}
 			return html;

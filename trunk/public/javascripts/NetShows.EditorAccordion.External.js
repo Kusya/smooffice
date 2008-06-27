@@ -9,16 +9,15 @@
  
 NetShows.EditorAccordion.External = function(config){
 	//If we have to deal with video, image, sound
-	this.type = config.type;
-	
+	Ext.apply(this,config);
 	this.searchField = new Ext.form.SearchField({
 		width: 173
 	});
 	
 	this.store = new Ext.data.JsonStore({
-		url: config.url,
-		fields: config.fields,
-		root: config.root,
+		url: this.url,
+		fields: this.fields,
+		root: this.root,
 		totalProperty: 'totalCount',
 		listeners: {
 			'beforeload': function(){
@@ -33,7 +32,7 @@ NetShows.EditorAccordion.External = function(config){
 			scope: this
 		},
 		baseParams: {
-			limit: config.limit,
+			limit: this.limit,
 			tags: this.searchField.getValue(),
 			authenticity_token: NetShows.key
 		}
@@ -44,15 +43,15 @@ NetShows.EditorAccordion.External = function(config){
 	});
 
     this.dataView = new Ext.DataView({
-		tpl: config.tpl,
+		tpl: this.tpl,
 		store: this.store,
 		deferEmptyText: true,
 		border: true,
-		loadingText: config.loadingText,
+		loadingText: this.loadingText,
 		singleSelect: true,
 		overClass:'x-view-over',
 		itemSelector:'div.thumb-wrap',
-		emptyText:  config.noElements,
+		emptyText:  this.noElements,
 		listeners: {
 			render: this.initializeDragZone,
 			scope: this
@@ -60,15 +59,15 @@ NetShows.EditorAccordion.External = function(config){
 	});
 
     NetShows.EditorAccordion.External.superclass.constructor.call(this, {
-		id: config.id,
-		iconCls: config.iconCls,
+		id: this.id,
+		iconCls: this.iconCls,
 		autoScroll: true,
-		title: config.title,
+		title: this.title,
 		border: false,
 		tbar: [this.searchField],
 		bbar: new Ext.PagingToolbar({
 			store: this.store,
-            pageSize: config.limit
+            pageSize: this.limit
         }),
         items: this.dataView
 	});
@@ -80,7 +79,7 @@ Ext.extend(NetShows.EditorAccordion.External, Ext.Panel, {
 				params: {
 					start: 0,
 					tags: 'flower',
-					limit: config.limit
+					limit: this.limit
 				}
 			});
 		}
@@ -119,7 +118,8 @@ Ext.extend(NetShows.EditorAccordion.External, Ext.Panel, {
 						ddel: d,
 						elementData: {
 							url: dataView.getRecord(sourceEl).data.url,
-							type: dataView.ownerCt.type
+							type: dataView.ownerCt.type,
+							ext: dataView.ownerCt.ext
 						}
 					}
 				}
