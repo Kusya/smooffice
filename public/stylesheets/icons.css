@@ -99,6 +99,14 @@
     background-image:url(/images/flickr.gif) !important;
 }
 
+.transitions-icon {
+    background-image:url(/images/icons/application_side_expand.png) !important;
+}
+
+.animations-icon {
+    background-image:url(/images/icons/layers.png) !important;
+}
+
 .youtube-icon {
     background-image:url(/images/youtube.gif) !important;
 }

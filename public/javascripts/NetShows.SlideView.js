@@ -278,7 +278,6 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
         
         //msg_log("SlideView.setSlide : " + params.number);
         
-        
         //Initialization
         this.slide.show();
         this.fireEvent('resize');

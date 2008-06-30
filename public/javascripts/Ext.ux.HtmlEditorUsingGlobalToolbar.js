@@ -16,7 +16,7 @@ Ext.ux.GlobalHtmlEditorMngr = {
 }
 
 Ext.ux.HtmlEditorToolbar = function(config){
-    if (!config) 
+    if (!config)
         config = {};
     
     Ext.apply(config, {

@@ -15,6 +15,7 @@ Google Maps : remove markers, travel directions,  resize problem
 
 File manager
 	- Return the real size of each files
+	- If a file is inserted in a slide and is moved, change the path in each slides
 
 Drawing Applet
 
@@ -24,6 +25,11 @@ Drawing Applet
 
 Gestion des erreurs AJAX à la FileUploader
 
+Effect list : create a new controller effect. Action : 'get' returns the list of available effects
+
+Slide view :
+	- right click on elements
+	- z-index management
 
 ##### Think about ######
 - Text description on objects (screen reader)
