@@ -84,7 +84,7 @@
 		}
 		
 		this.createDom = function(){
-			//msg_log("element.createDom : " + this.data.type);
+			//msg_log("element.createDom : " + this.data.t);
 			
 			//Append the new node to the slide-wrap
 			this.el = Ext.get(slideId).createChild({

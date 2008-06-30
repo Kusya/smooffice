@@ -38,6 +38,11 @@ body.x-border-layout-ct {
     background-color:transparent !important;
 }
 
+/*
+ * Accordion Panel
+ */
+
+
 /*For main nodes : my-presenations & trash-node*/
 .x-tree-node div.folder-node{
     background:#eee url(/images/cmp-bg.gif) repeat-x;

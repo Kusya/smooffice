@@ -7,14 +7,13 @@
  *  + bug as remove a slide : can't get the right record
  *  + Adjust the size of the thumbs to the panel size
  *  + Select the first slide when the slide-view is rendered
- *  - Modify presentation.slides array to belong the dataStore
 */
 NetShows.SlideBrowser = function(){
 
 	this.actionNew = new Ext.Action({
 		text: (this.newSlideText) ? this.newSlideText : "New Slide",
 		iconCls: 'icon-new-slide',
-		handler: function(){
+		handler: function(){	
 			Ext.Ajax.request({
 				url: '/slide/create',
 				params: {
@@ -120,11 +119,10 @@ NetShows.SlideBrowser = function(){
 		singleSelect: true,
 		overClass: 'x-view-over',
 		itemSelector: 'div.thumb-wrap',
-		emptyText: (this.noSlidesText) ? this.noSlidesText : 'No slide in this presentation',
 		listeners: {
-			selectionchange: function(dataview, nodes){
-				if (nodes.length) {
-					var record = this.slideDataView.getRecord(nodes[0]);
+			click : function(dataview, index, node, e ){
+				if (node) {
+					var record = this.slideDataView.getRecord(node);
 					//Change the slide in the tab view
 					msg_log("select slide number : " + this.presentation.store.indexOf(record));
 					//Event catched in NetShows.js
@@ -146,11 +144,18 @@ NetShows.SlideBrowser = function(){
 	});
 	this.hide();
 	
-	this.init = new Ext.util.DelayedTask(function(){
+	this.firstRender = new Ext.util.DelayedTask(function(){
 		//Select the first slide
 		var myNode = this.slideDataView.getNode(0);
 		if (myNode) {
 			this.slideDataView.select(myNode);
+			var record = this.slideDataView.getRecord(myNode);
+			//Change the slide in the tab view
+			msg_log("select slide number : " + this.presentation.store.indexOf(record));
+			//Event catched in NetShows.js
+			this.fireEvent('selectslide', {
+				number: this.presentation.store.indexOf(record)
+			});
 		}
 	}, this);
 };
@@ -164,7 +169,7 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 	setPresentation: function(presentation){
 		this.slideDataView.setStore(presentation.store);
 		this.presentation = presentation;
-		this.init.delay(100);
+		this.firstRender.delay(0);
 	}
 /*	resizeEvent : function(){
 		if (this.slideDataView.getNodes()[0]) {
