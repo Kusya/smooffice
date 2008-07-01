@@ -86,22 +86,30 @@ NetShows.EditorAccordion = function(){
 		title: (this.optionWindowTitle) ? this.optionWindowTitle : 'Animation order',
 		iconCls: 'icon-preview',
 		width: 200,
-		height: 500,
+		height: 350,
 		resizable: false,
-		plain: false,
-		modal: true,
+		plain: true,
 		autoScroll: true,
 		closeAction: 'hide',
 		bodyBorder: true,
-		items: {
+		shadow:false,
+		listeners: {
+			beforehide: function(){
+				this.animationspanel.getBottomToolbar().items.first().toggle(false);
+				return false
+			},
+			scope:this
+		},
+		items: [{
 			xtype: 'grid',
+			height:'230',
 			ds: ds,
 			cm: colModel,
 			sm: new Ext.grid.RowSelectionModel({
 				singleSelect: true,
 				listeners: {
 					rowselect: function(sm, row, rec){
-						Ext.getCmp("animation-form").getForm().loadRecord(rec);
+						//Ext.getCmp("animation-form").getForm().loadRecord(rec);
 					}
 				}
 			}),
@@ -112,7 +120,7 @@ NetShows.EditorAccordion = function(){
 				},
 				delay: 10 // Allow rows to be rendered before select the first
 			}
-		}
+		}]
 	});
 	
 	this.animationspanel = new Ext.Panel({
@@ -122,17 +130,20 @@ NetShows.EditorAccordion = function(){
 		border: false,
 		bbar: new Ext.StatusBar({
 	        items: [{
+				id:'more-options-btn',
 	            text: 'More options',
 				enableToggle:true,
 				toggleHandler: function(b,state){
 					if (state) {
+						this.optionsAnimationsWindow.show();
+						this.optionsAnimationsWindow.getEl().alignTo(this.animationspanel.getEl(),'tl',[-200,0]);
 						this.optionsAnimationsWindow.getEl().slideIn('r', {
 							easing: 'easeOut',
 							scope: this
 						});
 					}
 					else {
-						this.optionsAnimationsWindow.getEl().ghost('l', {
+						this.optionsAnimationsWindow.getEl().slideOut('r', {
 							easing: 'easeOut',
 							scope: this
 						});
