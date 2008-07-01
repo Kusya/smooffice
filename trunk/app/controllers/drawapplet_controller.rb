@@ -1,8 +1,8 @@
 class DrawappletController < ApplicationController
-
+  
   def draw
   end
-
-  def send
+  
+  def send_svg
   end
 end
