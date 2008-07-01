@@ -1,10 +1,6 @@
 /**
  * @author Clément GONNET
  * The slides main view
- *
- * @to-do:
- * + When resizing the slide, some pictures are not resized
- * + As drag and droping an element, it's not well positionned from the mouse coordinates
  */
 NetShows.SlideView = function(presentation){
     this.presentation = presentation;
@@ -242,13 +238,13 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 				autoScroll: true,
 				closeAction: 'hide',
 				bodyBorder: true,
-				html: '<iframe id="draw-frame" style="border:0" width="100%" height="100%" src="/applet/draw?id=' + this.slide.id + '"></iframe>'
+				html: '<iframe id="draw-frame" style="border:0" width="100%" height="100%" src="/drawapplet/draw?id=' + this.slide.id + '"></iframe>'
 			});
 			this.drawWindow.show();
 		}
 		else {
 			Ext.get('draw-frame').set({
-				src: '/applet/draw?id=' + this.slide.id
+				src: '/drawapplet/draw?id=' + this.slide.id
 			});
 			Ext.get('draw-frame').on('load', this.drawWindow.show, this.drawWindow);
 		}

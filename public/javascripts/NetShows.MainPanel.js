@@ -1,13 +1,6 @@
 /**
  * @author Clément GONNET
  * The main part of the application : preview and edit presentations
- *
- * @to-do
- *  + When closing the last editor mode tab, the browser is not refreshed
- *  + Problem while switching from editor to preview mode : the tab is not well resized
- *  - Desactivate the toolbar for the general tab
- *  - As switching between tabs, keep the selected slide on each presentation
- *  - As switching between editor tabs, slides disappear
  */
 NetShows.MainPanel = function(){
     this.actionEdit = new Ext.Action({

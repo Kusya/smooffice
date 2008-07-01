@@ -1,15 +1,6 @@
 /**
  * @author Clément GONNET
  * Show a list o presentation owned by a user in the west side of the application
- *
- * @to-do:
- *  + Corbeille :
- *  	+ vidage
- *  	+ suppression d'un élément depuis my-presentations
- *  + Différencier le clic du double clic : problème affichage de l'onglet général lors du double clic
- *  + Requete de modification du côté serveur
- *  - Focus champ formulaire lors d'une nouvelle fenetre
- *  - Compresser les codes addNew... et onNew
 */
 NetShows.PresentationBrowser = function(){
 	/*

@@ -1,3 +1,7 @@
+/**
+ * @author Clément GONNET
+ * GoogleMap class file
+ */
 GoogleMap = function(element,attrs){
 	var el;
 	var zoom = attrs.zoom?attrs.zoom:17;

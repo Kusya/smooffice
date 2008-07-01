@@ -1,9 +1,6 @@
  /**
  * @author Clément GONNET
  * Plugin for the Editor Accordion to load elements from an external site
- *
- * @to-do:
- *	- Clean the code in getDragData to create the node
  */
  
  
@@ -118,8 +115,7 @@ Ext.extend(NetShows.EditorAccordion.External, Ext.Panel, {
 						ddel: d,
 						elementData: {
 							url: dataView.getRecord(sourceEl).data.url,
-							type: dataView.ownerCt.type,
-							ext: dataView.ownerCt.ext
+							type: dataView.ownerCt.type
 						}
 					}
 				}
