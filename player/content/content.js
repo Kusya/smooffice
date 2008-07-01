@@ -16,14 +16,24 @@ var presentation1 = {
 				backgroundColor: 'black'
 			},
 			b: [{
-	            t: 'span',
-	            c: '',
+	            t: 'img',
+	            c: {
+					src: 'content/media/bg.png'
+				},
+	            p: {
+	                top: '0%',
+	                left: '0%',
+	                width: '100%',
+	                height: '100%'
+	            }
+	        }, {
+	            t: 'img',
+	            c: {src: 'content/media/greyline.png'},
 	            p: {
 	                top: '19%',
 	                left: '10%',
 	                width: '80%',
-	                height: '1%',
-	                backgroundColor: 'grey'
+	                height: '0.3%'
 	            }
 	        }],
 			e: {
@@ -45,10 +55,22 @@ var presentation1 = {
 			color: 'white'
 		},
 		e: {
+			ea: {
+	            t: 'img',
+	            c: {
+					src: 'content/media/bg.png'
+				},
+	            p: {
+	                top: '0%',
+	                left: '0%',
+	                width: '100%',
+					height: '100%'
+	            }
+	        },
 			e0: {
 	            t: 'img',
 	            c: {
-					src: 'content/media/jQuery_logo.png'
+					src: 'content/media/tQuery_logo.gif'
 				},
 	            p: {
 	                top: '33%',
@@ -64,7 +86,7 @@ var presentation1 = {
 	                left: '10%',
 	                width: '80%',
 	                height: '1%',
-	                backgroundColor: 'grey'
+	                backgroundColor: '#808080'
 	            }
 	        }, 
 			e2: {
@@ -91,6 +113,8 @@ var presentation1 = {
 	        }
 		},
         a: [{
+            o: 'ea'
+        },{
             o: 'e0'
         },{
             o: 'e1'

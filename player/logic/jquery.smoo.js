@@ -113,15 +113,18 @@
 			css = {}, 
 			tmp;
 		for (var i in map) {
-			tmp = $this.css(map[i]);			
+			tmp = $this.css(i);
 			// make sure height, width, top & left are in percent
-			if (/^((wi)|(to)|(lef)|h)/.test(map[i]) && !/%/.test(tmp)) {
-				tmp = Math.round(100 * (parseInt(tmp) / (/(to)|h/.test(map[i]) ? $this.parent('div.smooPresentation').height() : $this.parent('div.smooPresentation').width()))) + '%';
+			if (/^((wi)|(to)|(lef)|h)/.test(i) && !/%$/.test(tmp)) {
+				tmp = Math.round(100 * (parseInt(tmp) / parseInt(/^(to)|h/.test(i) ? 
+					$this.parents('div.smooPresentation').height() :
+					$this.parents('div.smooPresentation').width()))) 
+				+ '%';
 				// TODO : if it happens to often, consider replacing $this.parent('div.smooPresentation').dimension() by a precalculated dimensions
 				console.error('non percent value found in '+$this.attr('id'));
 			}
 			// add style only if different from master
-			if(!master || master[map[i]] === undefined || tmp != master[map[i]]) css[map[i]] = tmp;
+			if((!master || master[map[i]] === undefined || tmp != master[map[i]]) && (i != 'fontSize' || /%$/.test(tmp))) css[i] = tmp;
 		}
 		return css;
 	}

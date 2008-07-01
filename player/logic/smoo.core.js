@@ -208,11 +208,18 @@
 			return $('#'+id).css($.extend({display: 'none', width: '100%', height: '100%', fontSize: '100%'}, css));
 		};
 		
-		this.serialize = function() {
-			return {
-				c: comment,
-				zob: zob
-			};
+		this.serialize = function(master) {
+			var slide = {};			
+			if (comment) slide.c = comment;
+			if (use_master) slide.m = use_master;
+			slide.t = [];
+			slide.t[0] = (master && transition[0].toSource() == master.t[0].toSource())? null : transtion[0];
+			slide.t[1] = (master && transition[1].toSource() == master.t[1].toSource())? null : transtion[1];
+			slide.p = $this.filterCss({backgroundColor:0});
+			slide.e = [];
+			for (var i in this.element)
+				slide.e[i] = this.element[i].serialize();
+			return slide;
 		}
 		
 		var comment = json.c || '',
@@ -257,7 +264,7 @@
 	
 	Element : function(json, $parent, id) {
 		this.forward = function(parameters, next_on, find) {
-			if(parameters.f === undefined)	properties.unshift($this.filterCss(parameters));
+			if(parameters.f === undefined && parameters.constructor != String)	properties.unshift($this.filterCss(parameters));
 			return {el: find? $this.find(find) : $this, next_on: next_on, o: parameters};
 		};
 		
@@ -289,27 +296,25 @@
 		};
 		
 		this.serialize = function(master) {
-			var style = $this.filterCss({top:0, left:0, width:0, height:0});
+			var element = {};
+			element.p = $this.filterCss({top:0, left:0, width:0, height:0});				
 			switch(type) {
 				case 'img':
-					content = {src: $this.attr('src'), title: $this.attr('title')};
+					element.c = {src: $this.attr('src'), title: $this.attr('title')};
 					break;
 				case 'video':
-					content = $this.find('embed').attr('src');
+					element.c = $this.find('embed').attr('src');
 					break;
 				case 'map':
 					// TODO	content = 'todo';
 					break;
 				default:
-					content = $this.html();
-					style = $.extend($this.filterCss({fontSize: 0, color: 0}, master[type]), style);
+					element.c = $this.html();
+					element.p = $.extend($this.filterCss({fontSize:0, fontWeight:0, color:0, textAlign:0}, master? master[type] : undefined), element.p);
 					break;
 			}
-			return {
-				t: type,
-				c: content,
-				p: style
-			};
+			if(type != 'ul') element.t = type;
+			return element;
 		}
 		
 		var type = json.t || 'ul',
