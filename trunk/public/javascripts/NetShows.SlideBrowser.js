@@ -1,12 +1,6 @@
  /**
  * @author Clément GONNET
  * Panel which contain the data view of slides
- *
- * @to-do:
- *  + bug as adding a slide : no meta data
- *  + bug as remove a slide : can't get the right record
- *  + Adjust the size of the thumbs to the panel size
- *  + Select the first slide when the slide-view is rendered
 */
 NetShows.SlideBrowser = function(){
 

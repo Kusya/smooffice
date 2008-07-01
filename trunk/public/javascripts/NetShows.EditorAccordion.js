@@ -1,8 +1,5 @@
 /**
  * @author Clément GONNET
- * 
- * TODO:
- * - When click on the collapse button, the accordion disappears
  */
 
 NetShows.EditorAccordion = function(){
@@ -54,14 +51,16 @@ NetShows.EditorAccordion = function(){
 	
 	//Define the Grid data and create the Grid
     var myData = [
-        ['Slide 1','null',1000,200,'click','top'],
-        ['This is the title of our presentation','drop',1000,100,100,''],
-        ['Image 1','slideIn',400,0,200,'right']
+        [1, 'Slide 1', 'in', 'null', 1000,200,'click','top'],
+        [2, 'This is the title of our presentation','out', 'dropOut',1000,100,100,''],
+        [3, 'Image 1','in','slideIn',400,0,200,'right']
     ];
 
     var ds = new Ext.data.Store({
         reader: new Ext.data.ArrayReader({}, [
+               {name: 'index'},
                {name: 'element'},
+               {name: 'type'},
                {name: 'effect'},
                {name: 'duration', type: 'float'},
                {name: 'delay', type: 'float'},
@@ -73,12 +72,9 @@ NetShows.EditorAccordion = function(){
    	// the DefaultColumnModel expects this blob to define columns. It can be extended to provide
     // custom or reusable ColumnModels
     var colModel = new Ext.grid.ColumnModel([
-        {id:'element',header: "Element", sortable: false, locked:true, dataIndex: 'element'},
-        {header: "Effect", sortable: false, dataIndex: 'effect'},
-        {header: "Duration", sortable: false, dataIndex: 'duration'},
-        {header: "Delay", sortable: false, dataIndex: 'delay'},
-        {header: "Trigger", sortable: false, dataIndex: 'trigger'},
-        {header: "Driection", sortable: false, dataIndex: 'direction'}
+        {id:'index',header: "N°", sortable: false, locked:true, dataIndex: 'index', resizable:false, width:30, fixed:true, hideable:false,menuDisabled:true},
+        {header: "Element", sortable: false, dataIndex: 'element', hideable:false, menuDisabled:true, resizable:true},
+        {header: "Type", sortable: false, dataIndex: 'type', hideable:false, menuDisabled:true, resizable:true, width:40}
     ]);
 	
 	this.optionsAnimationsWindow = new Ext.Window({
@@ -91,36 +87,78 @@ NetShows.EditorAccordion = function(){
 		plain: true,
 		autoScroll: true,
 		closeAction: 'hide',
-		bodyBorder: true,
-		shadow:false,
+		bodyBorder: false,
+		border:false,
+		shadow: false,		
 		listeners: {
 			beforehide: function(){
 				this.animationspanel.getBottomToolbar().items.first().toggle(false);
 				return false
 			},
-			scope:this
+			scope: this
 		},
-		items: [{
+		items: [new Ext.FormPanel({
+			bodyBorder:false,
+			items:[{
 			xtype: 'grid',
-			height:'230',
+			height: 216,
+			viewConfig:{
+				forceFit:true
+			},
+			border:true,
 			ds: ds,
 			cm: colModel,
 			sm: new Ext.grid.RowSelectionModel({
 				singleSelect: true,
 				listeners: {
 					rowselect: function(sm, row, rec){
-						//Ext.getCmp("animation-form").getForm().loadRecord(rec);
+						msg_log(Ext.getCmp("options-window-form"));
+						Ext.getCmp("options-window-form").getForm().loadRecord(rec);
 					}
 				}
 			}),
-			autoExpandColumn: 'element',
+			//autoExpandColumn: 'element',
 			listeners: {
 				render: function(g){
 					g.getSelectionModel().selectRow(0);
 				},
 				delay: 10 // Allow rows to be rendered before select the first
 			}
+		}, {
+			id:'options-window-form',
+			layout: 'form',
+			labelAlign: 'top',
+			defaultType: 'textfield',
+			border:false,
+			height:99,
+			bodyStyle:'margin-top:5px;margin-left:5px;background:transparent',
+			
+			items: [{
+				xtype: 'combo',
+				name: 'trigger',
+				displayField: 'trigger',
+				width: 140,
+				listWidth: 140,
+				store: new Ext.data.SimpleStore({
+					fields: ['trigger'],
+					data: ['On mouse clic', 'After last animation', 'With last animation']
+				}),
+				fieldLabel: (this.triggerText) ? this.triggerText : 'Trigger',
+				forceSelection: true,
+				typeAhead: true,
+				mode: 'local',
+				editable: false,
+				shadow: 'drop',
+				triggerAction: 'all',
+				emptyText: (this.triggerEmptyText) ? this.triggerEmptyText : 'On mouse clic',
+				selectOnFocus: true
+			}, {
+				fieldLabel: 'Delay',
+				value: '0.0 s',
+				name: 'delay'
+			}]
 		}]
+		})]
 	});
 	
 	this.animationspanel = new Ext.Panel({
@@ -202,7 +240,7 @@ NetShows.EditorAccordion = function(){
 					selectOnFocus: true
 				}, {
 					fieldLabel: 'Duration',
-					value: '1.00 s',
+					value: '1.0 s',
 					name: 'duration'
 				}]
 			},{
@@ -248,7 +286,7 @@ NetShows.EditorAccordion = function(){
 					selectOnFocus: true
 				}, {
 					fieldLabel: 'Duration',
-					value: '1.00 s',
+					value: '1.0 s',
 					name: 'duration'
 				}]
             },{
@@ -294,7 +332,7 @@ NetShows.EditorAccordion = function(){
 					selectOnFocus: true
 				}, {
 					fieldLabel: 'Duration',
-					value: '1.00 s',
+					value: '1.0 s',
 					name: 'duration'
 				}]
             }]

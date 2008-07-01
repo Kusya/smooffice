@@ -1,9 +1,6 @@
 /**
  * @author cgonnet
- * 
- * Description of the class Slide which compose a presentation
- * TODO:
- *  + Fix the problem at initialisation, the slide is not properly rendered and the element cannot be positionned
+ * Description of the class Slide which composes a presentation
  */
 
 /* Presentation

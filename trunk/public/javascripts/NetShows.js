@@ -1,12 +1,6 @@
 /**
  * @author Clément GONNET
  * Generate the application and all its components
- * 
- * @to-do
- * + Voir pourquoi le chargement est long : firebug
- * + Template : fr & en
- * + Ruby Server presentation.get_slides return content in a string. Change that to have the wole result in JSON
- *
  * bash$ sudo /usr/local/mysql/bin/mysqld_safe --user=mysql --skip-grant-tables
  */
 

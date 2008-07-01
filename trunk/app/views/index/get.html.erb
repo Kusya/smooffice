@@ -101,8 +101,8 @@
 <body onunload="GUnload()">
 <div id="header">
 	<div style="margin: 5px; width: auto; float: left; clear: left;">Welcome <%= @firstname + ' ' + @lastname %>, enjoy NetShows!</div>
-	<div style="float: right;">
-		<div style="width: auto; float: right; clear: right;margin:5px"><%= link_to "Logout", :controller => 'user', :action => 'logout' %></div>
+	<div style="width: 230px; float: right; clear: right;">
+		<div style="margin: 5px; float: right; clear: right;"><%= link_to "Logout", :controller => 'user', :action => 'logout' %></div>
 		<div id="form_lang" style="float: left; clear: left;margin:1px;"></div>
 	</div>
 </div>

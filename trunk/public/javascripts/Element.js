@@ -2,12 +2,6 @@
  * @author Clément GONNET
  * 
  * Element which compose a slide
- * 
- * TODO:
- * 	- Put a header to videos and maps to perform resize and move
- *  + Make the resize event not from this.data.measures but from the reel state measures
- *  + When a new image is created, calculate its real dimensions top set them to the container div
- *  + Review the destroy function
  */
 
  Element = function(data, slideId){

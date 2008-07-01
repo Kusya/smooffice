@@ -1,8 +1,6 @@
 /**
  * The main panel used for all browsing
  * @author cgonnet
- * 
- * to-do:
  */
 NetShows.BrowserPanel = function(){	
 	/* Presentation List */
