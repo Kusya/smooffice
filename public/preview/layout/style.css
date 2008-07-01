@@ -1,6 +1,5 @@
 .smooPresentation {
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: black;
+	font-family: sans-serif;
 	margin: 0 auto;
 	padding: 0;
 	position: relative;
@@ -31,12 +30,23 @@
 }
 
 .smooElement {
-	display: block;
+	display: none;
 	position: absolute;
-	/* seems that it's better to have text at the wrong place than
-	 * to miss words
-	 */
-	/*overflow: hidden;*/
 	width: auto;
 	height: auto;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol {
+	font-size: 1em;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+
+ul ul li {
+	font-size: 80%;
 }
