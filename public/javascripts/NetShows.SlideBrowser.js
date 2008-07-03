@@ -18,7 +18,7 @@ NetShows.SlideBrowser = function(){
 					//Create the new record
 					var myRecord = new Ext.data.Record({
 						'id': 'slide-' + response.responseText,
-						'comment': (this.noNameText) ? this.noNameText : 'No name'
+						'comment': ''
 					});
 					
 					//Get the selected node to insert the record just after
@@ -30,14 +30,14 @@ NetShows.SlideBrowser = function(){
 						
 						//Update slides array
 						var mySlide = new Slide(myRecord.data);
-						this.presentation.slides.splice(index,0, mySlide);
-						msg_log(this.presentation.slides);
+						this.presentation.slides.splice(index, 0, mySlide);
+					//msg_log(this.presentation.slides);
 					}
 					else {
 						this.presentation.store.add(myRecord);
 						//Update slides array
 						this.presentation.slides.push(new Slide(myRecord.data));
-						msg_log(this.presentation.slides);
+						//msg_log(this.presentation.slides);
 						index = this.presentation.store.getCount() - 1;
 					}
 					this.slideDataView.refresh();
@@ -69,7 +69,7 @@ NetShows.SlideBrowser = function(){
 				//Get the index of the record before deleting
 				var index = this.presentation.store.indexOf(record);
 				
-				//
+				//Make an effect to disappear the slide
 				Ext.fly(node).switchOff({
 					duration: .2,
 					callback: function(){
@@ -137,21 +137,6 @@ NetShows.SlideBrowser = function(){
 		items: this.slideDataView
 	});
 	this.hide();
-	
-	this.firstRender = new Ext.util.DelayedTask(function(){
-		//Select the first slide
-		var myNode = this.slideDataView.getNode(0);
-		if (myNode) {
-			this.slideDataView.select(myNode);
-			var record = this.slideDataView.getRecord(myNode);
-			//Change the slide in the tab view
-			msg_log("select slide number : " + this.presentation.store.indexOf(record));
-			//Event catched in NetShows.js
-			this.fireEvent('selectslide', {
-				number: this.presentation.store.indexOf(record)
-			});
-		}
-	}, this);
 };
 
 Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
@@ -160,10 +145,37 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 		this.slideDataView.refresh();
 		this.slideDataView.select(selected);
 	},
+	savePreviousState: function(){
+		this.presentation.selectedSlides = this.slideDataView.getSelectedIndexes();
+	},
 	setPresentation: function(presentation){
-		this.slideDataView.setStore(presentation.store);
+		//Set the new presentation
 		this.presentation = presentation;
-		this.firstRender.delay(0);
+		
+		//Update the dataview
+		this.slideDataView.setStore(this.presentation.store);
+		this.slideDataView.refresh();
+		
+		this.doLayout();
+		
+		//Select the first slide or the previous one
+		if (this.presentation.selectedSlides === undefined) {
+			//Select the first slide
+			var myNode = this.slideDataView.getNode(0);
+			if (myNode) {
+				this.slideDataView.select(myNode);
+				var record = this.slideDataView.getRecord(myNode);
+				//Change the slide in the tab view
+				msg_log("select slide number : " + this.presentation.store.indexOf(record));
+				//Event catched in NetShows.js
+				this.fireEvent('selectslide', {
+					number: this.presentation.store.indexOf(record)
+				});
+			}
+		}
+		else {
+			this.slideDataView.select(this.presentation.selectedSlides);
+		}
 	}
 /*	resizeEvent : function(){
 		if (this.slideDataView.getNodes()[0]) {

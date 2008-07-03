@@ -11,7 +11,7 @@ NetShows.MainPanel = function(){
         },
         scope: this
     });
-    //this.actionEdit.hide();
+    this.actionEdit.disable();
     
     this.actionFullScreen = new Ext.Action({
         text: (this.fullScreenText) ? this.fullScreenText : 'Full screen',
@@ -21,8 +21,7 @@ NetShows.MainPanel = function(){
         },
         scope: this
     });
-    //this.actionFullScreen.hide();
-    //this.editortoolbar = new NetShows.EditorToolbar();
+    this.actionFullScreen.disable();
     
     NetShows.MainPanel.superclass.constructor.call(this, {
         id: 'main-tabs',
@@ -34,6 +33,11 @@ NetShows.MainPanel = function(){
         minTabWidth: 120,
         enableTabScroll: true,
         plugins: new Ext.ux.TabCloseMenu(),
+		listeners:{
+			render:function(){
+				this.getTopToolbar().tb.disable();
+			}
+		},
         tbar: new Ext.ux.HtmlEditorToolbar({
             enableFormat: true,
             enableFontSize: true,
@@ -91,7 +95,7 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
     },
     
     setSlide: function(params){
-        this.getActiveTab().getComponent("slide-view").setSlide(params);
+        this.getActiveTab().getComponent('slide-view-'+this.getActiveTab().presentation.id).setSlide(params);
     },
     
     onTabChange: function(TabPanel, tab){
@@ -100,12 +104,10 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
             if (tab.id == 'main-view') {
                 msg_log("TabPanel - Preview");
                 this.fireEvent('previewview', tab.presentation);
-                //this.getTopToolbar().show();
             }
             else {
                 msg_log("TabPanel - Editor");
                 this.fireEvent('editorview', tab.presentation);
-                //this.getTopToolbar().hide();
             }
         }
         else {
@@ -134,20 +136,16 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
         NetShows.getPreviewTemplate().overwrite(tab.body, presentation);
         this.setActiveTab(tab);
         
-        this.actionEdit.show();
-        this.actionFullScreen.show();
+        this.actionEdit.enable();
+        this.actionFullScreen.enable();
     },
     //Return the actual edited slide
     getActiveSlide: function(){
-        return this.getActiveTab().getComponent('slide-view').slide;
+        return this.getActiveTab().getComponent('slide-view-'+this.getActiveTab().presentation.id).slide;
     },
     //Return the actual slide-view
     getActiveSlideView: function(){
-        return this.getActiveTab().getComponent('slide-view');
-    },
-    removeElement: function(){
-        if (this.getActiveTab().getComponent('slide-view').focusElement) 
-            this.getActiveTab().getComponent('slide-view').slide.removeElement(this.getActiveTab().getComponent('slide-view').resizableElement, this.getActiveTab().getComponent('slide-view').focusElement);
+        return this.getActiveTab().getComponent('slide-view-'+this.getActiveTab().presentation.id);
     },
     //open a presentation in a new tab
     openPresentation: function(presentation){
@@ -167,24 +165,33 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                 items: new NetShows.SlideView(presentation),
                 listeners: {
                     render: function(){
-                        this.doLayout();
-                        tab.getTopToolbar().on('save', this.getActiveTab().getComponent('slide-view').saveSlide, this.getActiveTab().getComponent('slide-view'));
-                        tab.getTopToolbar().on('newtext', this.getActiveTab().getComponent('slide-view').newText, this.getActiveTab().getComponent('slide-view'));
-                        tab.getTopToolbar().on('newmap', this.getActiveTab().getComponent('slide-view').newMap, this.getActiveTab().getComponent('slide-view'));
-                        tab.getTopToolbar().on('newdrawapplet', this.getActiveTab().getComponent('slide-view').newDrawApplet, this.getActiveTab().getComponent('slide-view'));
-                        tab.getTopToolbar().on('remove', this.removeElement, this);
+						this.doLayout();
+						var slideView = tab.getComponent(0);
+						
+				        //slideView.resizeEvent.call(slideView);
+						
+				        tab.on('resize', slideView.resizeEvent, slideView);
+				        
+        
+                        tab.getTopToolbar().on('save', slideView.saveSlide, slideView);
+                        tab.getTopToolbar().on('newtext', slideView.newText, slideView);
+                        tab.getTopToolbar().on('newmap', slideView.newMap, slideView);
+                        tab.getTopToolbar().on('newdrawapplet', slideView.newDrawApplet, slideView);
+                        tab.getTopToolbar().on('remove', function(){
+							slideView.actionRemove.execute();
+						}, this);
                         tab.getTopToolbar().on('play', function(){
-							tab.getComponent("slide-view").setNoFocus(true);
-							tab.getComponent("slide-view").slide.save(function(){
-								window.open('/presentation/show?id=' + this.getActiveTab().presentation.id);
+							slideView.setNoFocus(true);
+							slideView.slide.save(function(){
+								window.open('/presentation/show?id=' + id);
 							}, this);
 						}, this);
                         tab.getTopToolbar().on('print', function(){
                             msg_log('print');
                         }, this);
                         tab.getTopToolbar().on('preview', function(){
-							tab.getComponent("slide-view").setNoFocus(true);
-                            tab.getComponent("slide-view").slide.save(function(){
+							slideView.setNoFocus(true);
+                            slideView.slide.save(function(){
                                 if (!this.previewWindow) {
                                     this.previewWindow = new Ext.Window({
                                         title: (this.previewWindowTitle) ? this.previewWindowTitle : "Presentation preview",
@@ -197,13 +204,13 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                                         autoScroll: true,
                                         closeAction: 'hide',
                                         bodyBorder: true,
-                                        html: '<iframe id="preview-frame" style="border:0" width="100%" height="100%" src="/presentation/show?id=' + tab.presentation.id + '&slide_id=' + tab.getComponent("slide-view").slide.id + '"></iframe>'
+                                        html: '<iframe id="preview-frame" style="border:0" width="100%" height="100%" src="/presentation/show?id=' + tab.presentation.id + '&slide_id=' + slideView.slide.id + '"></iframe>'
                                     });
                                     this.previewWindow.show();
                                 }
                                 else {
                                     Ext.get('preview-frame').set({
-                                        src: '/presentation/show?id=' + tab.presentation.id + '&slide_id=' + tab.getComponent("slide-view").slide.id
+                                        src: '/presentation/show?id=' + tab.presentation.id + '&slide_id=' + slideView.slide.id
                                     });
                                     Ext.get('preview-frame').on('load', this.previewWindow.show, this.previewWindow);
                                 }
@@ -216,8 +223,6 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                 }
             });
         }
-        //Refreshes the panel
-        tab.on('resize', tab.getComponent("slide-view").resizeEvent, tab.getComponent("slide-view"));
         
         tab.show();
     }

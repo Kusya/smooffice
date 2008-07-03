@@ -2,7 +2,7 @@
  * @author Clément GONNET
  * GoogleMap class file
  */
-GoogleMap = function(element,attrs){
+var GoogleMap = function(element,attrs){
 	var el;
 	var zoom = attrs.zoom?attrs.zoom:17;
 	var markers = attrs.markers?attrs.markers:new Array();
