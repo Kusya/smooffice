@@ -26,6 +26,20 @@
 		this.getHTML = function(){
 			var html = '';
 			this.data.className = this.data.t;
+			/*new Ext.ux.Media({mediaCfg:{
+                             mediaType   : 'SWF'
+                            ,url    : 'clock.swf'
+                            ,id     :  'inlineClock'
+                            ,style: {display:'inline', width:'100px',height:'80px'}
+                            ,start    : true
+                            ,loop     : true
+                            ,controls :false
+                            ,params: {
+                                wmode     :'opaque'
+                               ,scale     :'exactfit'
+                               ,salign    :'t'
+                            }
+                       }})*/
 			switch (this.data.t) {
 				case 'img':
 					html = '<img src="' + this.data.c + '" alt="" title="" width="100%" height="auto" />';
@@ -34,9 +48,9 @@
 					var e = this.data.c.substring(this.data.c.length - 3, this.data.c.length);
 					if (e == 'swf' || e == 'flv') {
 						html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-						html += '<param name="movie" value="' + this.data.c + '&hl=en"></param>';
+						html += '<param name="movie" value="' + this.data.c + '"></param>';
 						html += '<param name="wmode" value="transparent"></param>';
-						html += '<embed width="100%" height="100%" src="' + this.data.c + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+						html += '<embed width="100%" height="100%" src="' + this.data.c + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
 						html += '</object>';
 					}
 					else 
@@ -56,9 +70,9 @@
 								}
 								else {
 									html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-									html += '<param name="movie" value="' + this.data.c + '&hl=en"></param>';
+									html += '<param name="movie" value="' + this.data.c + '"></param>';
 									html += '<param name="wmode" value="transparent"></param>';
-									html += '<embed width="100%" height="100%" src="' + this.data.c + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+									html += '<embed width="100%" height="100%" src="' + this.data.c + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
 									html += '</object>';
 								}
 					
@@ -97,6 +111,7 @@
 				this.el.on('load', this.resizeEvent, this);
 			}
 			this.el.on('click', this.onClick, this);
+			this.el.on('contextmenu', this.onContextMenu, this);
 			
 			this.resizeEvent();
 		}
@@ -169,5 +184,10 @@
 		
 		this.onClick = function(e){
 			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+		}
+		
+		this.onContextMenu = function(e){
+			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+			NetShows.mainPanel.getActiveSlideView().onContextMenu(e,this);
 		}
 	}

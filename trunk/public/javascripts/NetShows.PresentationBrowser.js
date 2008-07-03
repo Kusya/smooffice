@@ -37,6 +37,7 @@ NetShows.PresentationBrowser = function(){
         },
         scope: this
 	});
+	this.actionRemove.disable();
 	
 	this.actionModify = new Ext.Action({
         text: (this.modifyText)?this.modifyText:"Modify",
@@ -105,7 +106,6 @@ NetShows.PresentationBrowser = function(){
 	this.on('dblclick', this.openPresentation, this);
 	this.on('click', this.onClick, this);
     this.on('contextmenu', this.onContextMenu, this);
-	
 	
 	this.on('removeelement', this.onRemove, this);
 	this.on('new', this.onNew, this);
@@ -314,6 +314,9 @@ Ext.extend(NetShows.PresentationBrowser, Ext.tree.TreePanel, {
 	
 	detailsPresentation : function(){
 		var node = (this.ctxNode)?this.ctxNode:this.getSelectionModel().getSelectedNode();
+		
+		//Diable details view for folders
+		if(node.isLeaf())
 		this.fireEvent('presentationselect', node.attributes);
 	},
 

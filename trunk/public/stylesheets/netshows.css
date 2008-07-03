@@ -96,31 +96,31 @@ body.x-border-layout-ct {
 	position:absolute;
 }
 
-#slide-view .x-panel-body{
+.slide-view .x-panel-body{
 	background: #F3F3F3;
 	font: 11px Arial, Helvetica, sans-serif;
 	height: 100%;
 	width: 100%;
 }
 
-#slide-view #slide-wrap{
+.slide-view .slide-wrap{
 	background: #fff;
 	margin: auto;
 	border: 1px solid black;
 	position: relative;
 }
 
-#slide-view .x-view-selected{
+.slide-view .x-view-selected{
 	background: #eff5fb url(/images/selected.gif) no-repeat right bottom;
 	border:1px solid #99bbe8;
 	padding: 4px;
 }
 
-#slide-view .x-view-selected #slide{
+.slide-view .x-view-selected #slide{
 	background:transparent;
 }
 
-#slide-view .loading-indicator {
+.slide-view .loading-indicator {
 	font-size:11px;
 	background-image:url('/ext/resources/images/default/grid/loading.gif');
 	background-repeat: no-repeat;
@@ -130,31 +130,24 @@ body.x-border-layout-ct {
 }
 
 /* Resizable style */
-#slide-view .x-resizable-pinned{
+.slide-view .x-resizable-pinned{
     /*z-index: 100; TODO : manage the index in JavaScript*/
 	overflow: hidden;
 	border: 1px solid #898989;
 	cursor: move;
 	margin:-1px;
 }
-#slide-view .x-resizable-pinned .x-resizable-handle{
+.slide-view .x-resizable-pinned .x-resizable-handle{
     width:6px;
     height:6px;
     background:transparent url(/images/square.gif) no-repeat;
     margin:0px;
 }
-#slide-view .x-resizable-pinned .x-resizable-handle-east, #slide-view .x-resizable-pinned .x-resizable-handle-west{
+.slide-view .x-resizable-pinned .x-resizable-handle-east, #slide-view .x-resizable-pinned .x-resizable-handle-west{
     top:45%;
 }
-#slide-view .x-resizable-pinned .x-resizable-handle-north, #slide-view .x-resizable-pinned .x-resizable-handle-south{
+.slide-view .x-resizable-pinned .x-resizable-handle-north, #slide-view .x-resizable-pinned .x-resizable-handle-south{
     left:45%;
-}
-
-/*
- * Slide Browser
- */
-p.msg {
-	margin : 1em;
 }
 
 /*
@@ -230,7 +223,8 @@ p.msg {
 
 .preview .x-panel-body span.updated-date {
     font-weight:normal;
-    color:#555;
+	font-style:italic;
+    color:#888;
     float:right;
     font-size:11px;
 }

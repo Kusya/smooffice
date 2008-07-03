@@ -37,6 +37,9 @@ Ext.extend(NetShows.BrowserPanel, Ext.Panel, {
 			NetShows.state = 'preview';
 			//msg_log("Browser - Preview view");
 			
+			//Save the state of the slide browser
+			this.slideBrowser.savePreviousState();
+				
 			Ext.fly(this.getEl()).shift({
 				width: 230,
 				concurrent: true,
@@ -68,7 +71,7 @@ Ext.extend(NetShows.BrowserPanel, Ext.Panel, {
 			this.presentationBrowser.actionRemove.show();
 		}
 	},
-	onEditorView : function(){
+	onEditorView: function(presentation){
 		if (NetShows.state == 'preview') {
 			NetShows.state = 'editor';
 			//msg_log("Browser - Editor view");
@@ -80,32 +83,48 @@ Ext.extend(NetShows.BrowserPanel, Ext.Panel, {
 				scope: NetShows.viewport
 			});
 			
+			this.slideBrowser.setPresentation(presentation);
+			
 			this.presentationBrowser.getEl().ghost('l', {
 				easing: 'easeOut',
 				callback: function(){
-					this.presentationBrowser.hide();	
+					this.presentationBrowser.hide();
 					this.slideBrowser.show();
 					this.slideBrowser.getEl().slideIn('r', {
 						easing: 'easeOut',
 						callback: function(){
 							this.fireEvent('show');
 						},
-						scope :this
+						scope: this
 					});
 				},
-				scope:this
-	    	});
-			//this.presentationBrowser.hide();
-			//this.slideBrowser.show();
-			this.setTitle((this.slidesText)?this.slidesText:"Slides");
+				scope: this
+			});
+			this.setTitle((this.slidesText) ? this.slidesText : "Slides");
 			this.presentationBrowser.actionNew.hide();
 			this.presentationBrowser.actionNewFolder.hide();
 			this.presentationBrowser.actionRemove.hide();
 			this.slideBrowser.actionNew.show();
 			this.slideBrowser.actionRemove.show();
+			
+			
 		}
-	},
-	loadSlides : function(presentation){
-		this.slideBrowser.setPresentation(presentation);		
+		else //If switching between editor tabs, ghost the previous slide browser and slide in the new one
+ 			if (NetShows.state == 'editor') {
+				this.slideBrowser.savePreviousState();
+				this.slideBrowser.slideDataView.getEl().ghost('l', {
+					easing: 'easeOut',
+					callback: function(){
+						this.slideBrowser.setPresentation(presentation);
+						this.slideBrowser.slideDataView.getEl().slideIn('r', {
+							easing: 'easeOut'/*,
+							callback:NetShows.viewport.doLayout,
+							scope:NetShows.viewport*/
+						});
+					},
+					scope: this
+				});
+				
+			}
 	}
 });

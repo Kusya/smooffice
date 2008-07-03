@@ -3,20 +3,7 @@
  * Description of the class Slide which composes a presentation
  */
 
-/* Presentation
- * 	- store //Contains the slides
- * 		- init() //Generate the Dom node for each elements
- * 		- data	//Data provided from the server
- * 			- content //Content object corresponding to the received JSON
- * 				- element
- * 					- createDom() //Generate the dom for the specific element
- * 					- type
- * 	
- * 			- html	//Corresponding HTML string of the content
- * 			- id //Id of the slide in the database
- */
-
-Slide = function(data){
+var Slide = function(data, p_id){
 	/*
 	 * Properties
 	 */
@@ -24,11 +11,16 @@ Slide = function(data){
 	this.id = data.id;
 	//Id for the dom element
 	this.slideId = 'slide-wrap-' + this.id;
+	this.presentation_id = p_id;
 	
 	this.data = data;
 	this.elements = [];
-	this.transitions = data.t?data.t:[{f:null},{f:null}];
-	this.animations = data.a?data.a:[];
+	this.transitions = data.t ? data.t : [{
+		f: null
+	}, {
+		f: null
+	}];
+	this.animations = data.a ? data.a : [];
 	
 	//The generated dom corresponding to the slide
 	this.el = null;
@@ -53,7 +45,7 @@ Slide = function(data){
 	
 		//If it's the first time it generates the slide
 		if (!this.el) {
-			this.el = Ext.get('slide-wrap').createChild({
+			this.el = Ext.get('slide-wrap-' + this.presentation_id).createChild({
 				tag: 'div',
 				style: 'height: 100%;width: 100%;top:0px;left:0px;',
 				id: this.slideId
@@ -64,18 +56,19 @@ Slide = function(data){
 				item.createDom();
 			}, this);
 			
-		//If the slide has already been generated
+			//If the slide has already been generated
 		}
 		else {
 			//Shows the slide
 			this.el.setDisplayed(true);
+			
+			//Resize the elements from % values
+			this.resizeEvent();
 		}
-		
-	//NetShows.mainPanel.getActiveTab().getComponent('slide-view').fireEvent('resize');
 	}
 	
 	this.addElement = function(params){
-		var element = new Element(params,this.slideId);
+		var element = new Element(params, this.slideId);
 		this.elements.push(element);
 		element.createDom();
 		return element;
@@ -125,12 +118,14 @@ Slide = function(data){
 	}
 	
 	this.saveDomState = function(){
+		//Save the properties in %
+		this.getProperties();
 		//Hide the slide
 		this.el.setDisplayed(false);
 	}
 	
 	//Send the JSON string of the actual slide
-	this.save = function(callbackFn,scopeFn){
+	this.save = function(callbackFn, scopeFn){
 		//For each element, we get the object used to the JSON
 		var elementJSON = [];
 		Ext.each(this.elements, function(item){
@@ -145,7 +140,7 @@ Slide = function(data){
 		});
 		
 		msg_log(this.json);
-
+		
 		Ext.Ajax.request({
 			url: '/slide/save',
 			params: {

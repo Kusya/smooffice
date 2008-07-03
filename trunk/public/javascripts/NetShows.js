@@ -67,6 +67,7 @@ Ext.onReady(function(){
 		NetShows.accordion.disable();
 	}
 	NetShows.browserPanel.presentationBrowser.on('presentationselect', function(presentation){
+		//presentation.author = NetShows.user.firstname + ' ' + NetShows.user.lastname;
 		NetShows.mainPanel.loadPresentation(presentation);
 		onPreviewView();
 	});
@@ -75,8 +76,7 @@ Ext.onReady(function(){
 	
 	// Event : switch to a tab in Editor Mode
 	function onEditorView(presentation){
-		NetShows.browserPanel.loadSlides(presentation);
-		NetShows.browserPanel.fireEvent('editorview');
+		NetShows.browserPanel.fireEvent('editorview',presentation);
 		NetShows.accordion.expand();
 		NetShows.accordion.enable();
 	}
@@ -107,13 +107,18 @@ Ext.onReady(function(){
 							}
 							
 							presentation.init = function(){
+							
+								
 								//For each slide
 								presentation.store.each(function(item){
 									//Create each slide in the array from the dataStore
-									var mySlide = new Slide(item.data);
+									var mySlide = new Slide(item.data, presentation.id);
 									presentation.slides.push(mySlide);
 								});
 								this.updatePreview();
+								
+								//Open the presentation in a new tab
+								NetShows.mainPanel.openPresentation(presentation);
 							}
 							
 							//Send slides order
@@ -137,16 +142,13 @@ Ext.onReady(function(){
 										order: Ext.util.JSON.encode(presentation.slideOrder)
 									}
 								});
+								
 							};
-							
 							//Initialization
 							presentation.init();
 							
-							//Creating the slide's browser
-							NetShows.browserPanel.loadSlides(presentation);
-							
-							//Open the presentation in a new tab
-							NetShows.mainPanel.openPresentation(presentation);
+							//Switch to the editor view
+							onEditorView(presentation);
 						},
 						scope: this
 					}
@@ -159,18 +161,17 @@ Ext.onReady(function(){
 				}
 			});
 			
-			//The slides already exists
+			
+		//The slides already exists	
 		}
 		else {
-			//Creating the slide's browser
-			NetShows.browserPanel.loadSlides(presentation);
+			//Initialization
+			presentation.init();
 			
-			//Open the presentation in the tab
-			NetShows.mainPanel.openPresentation(presentation);
+			//Switch to the editor view
+			onEditorView(presentation);
 		}
 		
-		//Switch to the editor view
-		onEditorView(presentation);
 	}
 	NetShows.mainPanel.on('presentationopen', onOpenPresentation);
 	NetShows.browserPanel.presentationBrowser.on('presentationopen', onOpenPresentation);

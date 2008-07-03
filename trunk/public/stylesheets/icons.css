@@ -99,11 +99,15 @@
     background-image:url(/images/flickr.gif) !important;
 }
 
-.transitions-icon {
+.transition-icon {
     background-image:url(/images/icons/application_side_expand.png) !important;
 }
 
-.animations-icon {
+.slide-icon {
+    background-image:url(/images/icons/image.png) !important;
+}
+
+.animation-icon {
     background-image:url(/images/icons/layers.png) !important;
 }
 

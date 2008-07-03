@@ -71,11 +71,14 @@ class FolderController < ApplicationController
 									:conditions => "parent_id = #{folder}"
 									)
 		@Childs.each do |child|	
+      
+      @user = User.find_by_id(child.author)
 			@jsonResult.push({ :id => "presentation-#{child.id}",
 							   :text => child.title,
 							   :created_at => "#{child.created_at.strftime("%d/%m/%Y %H:%M:%S")}",
 							   :updated_at => "#{child.updated_at.strftime("%d/%m/%Y %H:%M:%S")}",
 							   :description => child.description,
+                 :author => @user.firstname + ' ' + @user.lastname,
 							   :tags => child.tags,
 							   :leaf => true,
 							   :iconCls => 'presentation-icon' })
