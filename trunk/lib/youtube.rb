@@ -94,6 +94,7 @@ module YouTube
       _parse_video_response(response)
     end
 
+	
     # Returns a list of YouTube::Video objects that match the
     # specified +tag+.
     #
@@ -208,7 +209,13 @@ module YouTube
 
       def _parse_video_response(response)
         videos = response['video_list']['video']
-        videos.is_a?(Array) ? videos.compact.map { |video| Video.new(video) } : nil        
+		total = response['video_list']['total']
+		
+        videos.is_a?(Array) ? videos.compact.map { |video| Video.new(video) } : nil 
+				
+		collection = { 	:total_result => total,
+						:list_videos => videos }
+		
       end
   end
 
