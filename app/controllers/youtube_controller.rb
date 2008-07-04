@@ -26,15 +26,17 @@ class YoutubeController < ApplicationController
 			collection = youtube.videos_by_tag(params[:tags], no_page.to_s, params[:limit])
 		rescue
 		end
+		list_videos = collection[:list_videos]
 
-		collection.each do |video|
+		list_videos.each do |video|
 			begin
-				details = youtube.video_details(video.id)
-				elt = { :title => "#{video.title}", :url => "#{video.embed_url}", :thumbnail => "#{details.thumbnail_url}", :author => "#{details.author}", :description => "#{details.description}", :length => "#{details.length_seconds}", :rating => "#{details.rating_avg}" }
+				details = youtube.video_details(video['id'])
+				url_embed = video['url'].delete('?').sub('=', '/')
+				elt = { :title => "#{video['title']}", :url => "#{url_embed}", :thumbnail => "#{details.thumbnail_url}", :author => "#{details.author}", :description => "#{details.description}", :length => "#{details.length_seconds}", :rating => "#{details.rating_avg}" }
 				videos.push(elt) 
 			rescue
 			end
 		end
-		@ArrayToJson = { :totalCount => collection.size.to_s, :videos => videos }
+		@ArrayToJson = { :totalCount => collection[:total_result], :videos => videos }
 	end
 end
