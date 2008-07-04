@@ -107,17 +107,16 @@ Ext.onReady(function(){
 							}
 							
 							presentation.init = function(){
-							
-								
-								//For each slide
-								presentation.store.each(function(item){
-									//Create each slide in the array from the dataStore
-									var mySlide = new Slide(item.data, presentation.id);
-									presentation.slides.push(mySlide);
-								});
-								this.updatePreview();
-								
-								//Open the presentation in a new tab
+								if (presentation.slides.length == 0) {
+									//For each slide
+									presentation.store.each(function(item){
+										//Create each slide in the array from the dataStore
+										var mySlide = new Slide(item.data, presentation.id);
+										presentation.slides.push(mySlide);
+									});
+									this.updatePreview();
+								}
+								//Open the presentation in a tab
 								NetShows.mainPanel.openPresentation(presentation);
 							}
 							
@@ -147,8 +146,6 @@ Ext.onReady(function(){
 							//Initialization
 							presentation.init();
 							
-							//Switch to the editor view
-							onEditorView(presentation);
 						},
 						scope: this
 					}
