@@ -39,11 +39,16 @@ var presentation1 = {
 			e: {
 				h2: {
 					color: 'white',
-					fontSize: '200%'
+					fontSize: '160%',
+					fontClass: 'V',
+					top: '10%',
+					left: '10%'
 				},
 				ul: {
 					color: 'white',
-					fontSize: '120%'
+					fontClass: 'A',
+					top: '26%',
+					left: '10%'
 				}
 			}
 		}
@@ -51,8 +56,7 @@ var presentation1 = {
 	slide: [{
         t: [null, null],
         p: {
-			backgroundColor: 'black',
-			color: 'white'
+			backgroundColor: 'black'
 		},
 		e: {
 			ea: {
@@ -79,14 +83,13 @@ var presentation1 = {
 	            }
 	        },
 			e1: {
-	            t: 'span',
-	            c: '',
+	            t: 'img',
+	            c: {src: 'content/media/greyline.png'},
 	            p: {
 	                top: '50%',
 	                left: '10%',
 	                width: '80%',
-	                height: '1%',
-	                backgroundColor: '#808080'
+	                height: '0.3%'
 	            }
 	        }, 
 			e2: {
@@ -97,8 +100,10 @@ var presentation1 = {
 	                top: '39%',
 					left: '0%',
 	                width: '100%',
-	                fontSize: '250%',
-	                textAlign: 'center'
+	                fontSize: '230%',
+	                textAlign: 'center',
+					color: 'white',
+					fontClass: 'A'
 	            }
 	        }, 
 			e3: {
@@ -108,7 +113,9 @@ var presentation1 = {
 	            p: {
 	                top: '55%',
 	                width: '100%',
-	                textAlign: 'center'
+	                textAlign: 'center',
+					color: 'white',
+					fontClass: 'A'
 	            }
 	        }
 		},
@@ -131,9 +138,6 @@ var presentation1 = {
 	            t: "h2",
 	            c: "What is jQuery?",
 	            p: {
-	                top: '10%',
-	                left: '10%',
-	                fontSize: '200%'
 	            }
 	        }, 
 			e1: {
@@ -142,8 +146,6 @@ var presentation1 = {
 	  				"simplifies the interaction between HTML<br />"+
 					"and JavaScript.",
 	            p: {
-	                top: '26%',
-	                left: '10%'
 	            }
 	        }
 		},
@@ -160,9 +162,6 @@ var presentation1 = {
 	            t: "h2",
 	            c: "Keep Clean",
 	            p: {
-	                top: '10%',
-	                left: '10%',
-	                fontSize: '200%'
 	            }
 	        }, 
 			e1: {
@@ -176,8 +175,6 @@ var presentation1 = {
 					"// load other version of jQuery"+
 					"$a(“div”).hide(); // still works!",
 	            p: {
-	                top: '26%',
-	                left: '10%'
 	            }
 	        }
 		},
@@ -197,5 +194,59 @@ var presentation1 = {
 				f: 'fade'
 			}
         }]
-    }]
+    }, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Learn with screencasts",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "ul",
+	            c: 	"http://www.youtube.com/v/8mwKq7_JlS8",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'G'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}]
 };

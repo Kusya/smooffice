@@ -9,40 +9,26 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="200"
+   height="150"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
-   inkscape:export-filename="/home/lrbabe/workspace/smooffice player/content/media/bg.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90"
+   version="1.0"
    sodipodi:docname="bg.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4">
     <linearGradient
-       inkscape:collect="always"
-       id="linearGradient3160">
+       id="linearGradient3163">
       <stop
-         style="stop-color:#7f7f7f;stop-opacity:1"
+         style="stop-color:#808080;stop-opacity:1;"
          offset="0"
-         id="stop3162" />
+         id="stop3165" />
       <stop
          style="stop-color:#000000;stop-opacity:1"
          offset="1"
-         id="stop3164" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient3155">
-      <stop
-         style="stop-color:#000000;stop-opacity:1;"
-         offset="0"
-         id="stop3157" />
-      <stop
-         style="stop-color:#4b4b4b;stop-opacity:1;"
-         offset="1"
-         id="stop3159" />
+         id="stop3167" />
     </linearGradient>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
@@ -53,14 +39,14 @@
        id="perspective10" />
     <radialGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient3160"
-       id="radialGradient3166"
-       cx="314.28571"
-       cy="420.21933"
-       fx="314.28571"
-       fy="420.21933"
+       xlink:href="#linearGradient3163"
+       id="radialGradient3169"
+       cx="100"
+       cy="75"
+       fx="100"
+       fy="75"
        r="100"
-       gradientTransform="matrix(1.5142857,1.3871827e-7,-8.7680431e-8,0.9571428,-161.63261,18.009355)"
+       gradientTransform="matrix(1.3428571,6.2072076e-8,-4.5563546e-8,0.9857143,-34.285711,1.0714223)"
        gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
@@ -74,8 +60,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="321.61047"
-     inkscape:cy="658.4506"
+     inkscape:cx="58.124294"
+     inkscape:cy="49.274891"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -99,11 +85,11 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:url(#radialGradient3166);fill-opacity:1;stroke:none;stroke-width:0.69999999000000002;stroke-miterlimit:4;stroke-dasharray:2.10000000000000009, 0.69999999999999996;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:url(#radialGradient3169);fill-opacity:1;stroke:none;stroke-width:0.69999999000000002;stroke-miterlimit:4;stroke-dasharray:2.10000000000000009, 0.69999999999999996;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2383"
        width="200"
        height="150"
-       x="214.28572"
-       y="345.21933" />
+       x="0"
+       y="1.2784912e-14" />
   </g>
 </svg>

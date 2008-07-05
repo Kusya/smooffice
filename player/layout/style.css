@@ -1,32 +1,63 @@
-.smooPresentation {
+div.smooPresentation {
 	font-family: sans-serif;
 	margin: 0 auto;
 	padding: 0;
 	position: relative;
 	display: block;
+	overflow: hidden;
 }
 
 /* CSS reset */
-.smooPresentation *  {
+div.smooPresentation *  {
 	margin: 0;
 	padding: 0;
+	font-size: 1em;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
 }
 
-.smooPresentation li  {
-	margin-left: 1em;
-}
-
-.smooFont, .smooFocus {
+span.smooHide {
 	position: absolute;
-	right: 9999px;
+	width: 0px;
+	overflow: hidden;
 }
 
-.smooSlide {
-	display: none;
+div.smooSlideWrapper {
+	display: block;
+	margin: 0 auto;
+	height: 100%;
+	width: 100%;
+}
+
+div.smooFull {
+	height: 100%;
+	width: 100%;	
+}
+
+div.smooThumb {
+	width:25%;
+	height: 100%;
+	font-size: 25%;
+}
+
+div.smooThumb div.smooSlide  {
+	height:25%;
+}
+
+div.smooSlide {
+	display: block;
 	height: 100%;
 	width: 100%;
 	/*position: absolute;*/
 	position: relative;
+	margin-bottom: 5%;
+}
+
+div.smooElementWrapper {
+	display: none;
+	height: 100%;
+	width: 100%;
 }
 
 .smooElement {
@@ -36,17 +67,71 @@
 	height: auto;
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, ol {
-	font-size: 1em;
-	font-weight: normal;
-	font-style: normal;
-	text-decoration: none;
-}
-
+/* TODO: add .smooPresentation before, or change something else */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 }
 
-ul ul li {
+div.smooPresentation li  {
+	margin-left: 1em;
+}
+
+div.smooPresentation ul ul li {
 	font-size: 80%;
+}
+
+/** Control bar **/
+ul.smooControl {
+	width: 200px;
+	height: 2px;
+	list-style: none;
+	padding: 0;
+	margin: 0 auto -30px;
+	position: relative;
+	bottom: 2px;
+}
+ul.smooControl * {
+	padding: 0;
+	margin: 0;
+}
+ul.smooControl li {
+	height: 100%;
+	float: left;
+}
+ul.smooControl a {
+	display: block;
+	background-position: 0 -30px;			
+	height: 100%;
+	outline: none;
+}
+ul.smooControl a:hover {
+	background-position: 0 0;
+}
+ul.smooControl li.smoofull a {
+	width: 40px; 
+	background-image: url(full.png)
+}
+ul.smooControl li.smoothumb a {
+	width: 40px; 
+	background-image: url(thumb.png)
+}
+ul.smooControl li.smoofr a {
+	width: 32px; 
+	background-image: url(fastrewind.png)
+}
+ul.smooControl li.smoor a {
+	width: 23px; 
+	background-image: url(rewind.png)
+}
+ul.smooControl li.smoof a {
+	width: 32px; 
+	background-image: url(forward.png)
+}
+ul.smooControl li.smooff a {
+	width: 32px; 
+	background-image: url(fastforward.png)
+}
+ul.smooControl li.smooborder a {
+	width: 41px; 
+	background-image: url(border.png)
 }
