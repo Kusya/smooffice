@@ -103,7 +103,6 @@ var Slide = function(data, p_id){
 		resizable.destroy();
 		resizable = null;
 		element = null;
-		msg_log(this.elements);
 	}
 	
 	this.getPreview = function(){
@@ -150,7 +149,7 @@ var Slide = function(data, p_id){
 			elementJSON[i] = this.elements[i].getJSON();
 		}
 		
-		msg_log(elementJSON);	
+		msg_log(elementJSON);
 		
 		this.json = Ext.util.JSON.encode({
 			c: '',//Commentaires
@@ -159,8 +158,6 @@ var Slide = function(data, p_id){
 			e: elementJSON,
 			p: this.properties
 		});
-		
-		msg_log(this.json);
 		
 		Ext.Ajax.request({
 			url: '/slide/save',

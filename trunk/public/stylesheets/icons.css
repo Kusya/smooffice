@@ -19,6 +19,23 @@
 .icon-delete-slide {
     background-image:url(/images/icons/image_delete.png) !important;
 }
+
+/*
+ * NetShows.SlideView
+ */
+.icon-move-forwards {
+    background-image:url(/images/icons/shape_move_forwards.png) !important;
+}
+.icon-move-backwards {
+    background-image:url(/images/icons/shape_move_backwards.png) !important;
+}
+.icon-move-front {
+    background-image:url(/images/icons/shape_move_front.png) !important;
+}
+.icon-move-back {
+    background-image:url(/images/icons/shape_move_back.png) !important;
+}
+
 /*
  * NetShows.PresentationBrowser
  */
