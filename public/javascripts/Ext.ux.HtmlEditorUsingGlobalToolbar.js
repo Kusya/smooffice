@@ -281,7 +281,7 @@ Ext.ux.HtmlEditorUsingGlobalToolbar = Ext.extend(Ext.form.HtmlEditor, {
         Ext.TaskMgr.start(task);
         
 		this.wrap.applyStyles("width:100%;height:100%;background:transparent;");
-		Ext.get(this.iframe).applyStyles("width:100%;height:96%;background:transparent;");
+		Ext.get(this.iframe).applyStyles("width:100%;height:96%;background:transparent;overflow:hidden;");
         /*if (!this.width) {
             this.setSize(this.el.getSize());
         }*/

@@ -190,7 +190,9 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 				var LeftTop = panel.getLeftTop(e);
 				var myElement = panel.slide.addElement({
 					t: data.elementData.type,
-					c: data.elementData.url,
+					c: {
+						src: data.elementData.url
+					},
 					p: {
 						top: LeftTop.top,
 						left: LeftTop.left

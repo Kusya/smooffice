@@ -19,11 +19,6 @@ html, body{
 	height: 100%;
 }
 
-.x-html-editor-wrap {
-    border:1px solid #a9bfd3;
-    background:transparent;
-}
-
 body.x-border-layout-ct {
     background:#c3d5ed url(/images/bg.gif) repeat-x left top !important;
 }
@@ -46,7 +41,6 @@ body.x-border-layout-ct {
 /*
  * Accordion Panel
  */
-
 
 /*For main nodes : my-presenations & trash-node*/
 .x-tree-node div.folder-node{
@@ -83,6 +77,11 @@ body.x-border-layout-ct {
  * Slide View
  */
 
+.x-html-editor-wrap {
+    border:none;
+    background:transparent;
+}
+
 .x-html-editor-tb .x-edit-undo .x-btn-text {
   background: transparent url(/images/htmleditorundoredo.gif) no-repeat;
   background-position: 0 0;
@@ -96,9 +95,12 @@ body.x-border-layout-ct {
 .move-corner {
 	width:16px;
 	height:16px;
-	background-color:#bbbbbb;
+	/*background-color:#bbbbbb;*/
 	z-index:200;
+	top:1px;
+	left:1px;
 	position:absolute;
+	background: url('/images/icons/arrow_out.png') transparent;
 }
 
 .slide-view .x-panel-body{
@@ -134,13 +136,16 @@ body.x-border-layout-ct {
 	margin:10px;
 }
 
+.slide-view .text{
+	border: 1px solid #898989;
+	margin: -1px;
+}
+
 /* Resizable style */
 .slide-view .x-resizable-pinned{
-    /*z-index: 100; TODO : manage the index in JavaScript*/
 	overflow: hidden;
-	border: 1px solid #898989;
+	/*border: 1px solid #898989;*/
 	cursor: move;
-	margin:-1px;
 }
 .slide-view .x-resizable-pinned .x-resizable-handle{
     width:6px;

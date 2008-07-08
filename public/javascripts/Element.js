@@ -59,12 +59,12 @@
                        }})*/
 			switch (this.data.t) {
 				case 'img':
-					html = '<img src="' + this.data.c.src + '" alt="" title="" width="100%" height="auto" />';
+					html += '<img src="' + this.data.c.src + '" alt="" title="" width="100%" height="auto" />';
 					break;
 				case 'video':
 					var e = this.data.c.src.substring(this.data.c.src.length - 3, this.data.c.src.length);
 					if (e == 'swf' || e == 'flv') {
-						html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
+						html += '<object width="100%" height="100%" style="z-index:1;position:absolute">';
 						html += '<param name="movie" value="' + this.data.c.src + '"></param>';
 						html += '<param name="wmode" value="transparent"></param>';
 						html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
@@ -97,12 +97,12 @@
 					break;
 					
 				case 'map':
-					html = '<div class="move-corner">&nbsp;</div>';
 					html += '<img src="/images/map.gif" alt="" title="" style="width:100%;height:auto;position:absolute;" />';
+					html += '<div class="move-corner">&nbsp;</div>';
 					break;
 					
 				default:
-					html = '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
+					html += '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
 					this.data.className = 'text';
 			}
 			return html;
