@@ -19,6 +19,11 @@ html, body{
 	height: 100%;
 }
 
+.x-html-editor-wrap {
+    border:1px solid #a9bfd3;
+    background:transparent;
+}
+
 body.x-border-layout-ct {
     background:#c3d5ed url(/images/bg.gif) repeat-x left top !important;
 }
@@ -255,9 +260,9 @@ body.x-border-layout-ct {
 	display: block;
 	border: 1px solid #aaa;
 	margin: 5px;
-	padding: 4px;
-	width: 131px;
-	height: 95px;
+	/*padding: 4px;*/
+	width: 141px;
+	height: 106px;
 	overflow: hidden;
 }
 
@@ -278,18 +283,15 @@ body.x-border-layout-ct {
 
 #slides-preview .x-view-over{
     border:1px solid #dddddd;
-    background: #efefef url(/ext/resources/images/default/grid/row-over.gif) repeat-x left top;
-	padding: 4px;
+    /*background: #efefef url(/ext/resources/images/default/grid/row-over.gif) repeat-x left top;*/
+	/*padding: 4px;*/
 }
 
 #slides-preview .x-view-selected{
-	background: #eff5fb url(/images/selected.gif) no-repeat right bottom;
+	/*background: #eff5fb url(/images/selected.gif) no-repeat right bottom;*/
 	border:2px solid #99bbe8;
-	padding: 4px;
+	/*padding: 4px;*/
 	margin: 4px;
-}
-#slides-preview .x-view-selected .thumb{
-	background:transparent;
 }
 
 #slides-preview .loading-indicator {

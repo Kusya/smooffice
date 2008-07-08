@@ -276,7 +276,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		//Set to null the focus element
 		this.setNoFocus(true);
 		
-		msg_log("SlideView.setSlide : " + params.number);
+		//msg_log("SlideView.setSlide : " + params.number);
 		
 		//Initialization
 		this.slide.show();

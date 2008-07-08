@@ -4,20 +4,37 @@
  * Element which compose a slide
  */
 
- Element = function(data, slideId){
+ Element = function(data, slideId, index){
  	/*
 	 * Properties
 	 */
 		this.data = data;
 		this.id = Ext.id();
 		this.slideId = slideId;
+		this.index = "e"+index;
+		
+		//Generate CSS string
+		this.cssStyle = '';
+
 		
 	/*
 	 * Functions
 	 */
+				
+		this.generateCSS = function(){
+			for (var l in this.data.p) {
+				this.cssStyle += l.replace(/[A-Z]/, function(match){
+					return '-' + match.toLowerCase();
+				}) +
+				': ' +
+				this.data.p[l] +
+				';';
+			}
+		}
 		
 		this.getPreview = function(){
-			var html = '<div style="position: absolute;width:' + this.data.p.width + ';height:' + this.data.p.height + ';top:' + this.data.p.top + ';left:' + this.data.p.left + ';">';
+			this.generateCSS();
+			var html = '<div style="' + this.cssStyle + 'position: absolute;">';
 			html += this.getHTML();
 			html += '</div>';
 			return html;
@@ -42,37 +59,37 @@
                        }})*/
 			switch (this.data.t) {
 				case 'img':
-					html = '<img src="' + this.data.c + '" alt="" title="" width="100%" height="auto" />';
+					html = '<img src="' + this.data.c.src + '" alt="" title="" width="100%" height="auto" />';
 					break;
 				case 'video':
-					var e = this.data.c.substring(this.data.c.length - 3, this.data.c.length);
+					var e = this.data.c.src.substring(this.data.c.src.length - 3, this.data.c.src.length);
 					if (e == 'swf' || e == 'flv') {
 						html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-						html += '<param name="movie" value="' + this.data.c + '"></param>';
+						html += '<param name="movie" value="' + this.data.c.src + '"></param>';
 						html += '<param name="wmode" value="transparent"></param>';
-						html += '<embed width="100%" height="100%" src="' + this.data.c + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+						html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
 						html += '</object>';
 					}
 					else 
 						if (e == 'wmv' || e == 'wma' || e == 'asx' || e == 'asf') {
-							html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c + '" autostart="0" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"></embed>';
+							html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="0" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"></embed>';
 							
 						}
 						else 
 							if (e == 'mov' || e == 'mp4') {
-								html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c + '" autoplay="false" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
+								html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autoplay="false" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
 								
 							}
 							else 
 								if (e == '.rm') {
-									html += '<embed type="audio/x-pn-realaudio-plugin" style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c + '" autostart="false" controls="imagewindow" nojava="true" console="c1212599607702" pluginspage="http://www.real.com/"></embed>';
-									html += '<br><embed type="audio/x-pn-realaudio-plugin"  style="z-index:1;position:absolute" width="100%" height="26" src="' + this.data.c + '" autostart="false" nojava="true" controls="ControlPanel" console="c1212599607702"></embed>';
+									html += '<embed type="audio/x-pn-realaudio-plugin" style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="false" controls="imagewindow" nojava="true" console="c1212599607702" pluginspage="http://www.real.com/"></embed>';
+									html += '<br><embed type="audio/x-pn-realaudio-plugin"  style="z-index:1;position:absolute" width="100%" height="26" src="' + this.data.c.src + '" autostart="false" nojava="true" controls="ControlPanel" console="c1212599607702"></embed>';
 								}
 								else {
 									html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-									html += '<param name="movie" value="' + this.data.c + '"></param>';
+									html += '<param name="movie" value="' + this.data.c.src + '"></param>';
 									html += '<param name="wmode" value="transparent"></param>';
-									html += '<embed width="100%" height="100%" src="' + this.data.c + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+									html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
 									html += '</object>';
 								}
 					
@@ -101,18 +118,24 @@
 				html: this.getHTML()
 			});
 			
-			this.el.applyStyles(Ext.util.JSON.encode(this.data.p));
+			//Apply CSS style to the element
+			this.el.applyStyles(this.cssStyle);
 			
+			//Add the proper class belonging the type of element
 			this.el.addClass(this.data.className);
+			
 			
 			if (this.data.t == 'map') {
 				this.data.c = !this.data.c?{}:this.data.c;
 				this.map = new GoogleMap(this.el.dom, this.data.c);
 				this.el.on('load', this.resizeEvent, this);
 			}
+			
+			//Add listeners
 			this.el.on('click', this.onClick, this);
 			this.el.on('contextmenu', this.onContextMenu, this);
 			
+			//Set the right measurements and position
 			this.resizeEvent();
 		}
 		this.destroy = function(){

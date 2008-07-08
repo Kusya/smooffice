@@ -271,6 +271,7 @@ Ext.ux.HtmlEditorUsingGlobalToolbar = Ext.extend(Ext.form.HtmlEditor, {
                     Ext.TaskMgr.stop(task);
                     this.doc.designMode = "on";
                     this.initEditor.defer(10, this);
+					Ext.get(this.doc.body).applyStyles('background:transparent none;');
                 }
             },
             interval: 10,
@@ -279,8 +280,8 @@ Ext.ux.HtmlEditorUsingGlobalToolbar = Ext.extend(Ext.form.HtmlEditor, {
         };
         Ext.TaskMgr.start(task);
         
-		this.wrap.applyStyles("width:100%;height:100%;");
-		Ext.get(this.iframe).applyStyles("width:100%;height:96%;");
+		this.wrap.applyStyles("width:100%;height:100%;background:transparent;");
+		Ext.get(this.iframe).applyStyles("width:100%;height:96%;background:transparent;");
         /*if (!this.width) {
             this.setSize(this.el.getSize());
         }*/
@@ -299,7 +300,32 @@ Ext.ux.HtmlEditorUsingGlobalToolbar = Ext.extend(Ext.form.HtmlEditor, {
 		'</style></head><body></body></html>';
 
     },
-	    // private
+	
+	initEditor : function(){
+        /*var dbody = this.getEditorBody();
+        var ss = this.el.getStyles('font-size', 'font-family', 'background-image', 'background-repeat');
+        ss['background-attachment'] = 'fixed'; // w3c
+        dbody.bgProperties = 'fixed'; // ie
+        Ext.DomHelper.applyStyles(dbody, ss);*/
+        Ext.EventManager.on(this.doc, {
+            'mousedown': this.onEditorEvent,
+            'dblclick': this.onEditorEvent,
+            'click': this.onEditorEvent,
+            'keyup': this.onEditorEvent,
+            buffer:100,
+            scope: this
+        });
+        if(Ext.isGecko){
+            Ext.EventManager.on(this.doc, 'keypress', this.applyCommand, this);
+        }
+        if(Ext.isIE || Ext.isSafari || Ext.isOpera){
+            Ext.EventManager.on(this.doc, 'keydown', this.fixKeys, this);
+        }
+        this.initialized = true;
+
+        this.fireEvent('initialize', this);
+        this.pushValue();
+    },
 
     /*adjustFont: function(btn){
         var adjust = btn.itemId == 'increasefontsize' ? 10 : -10;
