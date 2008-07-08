@@ -89,12 +89,10 @@ Ext.onReady(function(){
 		if (!presentation.store) {
 			presentation.store = new Ext.data.JsonStore({
 				url: '/presentation/get_slides',
-				fields: ['id', 'comment', 'a', 'e', 't'],
+				fields: ['id', 'comment', 'a', 'e', 't', 'p'],
 				listeners: {
 					'load': {
 						fn: function(){
-						
-						
 							//Array of slides
 							presentation.slides = [];
 							
@@ -103,6 +101,7 @@ Ext.onReady(function(){
 								Ext.each(this.slides, function(item){
 									var index = this.slides.indexOf(item);
 									this.store.getAt(index).data.html = item.getPreview();
+									//NetShows.browserPanel.slideBrowser.slideDataView.refresh();
 								}, this);
 							}
 							

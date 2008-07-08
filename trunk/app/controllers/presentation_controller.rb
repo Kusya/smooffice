@@ -26,7 +26,7 @@ class PresentationController < ApplicationController
       newOrder.save
       
       newContent = Content.new
-      newContent.json = "{}"
+      newContent.json = '{"p":{"backgroundColor":"white"}}'
       newContent.of_slide = newSlide.id
       newContent.save
       
@@ -135,13 +135,13 @@ class PresentationController < ApplicationController
               :description => presentation.description,
               :created_at => "#{presentation.created_at}",
               :updated_at => "#{presentation.updated_at}",
-              :master => {:p=>{"backgroundColor"=>"black","color"=>"white"},:t=>[{
+              :master => {:t=>[{
                   :f=> 'slide',
                   :direction=> 'down'
                 },{
                   :f=> 'slide',
                   :direction=> 'up'
-                }],:e=>{},:a=>{:f=>"fade"}},
+                }]},
               :slide => get_slides}
           end
         end

@@ -14,7 +14,12 @@ var Slide = function(data, p_id){
 	this.presentation_id = p_id;
 	
 	this.data = data;
-	this.elements = [];
+	this.properties = data.p ? data.p : {};
+	this.elements = data.e?data.e:{};
+	
+	//Number of elements
+	this.nbElements = 0;
+	
 	this.transitions = data.t ? data.t : [{
 		f: null
 	}, {
@@ -31,14 +36,24 @@ var Slide = function(data, p_id){
 	//Generate slide content
 	this.init = function(){
 		//If the slide has elements
-		if (this.data.e) {
-			Ext.each(this.data.e, function(item){
-				this.elements.push(new Element(item, this.slideId));
-			}, this);
+		if (this.elements != {}) {
+			for (var i in this.elements) {
+				this.elements[i] = new Element(this.elements[i],this.slideId, i);
+			}
+			this.nbElements = i;
+		}
+		//Apply css style to the slide
+		this.cssStyle = '';
+		for (var l in this.properties) {
+			this.cssStyle += l.replace(/[A-Z]/, function(match){
+				return '-' + match.toLowerCase();
+			}) +
+			': ' +
+			this.data.p[l] +
+			';';
 		}
 	}
 	
-	this.init();
 	
 	//Create the dom element
 	this.show = function(){
@@ -51,10 +66,12 @@ var Slide = function(data, p_id){
 				id: this.slideId
 			});
 			
-			//msg_log('slide.createDom');
-			Ext.each(this.elements, function(item){
-				item.createDom();
-			}, this);
+			this.el.applyStyles(this.cssStyle);
+			
+			//msg_log('slide.createDom');	
+			for (var i in this.elements) {
+				this.elements[i].createDom();
+			}
 			
 			//If the slide has already been generated
 		}
@@ -68,49 +85,49 @@ var Slide = function(data, p_id){
 	}
 	
 	this.addElement = function(params){
-		var element = new Element(params, this.slideId);
-		this.elements.push(element);
+		var element = new Element(params, this.slideId, this.nbElements++);
 		element.createDom();
+		eval("this.elements.e" + this.nbElements + " = element;");
 		return element;
 	}
 	
 	this.removeElement = function(resizable, element){
 		//Remove the element from the elements table
-		var index = this.elements.indexOf(element);
-		this.elements.splice(index);
+		//var index = this.elements.indexOf(element);
+		//this.elements.splice(index);
 		
 		//Destroy the element
 		element.destroy();
-		
-		//Delete the element
-		//resizable.getEl().remove();
 		
 		//Destroy the resizable element
 		resizable.destroy();
 		resizable = null;
 		element = null;
+		msg_log(this.elements);
 	}
 	
 	this.getPreview = function(){
-		var globalHtml = '';
-		Ext.each(this.elements, function(item){
-			globalHtml += item.getPreview();
-		}, this);
+		var globalHtml = '<div style="'+this.cssStyle+'width:100%;height:100%;position:absolute;">';
+		for (var i in this.elements) {
+			globalHtml += this.elements[i].getPreview();
+		}
+		globalHtml += '</div>'
 		return globalHtml;
 	}
 	
 	this.getProperties = function(){
-		Ext.each(this.elements, function(item){
-			item.getProperties();
-		}, this);
+		for (var i in this.elements) {
+			this.elements[i].getProperties();
+		}
 	}
 	
 	this.resizeEvent = function(){
 		//Resize only if the size changed
 		if (this.lastSize != this.el.getWidth()) {
-			Ext.each(this.elements, function(item){
-				item.resizeEvent();
-			}, this);
+			
+			for (var i in this.elements) {
+				this.elements[i].resizeEvent();
+			}
 			
 			//Save the last size of the slide
 			this.lastSize = this.el.getWidth();
@@ -127,16 +144,20 @@ var Slide = function(data, p_id){
 	//Send the JSON string of the actual slide
 	this.save = function(callbackFn, scopeFn){
 		//For each element, we get the object used to the JSON
-		var elementJSON = [];
-		Ext.each(this.elements, function(item){
-			elementJSON.push(item.getJSON());
-		}, this);
+		var elementJSON = {};
+		
+		for (var i in this.elements) {
+			elementJSON[i] = this.elements[i].getJSON();
+		}
+		
+		msg_log(elementJSON);	
 		
 		this.json = Ext.util.JSON.encode({
 			c: '',//Commentaires
 			a: this.animations,
 			t: this.transitions,
-			e: elementJSON
+			e: elementJSON,
+			p: this.properties
 		});
 		
 		msg_log(this.json);
@@ -152,4 +173,6 @@ var Slide = function(data, p_id){
 			scope: scopeFn
 		});
 	};
+	
+	this.init();
 }
