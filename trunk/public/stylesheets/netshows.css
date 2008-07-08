@@ -136,15 +136,11 @@ body.x-border-layout-ct {
 	margin:10px;
 }
 
-.slide-view .text{
-	border: 1px solid #898989;
-	margin: -1px;
-}
-
 /* Resizable style */
 .slide-view .x-resizable-pinned{
 	overflow: hidden;
-	/*border: 1px solid #898989;*/
+	border: 1px solid #898989;
+	margin:-1px;
 	cursor: move;
 }
 .slide-view .x-resizable-pinned .x-resizable-handle{
