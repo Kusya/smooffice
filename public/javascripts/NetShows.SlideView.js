@@ -54,10 +54,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 				//Remove the resizable class
 				this.resizableElement.getEl().removeClass('x-resizable-pinned');
 				this.resizableElement.destroy(false);
-				if (this.focusElement.data.className == 'text') {
-					this.focusElement.el.dom.innerHTML = this.focusElement.data.c = this.focusElement.el.editor.getValue();
-					this.focusElement.el.editor.destroy();
-				}
+				this.focusElement.blur();
 			}
 			else {
 				return false;
@@ -84,15 +81,6 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 					preserveRatio: false,
 					wrap: false
 				});
-				
-				element.el.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
-					globalToolBar: NetShows.mainPanel.getTopToolbar(),
-					value: element.el.dom.innerHTML
-				});
-				element.el.hide();
-				element.el.dom.innerHTML = '';
-				element.el.editor.render(element.el.dom)
-				element.el.show();
 				break;
 			case 'img':
 				//msg_log("image");
@@ -109,7 +97,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 				});
 				break;
 			case 'map':
-				//msg_log("video");
+				//msg_log("map");
 				Ext.apply(config, {
 					preserveRatio: false,
 					wrap: false
@@ -121,6 +109,13 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		}
 		
 		var myResizableElement = new Ext.Resizable(element.el, config);
+		
+		if(element.data.className == 'text'){
+			myResizableElement.dd.endDrag = function(){
+				msg_log('onDrop');
+				element.endDrag = true;
+			}
+		}
 		
 		this.focusElement = element;
 		this.resizableElement = myResizableElement;

@@ -206,9 +206,42 @@
 		}
 		
 		this.onClick = function(e){
-			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+			//msg_log('click');
+			if (this.data.className == 'text') {
+				if (this.mode == null) {
+					this.mode = 'focus';
+					NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+				}
+				else 
+					if (this.mode == 'focus' && !this.endDrag) {
+						this.mode = 'editor';
+						this.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
+							globalToolBar: NetShows.mainPanel.getTopToolbar(),
+							value: this.el.dom.innerHTML
+						});
+						this.el.hide();
+						this.el.dom.innerHTML = '';
+						this.editor.render(this.el.dom);
+						this.el.show();
+					}
+			}else{
+				NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+			}
+			this.endDrag = false;
+			msg_log('onClick mode : ' + this.mode);
 		}
-		
+		this.blur = function(){
+			msg_log('blur');
+			if (this.data.className == 'text') {
+				msg_log(this.mode);
+				if (this.mode == 'editor') {
+					this.endDrag = false;
+					this.el.dom.innerHTML = this.data.c = this.editor.getValue();
+					this.editor.destroy();
+				}
+				this.mode = null;
+			}
+		}
 		this.onContextMenu = function(e){
 			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 			NetShows.mainPanel.getActiveSlideView().onContextMenu(e,this);
