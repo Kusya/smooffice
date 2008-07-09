@@ -16,6 +16,69 @@ NetShows.SlideView = function(presentation){
 		scope: this
 	});
 	
+	this.actionMoveBack = new Ext.Action({
+		iconCls: 'icon-move-back',
+		text: (this.moveBackText) ? this.moveBackText : "Move back",
+		handler: function(){
+			if (this.focusElement.data.p.zIndex != this.slide.minIndex) {
+				if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
+					this.slide.maxIndex--;
+				}
+				this.slide.minIndex--;
+				this.focusElement.setIndex(this.slide.minIndex);
+			}
+		},
+		scope: this
+	});
+	
+	this.actionMoveBackwards = new Ext.Action({
+		iconCls: 'icon-move-backwards',
+		text: (this.moveBackwardsText) ? this.moveBackwardsText : "Move backwards",
+		handler: function(){
+			if (this.focusElement.data.p.zIndex != this.slide.minIndex) {
+				if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
+					this.slide.maxIndex--;
+				}
+				this.focusElement.setIndex(this.focusElement.data.p.zIndex--);
+			}
+		},
+		scope: this
+	});
+	
+	this.actionMoveFront = new Ext.Action({
+		iconCls: 'icon-move-front',
+		text: (this.moveFrontText) ? this.moveFrontText : "Move front",
+		handler: function(){
+			if (this.focusElement.data.p.zIndex != this.slide.maxIndex) {
+				if(this.focusElement.data.p.zIndex == this.slide.minIndex){
+					this.slide.minIndex++;
+				}
+				this.slide.maxIndex++;
+				this.focusElement.setIndex(this.slide.maxIndex);
+			}
+		},
+		scope: this
+	});
+	
+	this.actionMoveForwards = new Ext.Action({
+		iconCls: 'icon-move-forwards',
+		text: (this.moveForwardsText) ? this.moveForwardsText : "Move forwards",
+		handler: function(){
+			if (this.focusElement.data.p.zIndex != this.slide.maxIndex) {
+				if(this.focusElement.data.p.zIndex == this.slide.minIndex){
+					msg_log('min');
+					this.slide.minIndex++;
+				}
+				this.focusElement.setIndex(this.focusElement.data.p.zIndex++);
+				msg_log(this.focusElement.data.p.zIndex++);
+			}else{
+				this.slide.maxIndex++;
+				this.focusElement.setIndex(this.slide.maxIndex);
+			}
+		},
+		scope: this
+	});
+	
 	NetShows.SlideView.superclass.constructor.call(this, {
 		id: 'slide-view-'+this.presentation.id,
 		cls:'slide-view',
@@ -326,7 +389,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		if (!this.menuElement) { // create context menu on first right click
 			this.menuElement = new Ext.menu.Menu({
 				id: 'element-ctx',
-				items: [this.actionRemove]
+				items: [this.actionRemove,this.actionMoveBack,this.actionMoveBackwards,this.actionMoveForwards,this.actionMoveFront]
 			});
 		}
 		

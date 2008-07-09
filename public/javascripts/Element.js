@@ -171,6 +171,11 @@
 			};
 		}
 		
+		this.setIndex = function(zIndex){
+			this.el.applyStyles('z-index:' + zIndex);
+			this.data.p.zIndex = zIndex;
+		}
+		
 		this.getProperties = function(){
 			//Get the left value
 			var diffX = this.el.getX() - Ext.get(this.slideId).getX();
@@ -206,7 +211,6 @@
 		}
 		
 		this.onClick = function(e){
-			//msg_log('click');
 			if (this.data.className == 'text') {
 				if (this.mode == null) {
 					this.mode = 'focus';
@@ -214,6 +218,8 @@
 				}
 				else 
 					if (this.mode == 'focus' && !this.endDrag) {
+						//Remove the resizable element
+						NetShows.mainPanel.getActiveSlideView().setNoFocus(true);
 						this.mode = 'editor';
 						this.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
 							globalToolBar: NetShows.mainPanel.getTopToolbar(),
@@ -228,12 +234,9 @@
 				NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 			}
 			this.endDrag = false;
-			msg_log('onClick mode : ' + this.mode);
 		}
 		this.blur = function(){
-			msg_log('blur');
 			if (this.data.className == 'text') {
-				msg_log(this.mode);
 				if (this.mode == 'editor') {
 					this.endDrag = false;
 					this.el.dom.innerHTML = this.data.c = this.editor.getValue();
