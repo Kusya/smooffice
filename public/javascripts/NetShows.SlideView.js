@@ -108,15 +108,20 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		this.presentation.updatePreview();
 		NetShows.browserPanel.slideBrowser.refresh();
 	},
+	removeResizable: function(){
+		if (this.resizableElement) {
+			//Remove the resizable class
+			this.resizableElement.getEl().removeClass('x-resizable-pinned');
+			this.resizableElement.destroy(false);
+		}
+	},
 	setFocusElement: function(element){
 		//If there was a previous selected resizable element then it should be destroyed
 		if (this.focusElement) {
 		
 			//But if its the same, we won't delete it
 			if (element != this.focusElement) {
-				//Remove the resizable class
-				this.resizableElement.getEl().removeClass('x-resizable-pinned');
-				this.resizableElement.destroy(false);
+				this.removeResizable();
 				this.focusElement.blur();
 			}
 			else {

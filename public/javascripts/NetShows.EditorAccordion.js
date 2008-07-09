@@ -3,6 +3,9 @@
  * Right side of the application. Offers all the tools to change settings of slides or animations and to add external content.
  */
 NetShows.EditorAccordion = function(){
+	this.presentation = null;
+	this.slide = null;
+	
     // Slide transition and appearance
     this.slidepanel = new NetShows.EditorAccordion.Slide();
     
@@ -138,5 +141,13 @@ Ext.extend(NetShows.EditorAccordion, Ext.Panel, {
                 msg_log("No type");
                 return false;
         }
-    }
+    },
+	setPresentation: function(presentation){
+		this.presentation = presentation;
+	},
+	setSlide:function(params){
+		this.slide =  this.presentation.slides[params.number];
+		this.animationpanel.slide = this.slide;
+		this.slidepanel.setSlide(this.slide);
+	}
 });

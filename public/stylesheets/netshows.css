@@ -41,7 +41,10 @@ body.x-border-layout-ct {
 /*
  * Accordion Panel
  */
-
+.x-form-field-wrap .x-form-color-trigger {
+	background:transparent url(/images/color-trigger.gif) no-repeat 0 0;
+    cursor:pointer; 
+}
 /*For main nodes : my-presenations & trash-node*/
 .x-tree-node div.folder-node{
     background:#eee url(/images/cmp-bg.gif) repeat-x;
@@ -143,6 +146,12 @@ body.x-border-layout-ct {
 	margin:-1px;
 	cursor: move;
 }
+
+.slide-view .text-editor{
+	border: 1px solid #898989;
+	margin:-1px;
+}
+
 .slide-view .x-resizable-pinned .x-resizable-handle{
     width:6px;
     height:6px;
