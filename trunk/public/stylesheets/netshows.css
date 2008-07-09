@@ -138,7 +138,7 @@ body.x-border-layout-ct {
 
 /* Resizable style */
 .slide-view .x-resizable-pinned{
-	overflow: hidden;
+	overflow: visible;
 	border: 1px solid #898989;
 	margin:-1px;
 	cursor: move;
@@ -147,13 +147,13 @@ body.x-border-layout-ct {
     width:6px;
     height:6px;
     background:transparent url(/images/square.gif) no-repeat;
-    margin:0px;
+    margin:-3px;
 }
-.slide-view .x-resizable-pinned .x-resizable-handle-east, #slide-view .x-resizable-pinned .x-resizable-handle-west{
-    top:45%;
+.slide-view .x-resizable-pinned .x-resizable-handle-east, .slide-view .x-resizable-pinned .x-resizable-handle-west{
+    top:50%;
 }
-.slide-view .x-resizable-pinned .x-resizable-handle-north, #slide-view .x-resizable-pinned .x-resizable-handle-south{
-    left:45%;
+.slide-view .x-resizable-pinned .x-resizable-handle-north, .slide-view .x-resizable-pinned .x-resizable-handle-south{
+    left:50%;
 }
 
 /*

@@ -37,9 +37,30 @@ var Slide = function(data, p_id){
 	this.init = function(){
 		//If the slide has elements
 		if (this.elements != {}) {
+			var first = true;
 			for (var i in this.elements) {
-				this.elements[i] = new Element(this.elements[i],this.slideId, i);
+				if (first) {
+					//Initialize min and max of z-index
+					this.minIndex = this.maxIndex = this.elements[i].p.zIndex ? this.elements[i].p.zIndex : 10000;
+					first = false;
+				}
+				if(this.elements[i].p.zIndex === undefined){
+					this.elements[i].p.zIndex = this.maxIndex++;
+				}
+				this.elements[i] = new Element(this.elements[i], this.slideId, i);
+				
+				//Set the max and the min belong each zIndex properties
+				if (this.elements[i].data.p.zIndex) {
+					if (this.elements[i].data.p.zIndex > this.maxIndex) {
+						this.maxIndex = this.elements[i].data.p.zIndex
+					}
+					else 
+						if (this.elements[i].data.p.zIndex < this.minIndex) {
+							this.minIndex = this.elements[i].data.p.zIndex
+						}
+				}
 			}
+			msg_log(this.minIndex + '/' + this.maxIndex);
 			this.nbElements = i;
 		}
 		//Apply css style to the slide
@@ -85,9 +106,21 @@ var Slide = function(data, p_id){
 	}
 	
 	this.addElement = function(params){
+		//Set the z-index position to element
+		this.maxIndex++;
+		Ext.apply(params.p, {
+			zIndex: this.maxIndex
+		});
+		
+		//Creating element
 		var element = new Element(params, this.slideId, this.nbElements++);
+		
+		//Create dom
 		element.createDom();
-		eval("this.elements.e" + this.nbElements + " = element;");
+		
+		//Add element to slide elements object
+		this.elements['e' + this.nbElements] = element;
+		
 		return element;
 	}
 	
