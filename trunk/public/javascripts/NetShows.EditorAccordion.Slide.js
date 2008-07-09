@@ -153,13 +153,13 @@ NetShows.EditorAccordion.Slide = function(){
 					title: this.backgroundTitle ? this.backgroundTitle : 'Background',
 					items: [{
 						xtype: 'combo',
-						name: 'background',
+						id:'background',
 						displayField: 'mode',
 						width: 140,
 						listWidth: 140,
 						store: new Ext.data.SimpleStore({
 							fields: ['code', 'mode'],
-							data: [['null', 'None'], ['clr', 'Color'], ['gradient', 'Gradient fill'], ['img', 'Image']]
+							data: [['null', 'None'], ['clr', 'Color'], ['img', 'Image']]
 						}),
 						forceSelection: true,
 						mode: 'local',
@@ -170,31 +170,21 @@ NetShows.EditorAccordion.Slide = function(){
 						selectOnFocus: true,
 						listeners: {
 							'render': function(){
-							
 								Ext.getCmp('clr-container').hide();
-								Ext.getCmp('gradient-container').hide();
 								Ext.getCmp('img-container').hide();
 							},
-							'select': function(field, record, index){
+							'select': function(field, record){
 								switch (record.data.code) {
 									case 'null':
 										Ext.getCmp('clr-container').hide();
-										Ext.getCmp('gradient-container').hide();
 										Ext.getCmp('img-container').hide();
 										break;
 									case 'clr':
 										Ext.getCmp('clr-container').show();
-										Ext.getCmp('gradient-container').hide();
-										Ext.getCmp('img-container').hide();
-										break;
-									case 'gradient':
-										Ext.getCmp('clr-container').hide();
-										Ext.getCmp('gradient-container').show();
 										Ext.getCmp('img-container').hide();
 										break;
 									case 'img':
 										Ext.getCmp('clr-container').hide();
-										Ext.getCmp('gradient-container').hide();
 										Ext.getCmp('img-container').show();
 										break;
 								}
@@ -204,14 +194,23 @@ NetShows.EditorAccordion.Slide = function(){
 					}, {
 						//xtype: 'box',
 						id: 'clr-container',
-						items: new Ext.ColorPalette({
-							value: '993300'
-						})
-					}, {
-						//xtype: 'box',
-						id: 'gradient-container',
-						items: new Ext.ColorPalette({
-							value: '993300'
+						border:false,
+						items: new Ext.form.ColorField({
+							id:'clr-container-color-field',
+							fieldLabel: 'color',
+							showHexValue: true,
+							defaultColor:'FFFFFF',
+							listeners:{
+								select: function(value){
+									this.slide.setBackground({
+										type: 'color',
+										p: {
+											color: '#' + value
+										}
+									});
+								},
+								scope:this
+							}
 						})
 					}, {
 						//xtype: 'box',
@@ -227,4 +226,21 @@ NetShows.EditorAccordion.Slide = function(){
         }
     });
 }
-Ext.extend(NetShows.EditorAccordion.Slide, Ext.Panel, {});
+Ext.extend(NetShows.EditorAccordion.Slide, Ext.Panel, {
+	setSlide: function(slide){
+		this.slide = slide;
+		//If the slide has a background color
+		if (this.slide.data.p.backgroundColor != undefined) {
+			var color = this.slide.properties.backgroundColor.substring(1, this.slide.properties.backgroundColor.length);
+			Ext.getCmp('clr-container-color-field').setValue(color);
+			//Ext.getCmp('background').select(1,false);
+			Ext.getCmp('background').setValue('Color');
+			Ext.getCmp('clr-container').show();
+			Ext.getCmp('img-container').hide();
+		}else{
+			Ext.getCmp('background').setValue('None');
+			Ext.getCmp('clr-container').hide();
+			Ext.getCmp('img-container').hide();
+		}
+	}
+});

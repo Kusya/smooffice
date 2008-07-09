@@ -14,7 +14,7 @@ var Slide = function(data, p_id){
 	this.presentation_id = p_id;
 	
 	this.data = data;
-	this.properties = data.p ? data.p : {};
+	this.properties = this.data.p ? this.data.p : {};
 	this.elements = data.e?data.e:{};
 	
 	//Number of elements
@@ -30,6 +30,8 @@ var Slide = function(data, p_id){
 	//The generated dom corresponding to the slide
 	this.el = null;
 	
+		//css style to apply to the slide
+		this.cssStyle = '';
 	/*
 	 * Function
 	 */
@@ -60,21 +62,21 @@ var Slide = function(data, p_id){
 						}
 				}
 			}
-			msg_log(this.minIndex + '/' + this.maxIndex);
 			this.nbElements = i;
 		}
-		//Apply css style to the slide
-		this.cssStyle = '';
-		for (var l in this.properties) {
-			this.cssStyle += l.replace(/[A-Z]/, function(match){
-				return '-' + match.toLowerCase();
-			}) +
-			': ' +
-			this.data.p[l] +
-			';';
-		}
+		this.generateCSS();
 	}
 	
+		this.generateCSS = function(){
+			for (var l in this.properties) {
+				this.cssStyle += l.replace(/[A-Z]/, function(match){
+					return '-' + match.toLowerCase();
+				}) +
+				': ' +
+				this.properties[l] +
+				';';
+			}
+		}
 	
 	//Create the dom element
 	this.show = function(){
@@ -102,6 +104,24 @@ var Slide = function(data, p_id){
 			
 			//Resize the elements from % values
 			this.resizeEvent();
+		}
+	}
+	
+	this.setBackground = function(params){
+		switch (params.type) {
+			case 'color':
+				this.properties.backgroundColor = params.p.color;
+				this.el.applyStyles('background-color:'+params.p.color);
+				this.generateCSS();
+				break;
+			case 'none':
+				break;
+			case 'gradient':
+				break;
+			case 'image':
+				break;
+			default:
+				break;
 		}
 	}
 	

@@ -96,6 +96,7 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
     
     setSlide: function(params){
         this.getActiveTab().getComponent('slide-view-'+this.getActiveTab().presentation.id).setSlide(params);
+		NetShows.accordion.setSlide(params);
     },
     
     onTabChange: function(TabPanel, tab){
@@ -223,7 +224,9 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                 }
             });
         }
-        
+		//Define the presentation to use with the accordion
+        NetShows.accordion.setPresentation(presentation);
+		
         tab.show();
     }
 });

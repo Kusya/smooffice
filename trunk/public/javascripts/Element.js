@@ -11,16 +11,14 @@
 		this.data = data;
 		this.id = Ext.id();
 		this.slideId = slideId;
-		this.index = "e"+index;
+		this.index = "e" + index;
 		
 		//Generate CSS string
 		this.cssStyle = '';
-
 		
-	/*
+		/*
 	 * Functions
 	 */
-				
 		this.generateCSS = function(){
 			for (var l in this.data.p) {
 				this.cssStyle += l.replace(/[A-Z]/, function(match){
@@ -44,19 +42,19 @@
 			var html = '';
 			this.data.className = this.data.t;
 			/*new Ext.ux.Media({mediaCfg:{
-                             mediaType   : 'SWF'
-                            ,url    : 'clock.swf'
-                            ,id     :  'inlineClock'
-                            ,style: {display:'inline', width:'100px',height:'80px'}
-                            ,start    : true
-                            ,loop     : true
-                            ,controls :false
-                            ,params: {
-                                wmode     :'opaque'
-                               ,scale     :'exactfit'
-                               ,salign    :'t'
-                            }
-                       }})*/
+		 mediaType   : 'SWF'
+		 ,url    : 'clock.swf'
+		 ,id     :  'inlineClock'
+		 ,style: {display:'inline', width:'100px',height:'80px'}
+		 ,start    : true
+		 ,loop     : true
+		 ,controls :false
+		 ,params: {
+		 wmode     :'opaque'
+		 ,scale     :'exactfit'
+		 ,salign    :'t'
+		 }
+		 }})*/
 			switch (this.data.t) {
 				case 'img':
 					html += '<img src="' + this.data.c.src + '" alt="" title="" width="100%" height="auto" />';
@@ -114,11 +112,12 @@
 			//Append the new node to the slide-wrap
 			this.el = Ext.get(slideId).createChild({
 				id: this.id,
-				style:'position: absolute;',
+				style: 'position: absolute;',
 				html: this.getHTML()
 			});
 			
 			//Apply CSS style to the element
+			this.generateCSS();
 			this.el.applyStyles(this.cssStyle);
 			
 			//Add the proper class belonging the type of element
@@ -126,7 +125,7 @@
 			
 			
 			if (this.data.t == 'map') {
-				this.data.c = !this.data.c?{}:this.data.c;
+				this.data.c = !this.data.c ? {} : this.data.c;
 				this.map = new GoogleMap(this.el.dom, this.data.c);
 				this.el.on('load', this.resizeEvent, this);
 			}
@@ -144,22 +143,23 @@
 		}
 		this.resizeEvent = function(){
 			//msg_log('resize ' + this.data.t)
-			if(this.data.p.width && this.data.p.height){
-				this.el.applyStyles('width:' + this.getPixelFromPercent(this.data.p.width,Ext.get(this.slideId).getWidth()) + 'px;');
-				this.el.applyStyles('height:' + this.getPixelFromPercent(this.data.p.height,Ext.get(this.slideId).getHeight()) + 'px;');
-			}else{
+			if (this.data.p.width && this.data.p.height) {
+				this.el.applyStyles('width:' + this.getPixelFromPercent(this.data.p.width, Ext.get(this.slideId).getWidth()) + 'px;');
+				this.el.applyStyles('height:' + this.getPixelFromPercent(this.data.p.height, Ext.get(this.slideId).getHeight()) + 'px;');
+			}
+			else {
 				this.el.applyStyles('width:80%;');
-				var heightValue = (this.data.t == 'video')?'80%':'auto'
-				this.el.applyStyles('height:' + heightValue +';');
+				var heightValue = (this.data.t == 'video') ? '80%' : 'auto'
+				this.el.applyStyles('height:' + heightValue + ';');
 				this.el.first().addListener('load', function(){
 					msg_log('computed height ' + this.el.first().getComputedHeight());
-					this.el.applyStyles('width:'+this.el.first().getComputedWidth()+'px;');
-					this.el.applyStyles('height:'+this.el.first().getComputedHeight()+'px;');
-				},this);
+					this.el.applyStyles('width:' + this.el.first().getComputedWidth() + 'px;');
+					this.el.applyStyles('height:' + this.el.first().getComputedHeight() + 'px;');
+				}, this);
 			}
 			
-			this.el.applyStyles('top:' + this.getPixelFromPercent(this.data.p.top,Ext.get(this.slideId).getHeight()) + 'px;');
-			this.el.applyStyles('left:' + this.getPixelFromPercent(this.data.p.left,Ext.get(this.slideId).getWidth()) + 'px;');
+			this.el.applyStyles('top:' + this.getPixelFromPercent(this.data.p.top, Ext.get(this.slideId).getHeight()) + 'px;');
+			this.el.applyStyles('left:' + this.getPixelFromPercent(this.data.p.left, Ext.get(this.slideId).getWidth()) + 'px;');
 		}
 		
 		this.getJSON = function(){
@@ -191,15 +191,17 @@
 			//Get the width value
 			this.data.p.width = this.getPercentOf(this.el.getComputedWidth(), Ext.get(this.slideId).getComputedWidth());
 			
-			if(this.data.t == 'map'){
+			if (this.data.t == 'map') {
 				this.data.c = this.map.getContent();
-			}else if(this.data.className == 'text'){
-				this.data.p.fontSize = '100%';
 			}
+			else 
+				if (this.data.className == 'text') {
+					this.data.p.fontSize = '100%';
+				}
 		}
 		
 		this.getPixelFromPercent = function(percent, base){
-			return (parseFloat(percent) * base)/100;
+			return (parseFloat(percent) * base) / 100;
 		}
 		
 		this.getPercentOf = function(number, base){
@@ -219,8 +221,9 @@
 				else 
 					if (this.mode == 'focus' && !this.endDrag) {
 						//Remove the resizable element
-						NetShows.mainPanel.getActiveSlideView().setNoFocus(true);
+						NetShows.mainPanel.getActiveSlideView().removeResizable();
 						this.mode = 'editor';
+						this.el.addClass('text-editor');
 						this.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
 							globalToolBar: NetShows.mainPanel.getTopToolbar(),
 							value: this.el.dom.innerHTML
@@ -230,7 +233,8 @@
 						this.editor.render(this.el.dom);
 						this.el.show();
 					}
-			}else{
+			}
+			else {
 				NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 			}
 			this.endDrag = false;
@@ -239,6 +243,7 @@
 			if (this.data.className == 'text') {
 				if (this.mode == 'editor') {
 					this.endDrag = false;
+					this.el.removeClass('text-editor');
 					this.el.dom.innerHTML = this.data.c = this.editor.getValue();
 					this.editor.destroy();
 				}
@@ -247,6 +252,6 @@
 		}
 		this.onContextMenu = function(e){
 			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
-			NetShows.mainPanel.getActiveSlideView().onContextMenu(e,this);
+			NetShows.mainPanel.getActiveSlideView().onContextMenu(e, this);
 		}
 	}
