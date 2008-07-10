@@ -197,6 +197,7 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                                     this.previewWindow = new Ext.Window({
                                         title: (this.previewWindowTitle) ? this.previewWindowTitle : "Presentation preview",
                                         iconCls: 'icon-preview',
+										bodyStyle:'z-index:10000',
                                         width: 500,
                                         height: 400,
                                         resizable: true,

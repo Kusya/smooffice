@@ -77,6 +77,10 @@ Ext.onReady(function(){
 	// Event : switch to a tab in Editor Mode
 	function onEditorView(presentation){
 		NetShows.browserPanel.fireEvent('editorview',presentation);
+		
+		//Define the presentation to use with the accordion
+        NetShows.accordion.setPresentation(presentation);
+		
 		NetShows.accordion.expand();
 		NetShows.accordion.enable();
 	}

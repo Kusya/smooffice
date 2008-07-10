@@ -26,7 +26,7 @@ class PresentationController < ApplicationController
       newOrder.save
       
       newContent = Content.new
-      newContent.json = '{"p":{"backgroundColor":"white"}}'
+      newContent.json = '{"p":{"backgroundColor":"#FFFFFF"}}'
       newContent.of_slide = newSlide.id
       newContent.save
       
