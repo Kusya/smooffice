@@ -29,7 +29,7 @@ NetShows.SlideBrowser = function(){
 						this.presentation.store.insert(index, myRecord);
 						
 						//Update slides array
-						var mySlide = new Slide(myRecord.data);
+						var mySlide = new Slide(myRecord.data, this.presentation.id);
 						this.presentation.slides.splice(index, 0, mySlide);
 					//msg_log(this.presentation.slides);
 					}
@@ -64,20 +64,21 @@ NetShows.SlideBrowser = function(){
 		handler: function(){
 			var node = this.slideDataView.getSelectedNodes()[0];
 			if (node) {
-				var record = this.slideDataView.getRecord(node);
+				this.tmpRecord = this.slideDataView.getRecord(node);
 				
 				//Get the index of the record before deleting
-				var index = this.presentation.store.indexOf(record);
+				var index = this.presentation.store.indexOf(this.tmpRecord);
 				
 				//Make an effect to disappear the slide
 				Ext.fly(node).switchOff({
 					duration: .2,
 					callback: function(){
 						//Remove the record
-						this.presentation.store.remove(record);
+						this.presentation.store.remove(this.tmpRecord);
 						
+						this.presentation.slides[index].destroy();
 						this.presentation.slides.splice(index,1);
-						msg_log(this.presentation.slides);
+						//msg_log(this.presentation.slides);
 						
 						if (this.presentation.store.getCount() == 0) {
 							this.actionNew.execute();
@@ -87,10 +88,20 @@ NetShows.SlideBrowser = function(){
 							index = (index == this.presentation.store.getCount()) ? index - 1 : index;
 							var myNode = this.slideDataView.getNode(index);
 							this.slideDataView.select(myNode);
+							
+							if (myNode) {
+								var record = this.slideDataView.getRecord(myNode);
+								//Change the slide in the tab view
+								msg_log("select slide number : " + this.presentation.store.indexOf(record));
+								//Event catched in NetShows.js
+								this.fireEvent('selectslide', {
+									number: this.presentation.store.indexOf(record)
+								});
+							}
+							
+							//Save the actual state of the slides and its order
+							this.presentation.saveState();
 						}
-						
-						//Save the actual state of the slides and its order
-						this.presentation.saveState();
 					},
 					scope: this
 				});
@@ -162,19 +173,21 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 		if (this.presentation.selectedSlides === undefined) {
 			//Select the first slide
 			var myNode = this.slideDataView.getNode(0);
-			if (myNode) {
-				this.slideDataView.select(myNode);
-				var record = this.slideDataView.getRecord(myNode);
-				//Change the slide in the tab view
-				msg_log("select slide number : " + this.presentation.store.indexOf(record));
-				//Event catched in NetShows.js
-				this.fireEvent('selectslide', {
-					number: this.presentation.store.indexOf(record)
-				});
-			}
+			
 		}
 		else {
 			this.slideDataView.select(this.presentation.selectedSlides);
+			var myNode = this.slideDataView.getNode(this.presentation.selectedSlides[0]);
+		}
+		if (myNode) {
+			this.slideDataView.select(myNode);
+			var record = this.slideDataView.getRecord(myNode);
+			//Change the slide in the tab view
+			//msg_log("select slide number : " + this.presentation.store.indexOf(record));
+			//Event catched in NetShows.js
+			this.fireEvent('selectslide', {
+				number: this.presentation.store.indexOf(record)
+			});
 		}
 	}
 /*	resizeEvent : function(){

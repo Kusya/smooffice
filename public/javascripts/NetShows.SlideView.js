@@ -20,10 +20,10 @@ NetShows.SlideView = function(presentation){
 		iconCls: 'icon-move-back',
 		text: (this.moveBackText) ? this.moveBackText : "Move back",
 		handler: function(){
-			if (this.focusElement.data.p.zIndex != this.slide.minIndex) {
-				if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
+			if (this.focusElement.data.p.zIndex != this.slide.minIndex - 1) {
+				/*if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
 					this.slide.maxIndex--;
-				}
+				}*/
 				this.slide.minIndex--;
 				this.focusElement.setIndex(this.slide.minIndex);
 			}
@@ -36,10 +36,11 @@ NetShows.SlideView = function(presentation){
 		text: (this.moveBackwardsText) ? this.moveBackwardsText : "Move backwards",
 		handler: function(){
 			if (this.focusElement.data.p.zIndex != this.slide.minIndex) {
-				if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
+				/*if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
 					this.slide.maxIndex--;
-				}
-				this.focusElement.setIndex(this.focusElement.data.p.zIndex--);
+				}*/
+				this.focusElement.data.p.zIndex--;
+				this.focusElement.setIndex(this.focusElement.data.p.zIndex);
 			}
 		},
 		scope: this
@@ -49,7 +50,7 @@ NetShows.SlideView = function(presentation){
 		iconCls: 'icon-move-front',
 		text: (this.moveFrontText) ? this.moveFrontText : "Move front",
 		handler: function(){
-			if (this.focusElement.data.p.zIndex != this.slide.maxIndex) {
+			if (this.focusElement.data.p.zIndex != this.slide.maxIndex + 1) {
 				if(this.focusElement.data.p.zIndex == this.slide.minIndex){
 					this.slide.minIndex++;
 				}
@@ -64,17 +65,20 @@ NetShows.SlideView = function(presentation){
 		iconCls: 'icon-move-forwards',
 		text: (this.moveForwardsText) ? this.moveForwardsText : "Move forwards",
 		handler: function(){
+			
 			if (this.focusElement.data.p.zIndex != this.slide.maxIndex) {
-				if(this.focusElement.data.p.zIndex == this.slide.minIndex){
+				/*if(this.focusElement.data.p.zIndex == this.slide.minIndex){
 					msg_log('min');
 					this.slide.minIndex++;
-				}
-				this.focusElement.setIndex(this.focusElement.data.p.zIndex++);
-				msg_log(this.focusElement.data.p.zIndex++);
-			}else{
+				}*/
+				this.focusElement.data.p.zIndex++;
+				this.focusElement.setIndex(this.focusElement.data.p.zIndex);
+				//msg_log(this.focusElement.data.p.zIndex++);
+			}/*else{
 				this.slide.maxIndex++;
 				this.focusElement.setIndex(this.slide.maxIndex);
-			}
+			}*/
+			msg_log("move_forwar\nnew zIndex : " + this.focusElement.data.p.zIndex);
 		},
 		scope: this
 	});
@@ -271,12 +275,13 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 	newText: function(){
 		var myElement = this.slide.addElement({
 			t: 'p',
-			c: 'Text',
+			c: '<p align="center"><font size="4" face="arial"><b>Text</b></font></p>',
 			p: {
 				top: '45%',
-				left: '45%',
-				width: '38%',
-				height: '20%'
+				left: '40%',
+				width: '12%',
+				height: '7%',
+				fontClass: 'A'
 			}
 		});
 		this.setFocusElement(myElement);

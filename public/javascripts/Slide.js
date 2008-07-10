@@ -20,6 +20,9 @@ var Slide = function(data, p_id){
 	//Number of elements
 	this.nbElements = 0;
 	
+	//Min and max layer index
+	this.minIndex = this.maxIndex = 2000;
+	
 	this.transitions = data.t ? data.t : [{
 		f: null
 	}, {
@@ -43,7 +46,7 @@ var Slide = function(data, p_id){
 			for (var i in this.elements) {
 				if (first) {
 					//Initialize min and max of z-index
-					this.minIndex = this.maxIndex = this.elements[i].p.zIndex ? this.elements[i].p.zIndex : 10000;
+					this.minIndex = this.maxIndex = this.elements[i].p.zIndex ? this.elements[i].p.zIndex : this.maxIndex;
 					first = false;
 				}
 				if(this.elements[i].p.zIndex === undefined){
@@ -61,8 +64,8 @@ var Slide = function(data, p_id){
 							this.minIndex = this.elements[i].data.p.zIndex
 						}
 				}
+				this.nbElements++;
 			}
-			this.nbElements = i;
 		}
 		this.generateCSS();
 	}
@@ -106,7 +109,11 @@ var Slide = function(data, p_id){
 			this.resizeEvent();
 		}
 	}
-	
+	this.destroy = function(){
+		if (this.el) {
+			this.el.remove();
+		}
+	}
 	this.setBackground = function(params){
 		switch (params.type) {
 			case 'color':
@@ -114,7 +121,10 @@ var Slide = function(data, p_id){
 				this.el.applyStyles('background-color:'+params.p.color);
 				this.generateCSS();
 				break;
-			case 'none':
+			case 'null':
+				this.properties.backgroundColor = 'transparent';
+				this.el.applyStyles('background:transparent');
+				this.generateCSS();
 				break;
 			case 'gradient':
 				break;
@@ -132,8 +142,13 @@ var Slide = function(data, p_id){
 			zIndex: this.maxIndex
 		});
 		
+		this.nbElements++;
+		
 		//Creating element
-		var element = new Element(params, this.slideId, this.nbElements++);
+		var element = new Element(params, this.slideId, this.nbElements);
+		
+		msg_log(this.elements);
+		msg_log(element.index);
 		
 		//Create dom
 		element.createDom();
@@ -151,10 +166,10 @@ var Slide = function(data, p_id){
 		
 		//Destroy the element
 		element.destroy();
-		
 		//Destroy the resizable element
 		resizable.destroy();
 		resizable = null;
+		//this.elements[element.index] = null;
 		element = null;
 	}
 	
