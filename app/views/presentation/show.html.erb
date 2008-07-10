@@ -25,18 +25,18 @@
 		<script type="text/javascript" src="/preview/logic/smoo.core.js"></script>
         <script type="text/javascript" src="/preview/logic/jquery.smoo.js"></script>
         <!--script type="text/javascript" src="/preview/content/content.js"></script-->
-		<script type="text/javascript" src="/preview/firebug/firebug.js"></script>
+		<!--<script type="text/javascript" src="/preview/firebug/firebug.js"></script>-->
         <script type="text/javascript">
         	var presentation1 = <%=@presentation_json.to_json %>;
 			
-			console.log(presentation1);
+			//console.log(presentation1);
             $(document).ready(function(){
 				$('#view').smoo(presentation1, true);
             });
         </script>
         <style type="text/css">
             html, body {
-                background-color: black;
+                background: #fff url('/preview/layout/bg.png') repeat-x;
                 padding: 0;
                 margin: 0;
 				width: 100%;

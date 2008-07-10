@@ -15,6 +15,32 @@
  *
  * Quand on exécute une animation sur plusieurs éléments à la fois avec find, si il y a es différences entre ces éléments, 
  * le rewind ne va pas être capable de rétablir ces différences.
+ * 
+ * Utiliser SVG/VML pour les dégradés à l'arrière plan. Ca va être bien !
+ * 
+ * Il va y avoir des soucis avec le z-index (c'est l'histoire des z-index qui vont de 10 en 10 et qui sont chiants à gérer)
+ * Nan mais les zIndex c'est pas si compliqué, il peut y avoir plusieurs éléments avec le même index, c'est l'utilisateur qui se débrouille après ça.
+ * 
+ * Dans opera (et que dans opéra) il y a des bugs avec le overflow pendant les transitions.
+ * 
+ * vérifier que les styles ne s'empiètent pas les uns sur les autres, nottament ceux des masters
+ * 
+ * mettre de l'ombre sous la présentation
+ * 
+ * faire en sorte que ça marche bien dans un blog et que l'on puisse passer en full screen.
+ * 
+ * mouseout ne trigger pas sous ie !
+ * 
+ * Il faut retrouver pourquoi il y a un element wrapper et comment un l'utilise avec changeSlide
+ * - Il sert à ce que les slides gardent leur taille pendant les transitions
+ * => voir si l'on peut s'en passer avec un wrapper temporaire comme pendant les transitions,
+ * voir même si on peut se passer complètement de wrapper en faisant disparaitre la présentation
+ * dès la fin de la transition. Le risque c'est que l'on ai le temps d'appercevoir le slide suivant.
+ * 
+ * Consider using other approach to generate the presentation instead of creating all slides : lazy ? gmaps ?
+ *  
+ * Tenter de ne charger les vidéos que lorsque l'on fullsize leur slide. Le reste du temps, ne charger que la miniature.
+ * Pareil pour les maps.
  */
 
 ;(function($) {
@@ -23,60 +49,79 @@
   
   $.extend($.smoo, {
 	
-	Presentation : function(json, $this) {
-		/* 
-		 * Go one step further in the current slide
-		 * or to next slide.
-		 */
+	Presentation : function($this, json, font_class) {
 		this.forward = function() {
-			if (!this.slide[this.current_slide].forward())
-				this.fastforward();
+			if (!slide[current_slide].forward())
+				$this.queue(function() { changeSlide(current_slide + 1); $this.dequeue(); });
 		};
-		/* 
-		 * Replace current slide by next slide
-		 */
 		this.fastforward = function() {				
-			// If it isn't the last slide
-			if (this.current_slide < this.slide.length -1) {
-				queue(this.slide[this.current_slide].transit(1));
-				this.current_slide += 1;
-				// TODO : forward if there is delayed animations at the beginning of the slide.
-				queue(this.slide[this.current_slide].transit(0));
-			}
+			$this.queue(function() { changeSlide(current_slide + 1); $this.dequeue(); });
 		};
-		
-		/* 
-		 * Go one step back in the current slide
-		 * or to previous slide.
-		 */			
 		this.rewind = function() {
-			if (!this.slide[this.current_slide].rewind()) 
-				this.fastrewind();
+			if (!slide[current_slide].rewind()) 
+				$this.queue(function() { changeSlide(current_slide - 1); $this.dequeue(); });
 		};
-		
-		/* 
-		 * Replace current slide by the previous slide
-		 */
 		this.fastrewind = function() {
-			// if it isn't the first slid
-			if (this.current_slide > 0) {
-				queue(this.slide[this.current_slide].transit(0));
-				this.current_slide -= 1;
-				queue(this.slide[this.current_slide].transit(1));
-			}
+			$this.queue(function() { changeSlide(current_slide - 1); $this.dequeue(); });
 		};
+		this.jump = function(slide_id) {
+			changeSlide(slide_id);
+		}
+		
+		this.thumbnailize = function() {
+			$this.animate({marginTop: (-20 * current_slide) + 20 +'%', width: '25%', fontSize: '25%'}, 'slow');
+			for (var i in slide)
+				slide[i].thumbnailize(i == current_slide? true : 0);
+		}
+		
+		this.fullsize = function() {
+			$this.animate({marginTop: -80 * current_slide +'%', width: '100%', fontSize: '100%'}, 'slow');
+			for (var i in slide)
+				slide[i].fullsize(i == current_slide? true : 0);
+		}		
 		
 		/*
-		 * Replace current slide by this one
+		 * Display target slide but:
+		 * - If presentation is in thumbnail mode:
+		 *   - Don't play transitions
+		 *   - animate slide scroll+resize
+		 * - If presentation is in fullsize mode:
+		 *   - Display transitions
+		 *   - Don't animate scroll+resize
 		 */
-		this.jump = function(slide) {
-			// if it's a slide
-			if (slide >= 0 && slide < this.slide.length && slide != this.current_slide) {
+		function changeSlide(target) {
+			// Verify target
+			if (target >= 0 && target < slide.length) {
 				// Play transition like a forward or a rewind?
-				var forward = slide > this.current_slide? true : false;
-				queue(this.slide[this.current_slide].transit(forward? 1 : 0));
-				this.current_slide = slide;
-				queue(this.slide[this.current_slide].transit(forward? 0 : 1));
+				var forward = target > current_slide? true : false;
+				// Hide current slide
+				// if (!thumbnail && current_slide >= 0) queue(slide[current_slide].transit(forward? 1 : 0));
+				if (!thumbnail && current_slide >= 0) queue(slide[current_slide].transit(0));
+				$this.queue(function() {
+					// Hide the magic of changeSlide in fullSize
+					if (!thumbnail) $this.css('display', 'none');
+					// Scroll to target. -18.75 is equivalent to the height of a slide.
+					$this.children('div:first')[thumbnail? 'animate' : 'css']({marginTop: -18.75 * target + '%'});
+					$this.dequeue();
+				})
+				// fullsize target
+				$this.queue(function() {
+					slide[target].fullsize(thumbnail, function() { $this.dequeue(); });
+				});				
+				if (!thumbnail) 
+					$this.queue(function() {
+						if (current_slide >= 0) slide[current_slide].thumbnailize(thumbnail);
+						// The trick is finished
+						$this.css('display', 'block');
+						current_slide = target;
+						$this.dequeue();
+					});
+				else current_slide = target;
+				// Show new slide
+				//if (!thumbnail) queue(slide[target].transit(forward? 0 : 1));
+				console.profileEnd()
+				if (!thumbnail) queue(slide[target].transit(0));
+				thumbnail = false;				
 			}
 		}
 		
@@ -88,39 +133,40 @@
 				if (transition['o'].f) {
 					transition['o'].callback = function(){ $this.dequeue();	};
 					transition['el'].toggle(transition['o'].f, transition['o']);			
+				// FIX: Is it possible not to have an animated transition ?
 				} else {
 					transition['el'].css('display', transition['el'].css('display') == 'none'? 'block' : 'none');
 					$this.dequeue();
 				}					
 			});
-		};
-		
-		/*
-		 * Execute all jQuery related processing
-		 */
-		function jQuerify($this) {
-			// Not needed ?
-		};
+		}
 		
 		var title = json.title,
 			author = json.author,
 			description = json.description || '',
 			creation_date = json.creation_date,
 			// Dead simple jQuerify for the presentation
-			$this = $this,		
-			// initialise the loader
-			load_percentage = 0; var load_step = 100 / json.slide.length;
-		
-		this.slide = []; this.current_slide = 0;
+			$this = $this,
+			// FIX: ???? what is that ?
+			$slides = false,
+			// Whether presentation is in thumbnail mode or fullsize mode
+			thumbnail = false,
+			slide = [],
+			current_slide = -1;
 		for(var i in json.slide) {
-			this.slide.push(new $.smoo.Slide(json.slide[i], json.master, $this, $this.attr('id')+'-s'+i));
-			load_percentage += load_step;
+			slide.push(new $.smoo.Slide($this, $this.attr('id')+'-s'+i, json.slide[i], json.master, font_class));
+			// Display first slide as soon as possbile!
+			if (i == 0) {
+				/* FIX: This timer is intended to avoid the lag during the generation of the creation.
+				 * If the lag still occurs on modern browsers for long presentation, we should display 
+				 * the first slide only when the presentation is ready
+				 */
+				setTimeout(function(){ changeSlide(0); }, 500);
+			}
 		}
-		
-		queue(this.slide[this.current_slide].transit(0));
 	},// end Presentation class
 	
-	Slide : function(json, master, $parent, id) {				
+	Slide : function($parent, id, json, master, font_class) {				
 		/* 
 		 * Try to go one step further in the slide and queue animations of this step
 		 */
@@ -170,6 +216,29 @@
 			return { el: $this, o: transition[i] };
 		};
 		
+		this.thumbnailize = function(thumbnail) {
+			// modify current slide
+			if (thumbnail !== -1) $slide[thumbnail? 'animate' : 'css']({width: '23%', height: '23%', fontSize: '23%'}, thumbnail? 'slow' : undefined);			
+			// show others
+			else $slide.css('display', 'block');
+			// fix slide position, see fullsize.
+			$slide.css('position', 'relative');
+			for (var i in this.element)
+				this.element[i].thumbnailize();
+		};
+		
+		this.fullsize = function(thumbnail, callback) {
+			var o = {duration: thumbnail? 1 : 'slow', complete: callback };
+			// modify current slide // FIX: set margin left to 0 for ie and find out why
+			if (thumbnail !== -1) $slide.animate({width: '100%', height: '100%', fontSize: '100%'}, o);
+			// hide others
+			else $slide.css('display', 'none');
+			// fix problems of approximated slide position
+			$slide.css({position: 'absolute', top: 0});
+			for (var i in this.element)
+				this.element[i].fullsize();
+		};
+		
 		/*
 		 * Queue animations on the slide level
 		 */
@@ -184,13 +253,13 @@
 							// TODO : handle case where initial && constructor == Number,
 							// where we have to fire a forward after the intro transition
 							if (animation.next_on !== null && animation.next_on.constructor == Number) 
-								$.smoo.T = setTimeout(function(){
+								$.smoo.animationTimer = setTimeout(function(){
 									$this.parent('div.smooPresentation').prev('a.smooFocus').trigger('keydown', forward? 39 : 37);
 								}, forward? animation.next_on : 0);
 						};
 					}
 					if (initial) {
-						animation['o'] != 'hide' ? animation['el'].show() : animation['el'].css('display', 'none');
+						animation['el'].css('display', animation['o'] == 'hide'? 'none' : 'block');
 						$this.dequeue();
 					} else if (animation['o'].f) 
 						animation['el'].toggle(animation['o'].f, animation['o'])
@@ -202,31 +271,19 @@
 			return true;
 		};
 		
-		function jQuerify($parent, id, css, master_class) {
-			$parent.append('<div id="'+id+'" class="smooSlide '+master_class+'" />');
+		function jQuerify($parent, id, css) {
+			$parent.append('<div class="smooSlide"><div id="'+id+'" class="smooElementWrapper" /></div>');
 			// Set percentage dimensions in javascript to ensure that they will always stay in percentage
-			return $('#'+id).css($.extend({display: 'none', width: '100%', height: '100%', fontSize: '100%'}, css));
+			// FIX: oups, I removed the folowing line of code without reading the previous comment
+			// return $('#'+id).css($.extend({width: 100%, height: 100%, fontSize: 100%}, css));
+			return $('#'+id).css(css);
 		};
-		
-		this.serialize = function(master) {
-			var slide = {};			
-			if (comment) slide.c = comment;
-			if (use_master) slide.m = use_master;
-			slide.t = [];
-			slide.t[0] = (master && transition[0].toSource() == master.t[0].toSource())? null : transtion[0];
-			slide.t[1] = (master && transition[1].toSource() == master.t[1].toSource())? null : transtion[1];
-			slide.p = $this.filterCss({backgroundColor:0});
-			slide.e = [];
-			for (var i in this.element)
-				slide.e[i] = this.element[i].serialize();
-			return slide;
-		}
 		
 		var comment = json.c || '',
 			use_master = json.m || false,
-			transition = [ json.t[0] || master.t[0], json.t[1] || master.t[1]],
-		
-			$this = jQuerify($parent, id, json.p, use_master? use_master : '');
+			transition = [ json.t[0] || master.t[0], json.t[1] || master.t[1]],		
+			$this = jQuerify($parent, id, use_master? $.extend({}, master[use_master].p, json.p) : json.p),
+			$slide = $this.parent();
 		
 		this.animation = []; this.current_animation = -1;
 		for (var i in json.a)
@@ -235,12 +292,12 @@
 		// add background elements first
 		if (use_master) for (var i in master[use_master].b) {
 			master[use_master].b[i].p['display'] = 'block';
-			new $.smoo.Element(master[use_master].b[i], $this, id+'-m'+i);
+			new $.smoo.Element($this, id+'-m'+i, master[use_master].b[i], false, font_class);
 		}			
 		
 		this.element = {};
 		for (var i in json.e)
-			this.element[i] = new $.smoo.Element(json.e[i], $this, id+'-'+i);		
+			this.element[i] = new $.smoo.Element($this, id+'-'+i, json.e[i], use_master && master[use_master].e[json.e[i].t]? master[use_master].e[json.e[i].t] : false, font_class);		
 		
 		this.forward(true);
 	},// end Slide class
@@ -255,76 +312,79 @@
 		this.forward = function(element, initial) {
 			if(initial) parameters.f = null;
 			return element.forward(parameters, this.next_on, find);
-		};
+		}
 		
 		this.rewind = function(element) {
 			return element.rewind(parameters, this.next_on, find);
-		};
+		}
 	},
 	
-	Element : function(json, $parent, id) {
+	Element : function($parent, id, json, master, font_class) {
 		this.forward = function(parameters, next_on, find) {
 			if(parameters.f === undefined && parameters.constructor != String)	properties.unshift($this.filterCss(parameters));
 			return {el: find? $this.find(find) : $this, next_on: next_on, o: parameters};
-		};
+		}
 		
 		this.rewind = function(parameters, next_on, find) {
 			return {el: find? $this.find(find) : $this, next_on: next_on, o: parameters.f === undefined? properties.shift() : parameters};
-		};
+		}
 		
-		function jQuerify($parent, id, css) {			
+		this.thumbnailize = function() {
+			if (type == 'video')
+				$this.children('object:first').replaceWith('<img width="100%" height="100%" src="'+content.img+'" title="replacement image for a video"/>');
+		}
+		
+		this.fullsize = function() {
+			if (type == 'video')
+				$this.children('img:first').replaceWith(
+					'<object width="100%" height="100%" style="z-index:1;position:absolute">' +
+						'<param name="movie" value="' + content.src + '&hl=en"></param>' +
+						'<param name="wmode" value="transparent"></param>' +
+						'<embed width="100%" height="100%" src="' + content.src + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>' +
+					'</object>'
+				);
+		}
+		
+		function jQuerify($parent, id, css, font_class) {			
 			switch(type) {
 				case 'img':
-					$parent.append('<img id="'+id+'" class="smooElement" src="'+content.src+'" '+(content.title? 'title="'+content.title+'"' : '')+'/>');
+					$parent.append('<img id="'+id+'" class="smooElement" src="'+content.src+'" title="'+(content.title || '')+'"/>');
 					break;
 				case 'video':
-					$parent.append(	'<div id="'+id+'" class="smooElement"><object width="100%" height="100%" style="z-index:1;position:absolute">' +
-										'<param name="movie" value="' + content + '&hl=en"></param>' +
-										'<param name="wmode" value="transparent"></param>' +
-										'<embed width="100%" height="100%" src="' + content + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>' +
-									'</object></div>');
+					$parent.append(	'<div id="'+id+'" class="smooElement"><img width="100%" height="100%" src="'+content.img+'" title="replacement image for a video"/></div>' );
 					break;
 				case 'map':
 					$parent.append('<div id="'+id+'" class="smooElement"></div>');
 					new GoogleMap(document.getElementById(id), content);
 					break;
 				default:
-					$parent.append('<'+type+' id="'+id+'" class="smooElement">'+content+'</'+type+'>');
+					// Remove '%' and make sure there is a fontSize
+					css.fontSize = parseInt(css.fontSize) || 100;
+					// We need an extra className to keep trac of fontClass and original fontSize
+					$parent.append('<'+type+' id="'+id+'" class="smooElement smoo'+css.fontClass + css.fontSize+'">'+content+'</'+type+'>');
+					// Adjust fontSize according to fontClass
+					css.fontSize = font_class[css.fontClass].coef * css.fontSize + '%';
+					css.fontFamily = font_class[css.fontClass].family;
 					break;
 			}
 			return $('#'+id).css(css);
 		};
 		
-		this.serialize = function(master) {
-			var element = {};
-			element.p = $this.filterCss({top:0, left:0, width:0, height:0});				
-			switch(type) {
-				case 'img':
-					element.c = {src: $this.attr('src'), title: $this.attr('title')};
-					break;
-				case 'video':
-					element.c = $this.find('embed').attr('src');
-					break;
-				case 'map':
-					// TODO	content = 'todo';
-					break;
-				default:
-					element.c = $this.html();
-					element.p = $.extend($this.filterCss({fontSize:0, fontWeight:0, color:0, textAlign:0}, master? master[type] : undefined), element.p);
-					break;
-			}
-			if(type != 'ul') element.t = type;
-			return element;
-		}
-		
-		var type = json.t || 'ul',
+		var type = json.t,
 			content = json.c,
 			properties = [],
-			$this = jQuerify($parent, id, json.p);
+			$this = jQuerify($parent, id, $.extend({}, master, json.p), font_class);
 		
 		// TODO try the following :
 		// var properties = []; properties[0] = $.extend({width: 'auto', height: 'auto'}, master, json.p);
 		// Not a good idea since every element need properly defined properties to rewind properly to initial state
+		/*
+		 * <object width="100%" height="100%" style="z-index:1;position:absolute">' +
+										'<param name="movie" value="' + content + '&hl=en"></param>' +
+										'<param name="wmode" value="transparent"></param>' +
+										'<embed width="100%" height="100%" src="' + content + '&hl=en" type="application/x-shockwave-flash" wmode="transparent"></embed>' +
+									'</object>
+		 */
 	}
   });
 })(jQuery);
