@@ -1,14 +1,20 @@
-div.smooPresentation {
-	font-family: sans-serif;
+/***** Hidden span *****/
+span.smooHide {
+	position: absolute;
+	width: 0px;
+	overflow: hidden;
+}
+
+/***** Presentation *****/
+
+div.smooView {
 	margin: 0 auto;
 	padding: 0;
 	position: relative;
 	display: block;
 	overflow: hidden;
 }
-
-/* CSS reset */
-div.smooPresentation *  {
+div.smooView *  {
 	margin: 0;
 	padding: 0;
 	font-size: 1em;
@@ -17,41 +23,20 @@ div.smooPresentation *  {
 	text-decoration: none;
 }
 
-span.smooHide {
-	position: absolute;
-	width: 0px;
-	overflow: hidden;
-}
-
-div.smooSlideWrapper {
-	display: block;
-	margin: 0 auto;
+div.smooPresentation {
 	height: 100%;
 	width: 100%;
-}
-
-div.smooFull {
-	height: 100%;
-	width: 100%;	
-}
-
-div.smooThumb {
-	width:25%;
-	height: 100%;
-	font-size: 25%;
-}
-
-div.smooThumb div.smooSlide  {
-	height:25%;
 }
 
 div.smooSlide {
 	display: block;
-	height: 100%;
-	width: 100%;
+	height: 23%;
+	width: 23%;
+	font-size: 23%;
 	/*position: absolute;*/
 	position: relative;
-	margin-bottom: 5%;
+	/* 1.5% margin bottom is equivalent to 2% of the height of the view. */
+	margin: 0 auto 1.5%;
 }
 
 div.smooElementWrapper {
@@ -66,16 +51,17 @@ div.smooElementWrapper {
 	width: auto;
 	height: auto;
 }
-
-/* TODO: add .smooPresentation before, or change something else */
-h1, h2, h3, h4, h5, h6 {
+div.smooPresentation h1, 
+div.smooPresentation h2,
+div.smooPresentation h3,
+div.smooPresentation h4,
+div.smooPresentation h5,
+div.smooPresentation h6 {
 	font-weight: bold;
 }
-
 div.smooPresentation li  {
 	margin-left: 1em;
 }
-
 div.smooPresentation ul ul li {
 	font-size: 80%;
 }
@@ -83,12 +69,13 @@ div.smooPresentation ul ul li {
 /** Control bar **/
 ul.smooControl {
 	width: 200px;
-	height: 2px;
+	height: 30px;
 	list-style: none;
 	padding: 0;
 	margin: 0 auto -30px;
 	position: relative;
-	bottom: 2px;
+	bottom: 30px;
+	overflow: hidden;
 }
 ul.smooControl * {
 	padding: 0;
@@ -107,31 +94,57 @@ ul.smooControl a {
 ul.smooControl a:hover {
 	background-position: 0 0;
 }
-ul.smooControl li.smoofull a {
+ul.smooControl a.smoofull {
 	width: 40px; 
 	background-image: url(full.png)
 }
-ul.smooControl li.smoothumb a {
+ul.smooControl a.smoothumb {
 	width: 40px; 
 	background-image: url(thumb.png)
 }
-ul.smooControl li.smoofr a {
+ul.smooControl a.smoofr {
 	width: 32px; 
 	background-image: url(fastrewind.png)
 }
-ul.smooControl li.smoor a {
+ul.smooControl a.smoor {
 	width: 23px; 
 	background-image: url(rewind.png)
 }
-ul.smooControl li.smoof a {
+ul.smooControl a.smoof {
 	width: 32px; 
 	background-image: url(forward.png)
 }
-ul.smooControl li.smooff a {
+ul.smooControl a.smooff {
 	width: 32px; 
 	background-image: url(fastforward.png)
 }
-ul.smooControl li.smooborder a {
+ul.smooControl a.smooborder {
 	width: 41px; 
 	background-image: url(border.png)
 }
+
+
+
+
+/* div.smooSlideWrapper {
+	display: block;
+	margin: 0 auto;
+	height: 100%;
+	width: 25%;
+}
+
+div.smooFull {
+	height: 100%;
+	width: 100%;	
+}
+
+div.smooThumb {
+	width:25%;
+	height: 100%;
+	font-size: 25%;
+}
+
+div.smooThumb div.smooSlide  {
+	height:25%;
+	width: 25%;
+} */

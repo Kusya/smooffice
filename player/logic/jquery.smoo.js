@@ -5,8 +5,8 @@
 	$.fn.smoo = function(json_presentation, full_screen) {
 		return this.each(function() {
 			var font_class = {
-				A: { family: 'Arial, Sans, FreeSans, sans-serif', w: 827 },
-				T: { family: '\'Times New Roman\', Serif, Times, FreeSerif, serif', w: 741 },
+				A: { family: 'Arial, Sans, FreeSans, sans-serif', w: 803 },
+				T: { family: '\'Times New Roman\', Serif, Times, FreeSerif, serif', w: 704 },
 				C: { family: '\'Courier New\', Mono, FreeMono, Courier, monospace', w: 1200 },
 				G: { family: 'Georgia, \'Century Schoolbook L\', serif', w: 863 },
 				V: { family: 'Verdana, Geneva, \'Bitstream Vera\', sans-serif', w: 924 }
@@ -22,26 +22,28 @@
 						}()+
 						'<a class="smooFocus" href="#nogo">&nbsp;</a>'+
 					'</span>'+
-					'<div class="smooPresentation">'+
-						'<div id="smoo'+Math.floor(Math.random()*100)+'" class="smooSlideWrapper"></div>'+						
+					'<div class="smooView">'+
+						'<div id="smoo'+Math.floor(Math.random()*100)+'" class="smooPresentation"></div>'+
+						'<div class="smooSlider" />'+
 					'</div>'+
 					'<ul class="smooControl">'+
-						'<li class="smoothumb"><a href="#smoothumb" title="switch to thumbnail"></a></li>'+
-						'<li class="smoofr"><a href="#smoofr" title="go to previous slide"></a></li>'+
-						'<li class="smoor"><a href="#smoor" title="previous step"></a></li>'+
-						'<li class="smoof"><a href="#smoof" title="play/next step"></a></li>'+
-						'<li class="smooff"><a href="#smooff" title="go to next slide"></a></li>'+
-						'<li class="smooborder"><a></a></li>'+
+						'<li><a class="smoothumb" href="#smoothumb" title="switch to thumbnail"></a></li>'+
+						'<li><a class="smoofr" href="#smoofr" title="go to previous slide"></a></li>'+
+						'<li><a class="smoor" href="#smoor" title="previous step"></a></li>'+
+						'<li><a class="smoof" href="#smoof" title="play/next step"></a></li>'+
+						'<li><a class="smooff" href="#smooff" title="go to next slide"></a></li>'+
+						'<li><a class="smooborder"></a></li>'+
 					'</ul>'
 				),
-				$presentation = $this.find('div:first').fourthirdize(true),
+				$view = $this.children('div:first').fourthirdize(true),
+				$presentation = $view.children('div:first'),
 				// Build & init presentation
 				presentation = new $.smoo.Presentation(
-					$presentation.find('div:first'),
+					$presentation,
 					json_presentation,
 					function() {
 						for (var i in font_class)
-							font_class[i].coef = font_class[i].w / parseInt($this.find('span.smooFont'+i+':first').width());
+							font_class[i].coef = font_class[i].w / parseInt($this.find('span.smooFont' + i + ':first').width());
 						return font_class;
 					}()
 				),
@@ -63,21 +65,18 @@
 							break;
 					}
 				}),
-				$control = $this.find('ul:last').hover(
-					function(){
-						if ($.smoo.controlTimer) 
-							clearTimeout($.smoo.controlTimer);
-						$(this).animate({bottom: '30px', height: '30px'});
-					},
-					function(){
-						var $this = $(this);
-						$.smoo.controlTimer = setTimeout(function(){
-							$this.animate({height: '2px', bottom: '2px'});
-						}, 800);			
-					})
-				.find('li').click(function(e){
-					// FIX: currentTarget.className is not recognised by ie
-					switch (e.currentTarget.className) {
+				$control = $this.children('ul:first');
+				$control.mouseover(function(){
+					if ($.smoo.controlTimer) 
+						clearTimeout($.smoo.controlTimer);
+					$control.animate({bottom: '30px', height: '30px'});
+				}).mouseout(function(){
+					$.smoo.controlTimer = setTimeout(function(){
+						if ($control.is(':visible'))
+							$control.animate({height: '2px', bottom: '2px'});
+					}, 800);
+				}).click(function(e){
+					switch (e.target.className) {
 						case 'smoor':
 							presentation.rewind();
 							break;
@@ -91,19 +90,31 @@
 							presentation.fastforward();
 							break;
 						case 'smoothumb':
+							$control.fadeOut('slow');
 							presentation.thumbnailize();
-							$(this).attr({className: 'smoofull', title: 'switch to full size'});
-							break;
-						case 'smoofull':
-							presentation.fullsize();
-							$(this).attr({className: 'smoothumb', title: 'switch to thumbnails'});
-							break;
+							$view.addClass('thumbnail').css('overflow' + $.browser.msie? '-x' : '', 'auto');
+							break;						
 					}
 					$focus.focus();
-				}).end();
+				}).mouseout();
 			// Bind click event to the presentation container
-			$presentation.bind('click', function() {
-				presentation.forward();
+			$view.bind('click', function(e) {
+				if ($view.is('.thumbnail')) {
+					var elem = e.target, slide_id;
+					// Search for the id of clicked slide
+					do {
+						slide_id = elem.id? elem.id.match(/^smoo\d*?-s(\d*)/) : false;
+						elem = elem.parentNode;
+					} while (!slide_id && elem)
+					// Back to fullsize
+					if (elem) {
+						presentation.jump(slide_id[1], true);
+						$view.removeClass('thumbnail').css('overflow', 'hidden');
+						presentation.fullsize();
+						$control.fadeIn('slow').mouseout();
+					}
+				} else
+					presentation.forward();
 				// Give focus back to the Focus anchor
 				$focus.focus();
 				return false;
@@ -118,7 +129,7 @@
 					if ($.smoo.resizeTimer) 
 						clearTimeout($.smoo.resizeTimer);
 					resizeTimer = setTimeout(function(){
-						$presentation.fourthirdize();
+						$view.fourthirdize();
 					}, 100);
 				});
 			}

@@ -40,13 +40,13 @@ var presentation1 = {
 				h2: {
 					color: 'white',
 					fontSize: '160%',
-					fontClass: 'V',
+					fontClass: 'G',
 					top: '10%',
 					left: '10%'
 				},
 				ul: {
 					color: 'white',
-					fontClass: 'A',
+					fontClass: 'G',
 					top: '26%',
 					left: '10%'
 				}
@@ -213,6 +213,627 @@ var presentation1 = {
 					width: '60%',
 					height: '60%',
 					fontClass: 'G'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
+	            }
+	        }
+		},
+        a: [{
+            o: 'e0'
+        }, {
+            o: 'e1'
+        }]
+	}, {
+        m: 'm1',
+		t: [null, null],
+        e: {
+			e0: {        
+	            t: "h2",
+	            c: "Test",
+	            p: {
+	            }
+	        }, 
+			e1: {
+	            t: "p",
+	            c: 	"Hello",
+	            p: {
+	                top: '26%',
+	                left: '20%',
+					width: '60%',
+					height: '60%',
+					fontClass: 'A'
 	            }
 	        }
 		},

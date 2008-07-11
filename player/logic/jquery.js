@@ -1,13 +1,13 @@
 (function(){
 /*
- * jQuery 1.2.6 - New Wave Javascript
+ * jQuery 1.2.7pre - New Wave Javascript
  *
  * Copyright (c) 2008 John Resig (jquery.com)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
- * $Date: 2008-05-27 20:17:26 +0100 (mar., 27 mai 2008) $
- * $Rev: 5700 $
+ * $Date: 2008-06-30 17:17:44 +0100 (lun., 30 juin 2008) $
+ * $Rev: 5754 $
  */
 
 // Map over jQuery in case of overwrite
@@ -22,7 +22,7 @@ var jQuery = window.jQuery = window.$ = function( selector, context ) {
 
 // A simple way to check for HTML strings or ID strings
 // (both of which we optimize for)
-var quickExpr = /^[^<]*(<(.|\s)+>)[^>]*$|^#(\w+)$/,
+var quickExpr = /^[^<]*(<(.|\s)+>)[^>]*$|^#([\w-]+)$/,
 
 // Is it a simple selector
 	isSimple = /^.[^:#\[\.]*$/,
@@ -84,7 +84,7 @@ jQuery.fn = jQuery.prototype = {
 	},
 
 	// The current version of jQuery being used
-	jquery: "1.2.6",
+	jquery: "1.2.7pre",
 
 	// The number of elements contained in the matched element set
 	size: function() {
@@ -442,7 +442,7 @@ jQuery.fn = jQuery.prototype = {
 	},
 
 	eq: function( i ) {
-		return this.slice( i, i + 1 );
+		return this.slice( i, +i + 1 );
 	},
 
 	slice: function() {
@@ -944,11 +944,11 @@ jQuery.extend({
 			context = context.ownerDocument || context[0] && context[0].ownerDocument || document;
 
 		jQuery.each(elems, function(i, elem){
+			if ( typeof elem == 'number' )
+				elem += '';
+
 			if ( !elem )
 				return;
-
-			if ( elem.constructor == Number )
-				elem += '';
 
 			// Convert html string into DOM nodes
 			if ( typeof elem == "string" ) {
@@ -1369,7 +1369,8 @@ jQuery.each([ "Height", "Width" ], function(i, name){
 // Helper function used by the dimensions and offset modules
 function num(elem, prop) {
 	return elem[0] && parseInt( jQuery.curCSS(elem[0], prop, true), 10 ) || 0;
-}var chars = jQuery.browser.safari && parseInt(jQuery.browser.version) < 417 ?
+}
+var chars = jQuery.browser.safari && parseInt(jQuery.browser.version) < 417 ?
 		"(?:[\\w*_-]|\\\\.)" :
 		"(?:[\\w\u0128-\uFFFF*_-]|\\\\.)",
 	quickChild = new RegExp("^>\\s*(" + chars + "+)"),
@@ -1815,7 +1816,7 @@ jQuery.extend({
 });
 /*
  * A number of helper functions used for managing events.
- * Many of the ideas behind this code orignated from
+ * Many of the ideas behind this code originated from
  * Dean Edwards' addEvent library.
  */
 jQuery.event = {
@@ -1983,7 +1984,10 @@ jQuery.event = {
 		if ( !elem ) {
 			// Only trigger if we've ever bound an event for it
 			if ( this.global[type] )
-				jQuery("*").add([window, document]).trigger(type, data);
+				jQuery.each( jQuery.cache, function(){
+					if ( this.events && this.events[type] )
+						jQuery.event.trigger( type, data, this.handle.elem );
+				});
 
 		// Handle triggering a single element
 		} else {
@@ -2415,9 +2419,12 @@ var withinElement = function(event, elem) {
 // Prevent memory leaks in IE
 // And prevent errors on refresh with events like mouseover in other browsers
 // Window isn't included so as not to unbind existing unload events
-jQuery(window).bind("unload", function() {
-	jQuery("*").add(document).unbind();
-});
+jQuery( window ).bind( 'unload', function(){ 
+	for ( var id in jQuery.cache )
+		// Skip the window
+		if ( id != 1 && jQuery.cache[ id ].handle )
+			jQuery.event.remove( jQuery.cache[ id ].handle.elem );
+}); 
 jQuery.fn.extend({
 	// Keep a copy of the old load
 	_load: jQuery.fn.load,
@@ -2656,12 +2663,13 @@ jQuery.extend({
 			jQuery.event.trigger( "ajaxStart" );
 
 		// Matches an absolute URL, and saves the domain
-		var remote = /^(?:\w+:)?\/\/([^\/?#]+)/;
+		var parts = /^(\w+:)?\/\/([^\/?#]+)/.exec( s.url );
 
 		// If we're requesting a remote document
 		// and trying to load JSON or Script with a GET
-		if ( s.dataType == "script" && type == "GET"
-				&& remote.test(s.url) && remote.exec(s.url)[1] != location.host ){
+		if ( s.dataType == "script" && type == "GET" && parts
+			&& ( parts[1] && parts[1] != location.protocol || parts[2] != location.host )){
+
 			var head = document.getElementsByTagName("head")[0];
 			var script = document.createElement("script");
 			script.src = s.url;
@@ -2756,7 +2764,7 @@ jQuery.extend({
 					// Watch for, and catch, XML document parse errors
 					try {
 						// process the data (runs the xml through httpData regardless of callback)
-						data = jQuery.httpData( xhr, s.dataType, s.dataFilter );
+						data = jQuery.httpData( xhr, s.dataType, s );
 					} catch(e) {
 						status = "parsererror";
 					}
@@ -2880,7 +2888,7 @@ jQuery.extend({
 		return false;
 	},
 
-	httpData: function( xhr, type, filter ) {
+	httpData: function( xhr, type, s ) {
 		var ct = xhr.getResponseHeader("content-type"),
 			xml = type == "xml" || !type && ct && ct.indexOf("xml") >= 0,
 			data = xml ? xhr.responseXML : xhr.responseText;
@@ -2889,8 +2897,9 @@ jQuery.extend({
 			throw "parsererror";
 			
 		// Allow a pre-filtering function to sanitize the response
-		if( filter )
-			data = filter( data, type );
+		// s != null is checked to keep backwards compatibility
+		if( s && s.dataFilter )
+			data = s.dataFilter( data, type );
 
 		// If the type is "script", eval it in global context
 		if ( type == "script" )
@@ -2984,26 +2993,6 @@ jQuery.fn.extend({
 				});
 	},
 
-	slideDown: function(speed,callback){
-		return this.animate({height: "show"}, speed, callback);
-	},
-
-	slideUp: function(speed,callback){
-		return this.animate({height: "hide"}, speed, callback);
-	},
-
-	slideToggle: function(speed, callback){
-		return this.animate({height: "toggle"}, speed, callback);
-	},
-
-	fadeIn: function(speed, callback){
-		return this.animate({opacity: "show"}, speed, callback);
-	},
-
-	fadeOut: function(speed, callback){
-		return this.animate({opacity: "hide"}, speed, callback);
-	},
-
 	fadeTo: function(speed,to,callback){
 		return this.animate({opacity: to}, speed, callback);
 	},
@@ -3012,17 +3001,16 @@ jQuery.fn.extend({
 		var optall = jQuery.speed(speed, easing, callback);
 
 		return this[ optall.queue === false ? "each" : "queue" ](function(){
-			if ( this.nodeType != 1)
-				return false;
-
+		
 			var opt = jQuery.extend({}, optall), p,
-				hidden = jQuery(this).is(":hidden"), self = this;
-
+				hidden = this.nodeType == 1 && jQuery(this).is(":hidden"),
+				self = this;
+	
 			for ( p in prop ) {
 				if ( prop[p] == "hide" && hidden || prop[p] == "show" && !hidden )
 					return opt.complete.call(this);
 
-				if ( p == "height" || p == "width" ) {
+				if ( ( p == "height" || p == "width" ) && this.style ) {
 					// Store display property
 					opt.display = jQuery.css(this, "display");
 
@@ -3118,6 +3106,19 @@ jQuery.fn.extend({
 
 });
 
+// Generate shortcuts for custom animations
+jQuery.each({
+	slideDown: { height:"show" },
+	slideUp: { height: "hide" },
+	slideToggle: { height: "toggle" },
+	fadeIn: { opacity: "show" },
+	fadeOut: { opacity: "hide" }
+}, function( name, props ){
+	jQuery.fn[ name ] = function( speed, callback ){
+		return this.animate( props, speed, callback );
+	};
+});
+
 var queue = function( elem, type, array ) {
 	if ( elem ){
 
@@ -3157,7 +3158,7 @@ jQuery.extend({
 
 		opt.duration = (opt.duration && opt.duration.constructor == Number ?
 			opt.duration :
-			jQuery.fx.speeds[opt.duration]) || jQuery.fx.speeds.def;
+			jQuery.fx.speeds[opt.duration]) || jQuery.fx.speeds._default;
 
 		// Queueing
 		opt.old = opt.complete;
@@ -3204,13 +3205,13 @@ jQuery.fx.prototype = {
 		(jQuery.fx.step[this.prop] || jQuery.fx.step._default)( this );
 
 		// Set display property to block for height/width animations
-		if ( this.prop == "height" || this.prop == "width" )
+		if ( ( this.prop == "height" || this.prop == "width" ) && this.elem.style )
 			this.elem.style.display = "block";
 	},
 
 	// Get the current size
 	cur: function(force){
-		if ( this.elem[this.prop] != null && this.elem.style[this.prop] == null )
+		if ( this.elem[this.prop] != null && (!this.elem.style || this.elem.style[this.prop] == null) )
 			return this.elem[ this.prop ];
 
 		var r = parseFloat(jQuery.css(this.elem, this.prop, force));
@@ -3344,23 +3345,19 @@ jQuery.extend( jQuery.fx, {
 		slow: 600,
  		fast: 200,
  		// Default speed
- 		def: 400
+ 		_default: 400
 	},
 	step: {
-		scrollLeft: function(fx){
-			fx.elem.scrollLeft = fx.now;
-		},
-
-		scrollTop: function(fx){
-			fx.elem.scrollTop = fx.now;
-		},
 
 		opacity: function(fx){
 			jQuery.attr(fx.elem.style, "opacity", fx.now);
 		},
 
 		_default: function(fx){
-			fx.elem.style[ fx.prop ] = fx.now + fx.unit;
+			if( fx.prop in fx.elem ) 
+				fx.elem[ fx.prop ] = fx.now;
+			else if( fx.elem.style )
+				fx.elem.style[ fx.prop ] = fx.now + fx.unit;
 		}
 	}
 });
@@ -3498,7 +3495,7 @@ jQuery.fn.extend({
 	},
 
 	offsetParent: function() {
-		var offsetParent = this[0].offsetParent;
+		var offsetParent = this[0].offsetParent || document.body;
 		while ( offsetParent && (!/^body|html$/i.test(offsetParent.tagName) && jQuery.css(offsetParent, 'position') == 'static') )
 			offsetParent = offsetParent.offsetParent;
 		return jQuery(offsetParent);
