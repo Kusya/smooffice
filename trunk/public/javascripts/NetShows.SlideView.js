@@ -1,6 +1,9 @@
 /**
  * @author Clément GONNET
  * The slides main view
+ * 
+ * 
+ * TODO : Layer management : add "element" class for all elements to avoid swap them with x-resizable-proxy
  */
 NetShows.SlideView = function(presentation){
 	this.presentation = presentation;
@@ -20,12 +23,21 @@ NetShows.SlideView = function(presentation){
 		iconCls: 'icon-move-back',
 		text: (this.moveBackText) ? this.moveBackText : "Move back",
 		handler: function(){
-			if (this.focusElement.data.p.zIndex != this.slide.minIndex - 1) {
-				/*if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
-					this.slide.maxIndex--;
-				}*/
-				this.slide.minIndex--;
-				this.focusElement.setIndex(this.slide.minIndex);
+		
+			//If focusElement is not the first
+			if (this.focusElement.el.prev('.element')) {
+				var parent = this.focusElement.el.parent();
+				
+				//Insert FocusElement to the first position
+				parent.insertFirst(this.focusElement.el);
+				
+				//Changing slide elements array position
+				var focusIndex = this.slide.elements.indexOf(this.focusElement);
+				
+				//Swap the two elements
+				var tmpElement = this.slide.elements[0];
+				this.slide.elements[0] = this.focusElement;
+				this.slide.elements[focusIndex] = tmpElement;
 			}
 		},
 		scope: this
@@ -35,12 +47,19 @@ NetShows.SlideView = function(presentation){
 		iconCls: 'icon-move-backwards',
 		text: (this.moveBackwardsText) ? this.moveBackwardsText : "Move backwards",
 		handler: function(){
-			if (this.focusElement.data.p.zIndex != this.slide.minIndex) {
-				/*if(this.focusElement.data.p.zIndex == this.slide.maxIndex){
-					this.slide.maxIndex--;
-				}*/
-				this.focusElement.data.p.zIndex--;
-				this.focusElement.setIndex(this.focusElement.data.p.zIndex);
+			//If focusElement is not the first one
+			if (this.focusElement.el.prev('.element')) {
+				//Changing DOM position
+				//Insert FocusElement before the previous one
+				this.focusElement.el.insertBefore(this.focusElement.el.prev('.element'));
+				
+				//Changing slide elements array position
+				var focusIndex = this.slide.elements.indexOf(this.focusElement);
+				
+				//Swap the two elements
+				var tmpElement = this.slide.elements[focusIndex-1];
+				this.slide.elements[focusIndex-1] = this.focusElement;
+				this.slide.elements[focusIndex] = tmpElement;
 			}
 		},
 		scope: this
@@ -50,12 +69,18 @@ NetShows.SlideView = function(presentation){
 		iconCls: 'icon-move-front',
 		text: (this.moveFrontText) ? this.moveFrontText : "Move front",
 		handler: function(){
-			if (this.focusElement.data.p.zIndex != this.slide.maxIndex + 1) {
-				if(this.focusElement.data.p.zIndex == this.slide.minIndex){
-					this.slide.minIndex++;
-				}
-				this.slide.maxIndex++;
-				this.focusElement.setIndex(this.slide.maxIndex);
+			//If focusElement is not the last
+			if (this.focusElement.el.next('.element')) {
+				var parent = this.focusElement.el.parent();
+				
+				//Insert FocusElement after the last one
+				this.focusElement.el.insertAfter(parent.last('.element'));
+				
+				//Remove the element from the elements table
+				var index = this.slide.elements.indexOf(this.focusElement);
+				this.slide.elements.splice(index,1);
+				//Add the element at the end of the table
+				this.slide.elements.push(this.focusElement);
 			}
 		},
 		scope: this
@@ -65,20 +90,19 @@ NetShows.SlideView = function(presentation){
 		iconCls: 'icon-move-forwards',
 		text: (this.moveForwardsText) ? this.moveForwardsText : "Move forwards",
 		handler: function(){
-			
-			if (this.focusElement.data.p.zIndex != this.slide.maxIndex) {
-				/*if(this.focusElement.data.p.zIndex == this.slide.minIndex){
-					msg_log('min');
-					this.slide.minIndex++;
-				}*/
-				this.focusElement.data.p.zIndex++;
-				this.focusElement.setIndex(this.focusElement.data.p.zIndex);
-				//msg_log(this.focusElement.data.p.zIndex++);
-			}/*else{
-				this.slide.maxIndex++;
-				this.focusElement.setIndex(this.slide.maxIndex);
-			}*/
-			msg_log("move_forwar\nnew zIndex : " + this.focusElement.data.p.zIndex);
+			//If focusElement is not already the last node
+			if (this.focusElement.el.next('.element')) {
+				//Insert FocusElement after the next one
+				this.focusElement.el.insertAfter(this.focusElement.el.next('.element'));
+				
+				//Changing slide elements array position
+				var focusIndex = this.slide.elements.indexOf(this.focusElement);
+				
+				//Swap the two elements
+				var tmpElement = this.slide.elements[focusIndex+1];
+				this.slide.elements[focusIndex+1] = this.focusElement;
+				this.slide.elements[focusIndex] = tmpElement;
+			}
 		},
 		scope: this
 	});
@@ -184,7 +208,6 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		
 		if(element.data.className == 'text'){
 			myResizableElement.dd.endDrag = function(){
-				msg_log('onDrop');
 				element.endDrag = true;
 			}
 		}
