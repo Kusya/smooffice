@@ -4,19 +4,18 @@
  * Element which compose a slide
  */
 
- Element = function(data, slideId, index){
+ Element = function(data, slideId){
  	/*
 	 * Properties
 	 */
 		this.data = data;
-		this.id = Ext.id();
+		this.id = Ext.id({},'e');
 		this.slideId = slideId;
-		this.index = "e" + index;
 		
 		//Generate CSS string
 		this.cssStyle = '';
 		
-		/*
+	/*
 	 * Functions
 	 */
 		this.generateCSS = function(){
@@ -120,8 +119,11 @@
 			this.generateCSS();
 			this.el.applyStyles(this.cssStyle);
 			
-			//Add the proper class belonging the type of element
+			//Add the proper class belonging to the type of element
 			this.el.addClass(this.data.className);
+			
+			//Add element class
+			this.el.addClass('element');
 			
 			
 			if (this.data.t == 'map') {
@@ -139,7 +141,9 @@
 		}
 		this.destroy = function(){
 			this.el.remove();
-			this.map = null;//A revoir pour détruire la map
+			if (this.data.className == 'map') {
+				this.map = null;//A revoir pour détruire la map
+			}
 		}
 		this.resizeEvent = function(){
 			//msg_log('resize ' + this.data.t)
@@ -165,6 +169,7 @@
 		this.getJSON = function(){
 			this.getProperties();
 			return {
+				id: this.id,
 				t: this.data.t,
 				c: this.data.c,
 				p: this.data.p

@@ -103,11 +103,11 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
         //Prevent bug while loading the page
         if (this.tabclosed || TabPanel.items.getCount() > 1) {
             if (tab.id == 'main-view') {
-                msg_log("TabPanel - Preview");
+                //msg_log("TabPanel - Preview");
                 this.fireEvent('previewview', tab.presentation);
             }
             else {
-                msg_log("TabPanel - Editor");
+                //msg_log("TabPanel - Editor");
                 this.fireEvent('editorview', tab.presentation);
             }
         }

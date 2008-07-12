@@ -3,11 +3,10 @@
  * Panel which contain the data view of slides
 */
 NetShows.SlideBrowser = function(){
-
 	this.actionNew = new Ext.Action({
 		text: (this.newSlideText) ? this.newSlideText : "New Slide",
 		iconCls: 'icon-new-slide',
-		handler: function(){	
+		handler: function(){
 			Ext.Ajax.request({
 				url: '/slide/create',
 				params: {
@@ -31,7 +30,7 @@ NetShows.SlideBrowser = function(){
 						//Update slides array
 						var mySlide = new Slide(myRecord.data, this.presentation.id);
 						this.presentation.slides.splice(index, 0, mySlide);
-					//msg_log(this.presentation.slides);
+						//msg_log(this.presentation.slides);
 					}
 					else {
 						this.presentation.store.add(myRecord);
@@ -48,9 +47,11 @@ NetShows.SlideBrowser = function(){
 					//Select and highlight the new slide
 					var myNode = this.slideDataView.getNode(index);
 					this.slideDataView.select(myNode);
+					
+					this.selectSlide(myNode);
 					Ext.fly(myNode).highlight();
 				},
-				scope:this
+				scope: this
 			});
 		},
 		scope: this
@@ -77,7 +78,7 @@ NetShows.SlideBrowser = function(){
 						this.presentation.store.remove(this.tmpRecord);
 						
 						this.presentation.slides[index].destroy();
-						this.presentation.slides.splice(index,1);
+						this.presentation.slides.splice(index, 1);
 						//msg_log(this.presentation.slides);
 						
 						if (this.presentation.store.getCount() == 0) {
@@ -89,15 +90,8 @@ NetShows.SlideBrowser = function(){
 							var myNode = this.slideDataView.getNode(index);
 							this.slideDataView.select(myNode);
 							
-							if (myNode) {
-								var record = this.slideDataView.getRecord(myNode);
-								//Change the slide in the tab view
-								msg_log("select slide number : " + this.presentation.store.indexOf(record));
-								//Event catched in NetShows.js
-								this.fireEvent('selectslide', {
-									number: this.presentation.store.indexOf(record)
-								});
-							}
+							
+							this.selectSlide(myNode);
 							
 							//Save the actual state of the slides and its order
 							this.presentation.saveState();
@@ -115,7 +109,7 @@ NetShows.SlideBrowser = function(){
 		root: 'slides'
 	});
 	
-	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="{id}">', '<div class="thumb-mask">&nbsp;</div>', '<div class="wrap-under">{html}</div>','</div>', '</tpl>', '<div class="x-clear"></div>');
+	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="{id}">', '<div class="thumb-mask">&nbsp;</div>', '<div class="wrap-under">{html}</div>', '</div>', '</tpl>', '<div class="x-clear"></div>');
 	
 	this.slideDataView = new Ext.DataView({
 		//reader: this.reader,
@@ -125,16 +119,8 @@ NetShows.SlideBrowser = function(){
 		overClass: 'x-view-over',
 		itemSelector: 'div.thumb-wrap',
 		listeners: {
-			click : function(dataview, index, node, e ){
-				if (node) {
-					var record = this.slideDataView.getRecord(node);
-					//Change the slide in the tab view
-					msg_log("select slide number : " + this.presentation.store.indexOf(record));
-					//Event catched in NetShows.js
-					this.fireEvent('selectslide', {
-						number: this.presentation.store.indexOf(record)
-					});
-				}
+			click: function(dataview, index, node, e){
+				this.selectSlide(node);
 			},
 			scope: this
 		}
@@ -151,6 +137,17 @@ NetShows.SlideBrowser = function(){
 };
 
 Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
+	selectSlide:function(selectedNode){
+		if (selectedNode) {
+			var record = this.slideDataView.getRecord(selectedNode);
+			//Change the slide in the tab view
+			msg_log("select slide number : " + this.presentation.store.indexOf(record));
+			//Event catched in NetShows.js
+			this.fireEvent('selectslide', {
+				number: this.presentation.store.indexOf(record)
+			});
+		}
+	},
 	refresh:function(){
 		var selected = this.slideDataView.getSelectedIndexes();
 		this.slideDataView.refresh();

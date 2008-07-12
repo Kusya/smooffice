@@ -9,77 +9,79 @@ var Slide = function(data, p_id){
 	 */
 	//Id in the database
 	this.id = data.id;
+	
 	//Id for the dom element
 	this.slideId = 'slide-wrap-' + this.id;
 	this.presentation_id = p_id;
 	
 	this.data = data;
 	this.properties = this.data.p ? this.data.p : {};
-	this.elements = data.e?data.e:{};
+	this.data.e = data.e ? data.e : [];
+	this.elements = [];
 	
 	//Number of elements
-	this.nbElements = 0;
+	//this.nbElements = 0;
 	
 	//Min and max layer index
-	this.minIndex = this.maxIndex = 2000;
+	//this.minIndex = this.maxIndex = 2000;
 	
-	this.transitions = data.t ? data.t : [{
-		f: null
-	}, {
-		f: null
-	}];
+	this.transitions = data.t ? data.t : [null];
 	this.animations = data.a ? data.a : [];
 	
 	//The generated dom corresponding to the slide
 	this.el = null;
 	
-		//css style to apply to the slide
-		this.cssStyle = '';
+	//css style to apply to the slide
+	this.cssStyle = '';
+	
 	/*
 	 * Function
 	 */
 	//Generate slide content
 	this.init = function(){
 		//If the slide has elements
-		if (this.elements != {}) {
-			var first = true;
-			for (var i in this.elements) {
-				if (first) {
-					//Initialize min and max of z-index
-					this.minIndex = this.maxIndex = this.elements[i].p.zIndex ? this.elements[i].p.zIndex : this.maxIndex;
-					first = false;
-				}
-				if(this.elements[i].p.zIndex === undefined){
-					this.elements[i].p.zIndex = this.maxIndex++;
-				}
-				this.elements[i] = new Element(this.elements[i], this.slideId, i);
+		if (this.data.e.length > 0) {
+		
+			//Initialize min and max z-index value
+			//this.minIndex = this.maxIndex = this.data.e[0].p.zIndex ? this.data.e[0].p.zIndex : this.maxIndex;
+			Ext.each(this.data.e, function(item){
+				//-------->>>>>>>>>>>  Inutile plus tard : généré lors de la création d'un élement
+				//Set the zIndex of the element
+				//if (item.p.zIndex === undefined) {
+				//	item.p.zIndex = this.maxIndex++;
+				//}
+				//------->>>>>>>>>>>>
 				
-				//Set the max and the min belong each zIndex properties
-				if (this.elements[i].data.p.zIndex) {
-					if (this.elements[i].data.p.zIndex > this.maxIndex) {
-						this.maxIndex = this.elements[i].data.p.zIndex
+				var element = new Element(item, this.slideId);
+				
+				this.elements.push(element);
+				
+				/*Set the max and the min belong each zIndex properties
+				if (element.data.p.zIndex) {
+					if (element.data.p.zIndex > this.maxIndex) {
+						this.maxIndex = element.data.p.zIndex
 					}
 					else 
-						if (this.elements[i].data.p.zIndex < this.minIndex) {
-							this.minIndex = this.elements[i].data.p.zIndex
+						if (element.data.p.zIndex < this.minIndex) {
+							this.minIndex = element.data.p.zIndex
 						}
-				}
-				this.nbElements++;
-			}
+				}*/
+				
+			}, this);
 		}
 		this.generateCSS();
 	}
 	
-		this.generateCSS = function(){
-			for (var l in this.properties) {
-				this.cssStyle += l.replace(/[A-Z]/, function(match){
-					return '-' + match.toLowerCase();
-				}) +
-				': ' +
-				this.properties[l] +
-				';';
-			}
+	this.generateCSS = function(){
+		for (var l in this.properties) {
+			this.cssStyle += l.replace(/[A-Z]/, function(match){
+				return '-' + match.toLowerCase();
+			}) +
+			': ' +
+			this.properties[l] +
+			';';
 		}
+	}
 	
 	//Create the dom element
 	this.show = function(){
@@ -94,10 +96,10 @@ var Slide = function(data, p_id){
 			
 			this.el.applyStyles(this.cssStyle);
 			
-			//msg_log('slide.createDom');	
-			for (var i in this.elements) {
-				this.elements[i].createDom();
-			}
+			
+			Ext.each(this.elements, function(item){
+				item.createDom();
+			}, this);
 			
 			//If the slide has already been generated
 		}
@@ -110,6 +112,12 @@ var Slide = function(data, p_id){
 		}
 	}
 	this.destroy = function(){
+		//Destroy all elements
+		Ext.each(this.elements, function(item){
+			item.destroy();
+		}, this);
+		
+		//Remove the slide from the DOM
 		if (this.el) {
 			this.el.remove();
 		}
@@ -118,7 +126,7 @@ var Slide = function(data, p_id){
 		switch (params.type) {
 			case 'color':
 				this.properties.backgroundColor = params.p.color;
-				this.el.applyStyles('background-color:'+params.p.color);
+				this.el.applyStyles('background-color:' + params.p.color);
 				this.generateCSS();
 				break;
 			case 'null':
@@ -136,65 +144,55 @@ var Slide = function(data, p_id){
 	}
 	
 	this.addElement = function(params){
-		//Set the z-index position to element
+		/*Set the z-index position to element
 		this.maxIndex++;
 		Ext.apply(params.p, {
 			zIndex: this.maxIndex
-		});
+		});*/
 		
-		this.nbElements++;
-		
-		//Creating element
-		var element = new Element(params, this.slideId, this.nbElements);
-		
-		msg_log(this.elements);
-		msg_log(element.index);
-		
-		//Create dom
+		var element = new Element(params, this.slideId);
+		this.elements.push(element);
 		element.createDom();
-		
-		//Add element to slide elements object
-		this.elements['e' + this.nbElements] = element;
-		
 		return element;
 	}
 	
 	this.removeElement = function(resizable, element){
 		//Remove the element from the elements table
-		//var index = this.elements.indexOf(element);
-		//this.elements.splice(index);
+		var index = this.elements.indexOf(element);
+		this.elements.splice(index,1);
 		
 		//Destroy the element
 		element.destroy();
+		
 		//Destroy the resizable element
 		resizable.destroy();
 		resizable = null;
-		//this.elements[element.index] = null;
 		element = null;
 	}
 	
 	this.getPreview = function(){
-		var globalHtml = '<div style="'+this.cssStyle+'width:100%;height:100%;position:absolute;">';
-		for (var i in this.elements) {
-			globalHtml += this.elements[i].getPreview();
-		}
+		var globalHtml = '<div style="' + this.cssStyle + 'width:100%;height:100%;position:absolute;">';
+		
+		Ext.each(this.elements, function(item){
+			globalHtml += item.getPreview();
+		}, this);
 		globalHtml += '</div>'
 		return globalHtml;
 	}
 	
 	this.getProperties = function(){
-		for (var i in this.elements) {
-			this.elements[i].getProperties();
-		}
+		Ext.each(this.elements, function(item){
+			item.getProperties();
+		}, this);
 	}
 	
 	this.resizeEvent = function(){
 		//Resize only if the size changed
 		if (this.lastSize != this.el.getWidth()) {
-			
-			for (var i in this.elements) {
-				this.elements[i].resizeEvent();
-			}
+		
+			Ext.each(this.elements, function(item){
+				item.resizeEvent();
+			}, this);
 			
 			//Save the last size of the slide
 			this.lastSize = this.el.getWidth();
@@ -211,13 +209,11 @@ var Slide = function(data, p_id){
 	//Send the JSON string of the actual slide
 	this.save = function(callbackFn, scopeFn){
 		//For each element, we get the object used to the JSON
-		var elementJSON = {};
+		var elementJSON = [];
 		
-		for (var i in this.elements) {
-			elementJSON[i] = this.elements[i].getJSON();
-		}
-		
-		msg_log(elementJSON);
+		Ext.each(this.elements, function(item){
+			elementJSON.push(item.getJSON());
+		}, this);
 		
 		this.json = Ext.util.JSON.encode({
 			c: '',//Commentaires
@@ -226,6 +222,8 @@ var Slide = function(data, p_id){
 			e: elementJSON,
 			p: this.properties
 		});
+		
+		msg_log(this.json);
 		
 		Ext.Ajax.request({
 			url: '/slide/save',
