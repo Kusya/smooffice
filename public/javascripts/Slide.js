@@ -42,31 +42,10 @@ var Slide = function(data, p_id){
 		//If the slide has elements
 		if (this.data.e.length > 0) {
 		
-			//Initialize min and max z-index value
-			//this.minIndex = this.maxIndex = this.data.e[0].p.zIndex ? this.data.e[0].p.zIndex : this.maxIndex;
 			Ext.each(this.data.e, function(item){
-				//-------->>>>>>>>>>>  Inutile plus tard : généré lors de la création d'un élement
-				//Set the zIndex of the element
-				//if (item.p.zIndex === undefined) {
-				//	item.p.zIndex = this.maxIndex++;
-				//}
-				//------->>>>>>>>>>>>
-				
 				var element = new Element(item, this.slideId);
 				
 				this.elements.push(element);
-				
-				/*Set the max and the min belong each zIndex properties
-				if (element.data.p.zIndex) {
-					if (element.data.p.zIndex > this.maxIndex) {
-						this.maxIndex = element.data.p.zIndex
-					}
-					else 
-						if (element.data.p.zIndex < this.minIndex) {
-							this.minIndex = element.data.p.zIndex
-						}
-				}*/
-				
 			}, this);
 		}
 		this.generateCSS();
@@ -126,19 +105,19 @@ var Slide = function(data, p_id){
 	this.setTransition = function(params){
 		//msg_log(params);
 		if(params.effect != undefined){
-			this.transition = {f:params.effect,p:{}};
+			this.transition = {f:params.effect};
 		}
 		if(params.direction != undefined){
-			this.transition.p.direction = params.direction;
+			this.transition.direction = params.direction;
 		}
 		if(params.duration != undefined){
-			this.transition.p.duration = params.duration;
+			this.transition.duration = params.duration;
 		}
 		if(params.o != undefined){
 			this.transition.o = params.o;
 		}
 		if(params.horizFirst != undefined){
-			this.transition.p.horizFirst = params.horizFirst;
+			this.transition.horizFirst = params.horizFirst;
 		}
 		msg_log(this.transition);
 	}
@@ -174,6 +153,9 @@ var Slide = function(data, p_id){
 		var element = new Element(params, this.slideId);
 		this.elements.push(element);
 		element.createDom();
+		
+		this.animations.push({o:element.id});
+		
 		return element;
 	}
 	

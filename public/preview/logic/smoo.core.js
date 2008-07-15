@@ -289,7 +289,7 @@
 		
 		var comment = json.c || '',
 			use_master = json.m || false,
-			transition = [ json.t[0] || master.t[0], json.t[1] || master.t[1]],		
+			transition = json.t || master.t,		
 			$this = jQuerify($parent, id, use_master? $.extend({}, master[use_master].p, json.p) : json.p),
 			$slide = $this.parent();
 		
@@ -375,7 +375,7 @@
 					// Remove '%' and make sure there is a fontSize
 					css.fontSize = parseInt(css.fontSize) || 100;
 					// We need an extra className to keep trac of fontClass and original fontSize
-					$parent.append('<'+type+' id="'+id+'" class="smooElement smoo'+css.fontClass + css.fontSize+'">'+content+'</'+type+'>');
+					$parent.append('<div id="'+id+'" class="smooElement smoo'+css.fontClass + css.fontSize+'">'+content+'</div>');
 					// Adjust fontSize according to fontClass
 					css.fontSize = font_class[css.fontClass].coef * css.fontSize + '%';
 					css.fontFamily = font_class[css.fontClass].family;

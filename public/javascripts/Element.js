@@ -69,6 +69,10 @@
 				default:
 					html += '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
 					this.data.className = 'text';
+//-------->Inutile plus tard
+					if(this.data.p.fontClass === undefined)
+						this.data.p.fontClass = 'A';
+//-------->
 			}
 			return html;
 		}
