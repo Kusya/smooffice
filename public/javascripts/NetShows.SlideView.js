@@ -130,17 +130,17 @@ NetShows.SlideView = function(presentation){
 Ext.extend(NetShows.SlideView, Ext.Panel, {
 	setNoFocus: function(e){
 		//If the target is "slide-wrap" or "slide-wrap-slide-{0}" or "slide-view"
-		if (e === true || Ext.get(e.target).parent() == Ext.get('slide-wrap-' + this.presentation.id) || Ext.get(e.target) == Ext.get('slide-wrap-' + this.presentation.id) || Ext.get(e.target) == Ext.get('slide-wrap-' + this.presentation.id).parent() || Ext.get(e.target) == Ext.get('slide-view)')) {
+		if (e === true || Ext.get(e.target).parent() == Ext.get('slide-wrap-' + this.presentation.id) || Ext.get(e.target) == Ext.get('slide-wrap-' + this.presentation.id) || Ext.get(e.target) == Ext.get('slide-wrap-' + this.presentation.id).parent() || Ext.get(e.target) == Ext.get('slide-view')) {
 			this.setFocusElement(null);
 		}
 		this.presentation.updatePreview();
-		NetShows.browserPanel.slideBrowser.refresh();
 	},
 	removeResizable: function(){
 		if (this.resizableElement) {
 			//Remove the resizable class
 			this.resizableElement.getEl().removeClass('x-resizable-pinned');
 			this.resizableElement.destroy(false);
+			msg_log('remove resizable');
 		}
 	},
 	setFocusElement: function(element){
@@ -206,7 +206,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		
 		var myResizableElement = new Ext.Resizable(element.el, config);
 		
-		if(element.data.className == 'text'){
+		if(element.data.className == 'text' || element.data.className == 'video' || element.data.className == 'map'){
 			myResizableElement.dd.endDrag = function(){
 				element.endDrag = true;
 			}
@@ -266,11 +266,13 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 					data.elementData = {};
 					if (imagesFileTypes.indexOf(t) != -1) {
 						data.elementData.type = 'img';
+						data.elementData.thumbnail = null;
 					}
 					
 					else 
 						if (t == 'file-mov' || t == 'file-mp4' || t == 'file-mpg' || t == 'file-rm' || t == 'file-wmv') {
 							data.elementData.type = 'video';
+							data.elementData.thumbnail = null;
 						}
 						else {
 							return false;
@@ -281,7 +283,8 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 				var myElement = panel.slide.addElement({
 					t: data.elementData.type,
 					c: {
-						src: data.elementData.url
+						src: data.elementData.url,
+						img: data.elementData.thumbnail
 					},
 					p: {
 						top: LeftTop.top,

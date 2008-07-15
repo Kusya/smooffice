@@ -128,8 +128,6 @@ NetShows.SlideBrowser = function(){
 	
 	NetShows.SlideBrowser.superclass.constructor.call(this, {
 		id: 'slides-preview',
-		layout: 'fit',
-		autoScroll: false,
 		border: false,
 		items: this.slideDataView
 	});
@@ -149,9 +147,14 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 		}
 	},
 	refresh:function(){
+		//Keep selected index before refreshing
 		var selected = this.slideDataView.getSelectedIndexes();
+		//Refresh DataView
 		this.slideDataView.refresh();
+		//Set previous selected slide
 		this.slideDataView.select(selected);
+		
+		this.doLayout();
 	},
 	savePreviousState: function(){
 		this.presentation.selectedSlides = this.slideDataView.getSelectedIndexes();
@@ -162,9 +165,7 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 		
 		//Update the dataview
 		this.slideDataView.setStore(this.presentation.store);
-		this.slideDataView.refresh();
-		
-		this.doLayout();
+		this.refresh();
 		
 		//Select the first slide or the previous one
 		if (this.presentation.selectedSlides === undefined) {

@@ -25,7 +25,7 @@ var Slide = function(data, p_id){
 	//Min and max layer index
 	//this.minIndex = this.maxIndex = 2000;
 	
-	this.transitions = data.t ? data.t : [null];
+	this.transition = data.t ? data.t : [null];
 	this.animations = data.a ? data.a : [];
 	
 	//The generated dom corresponding to the slide
@@ -122,6 +122,27 @@ var Slide = function(data, p_id){
 			this.el.remove();
 		}
 	}
+	
+	this.setTransition = function(params){
+		//msg_log(params);
+		if(params.effect != undefined){
+			this.transition = {f:params.effect,p:{}};
+		}
+		if(params.direction != undefined){
+			this.transition.p.direction = params.direction;
+		}
+		if(params.duration != undefined){
+			this.transition.p.duration = params.duration;
+		}
+		if(params.o != undefined){
+			this.transition.o = params.o;
+		}
+		if(params.horizFirst != undefined){
+			this.transition.p.horizFirst = params.horizFirst;
+		}
+		msg_log(this.transition);
+	}
+	
 	this.setBackground = function(params){
 		switch (params.type) {
 			case 'color':
@@ -159,15 +180,22 @@ var Slide = function(data, p_id){
 	this.removeElement = function(resizable, element){
 		//Remove the element from the elements table
 		var index = this.elements.indexOf(element);
-		this.elements.splice(index,1);
+		this.elements.splice(index, 1);
 		
-		//Destroy the element
-		element.destroy();
-		
-		//Destroy the resizable element
-		resizable.destroy();
-		resizable = null;
-		element = null;
+		Ext.fly(element.el).switchOff({
+			easing: 'easeOut',
+			remove:true,
+			callback: function(){
+				//Destroy the element
+				element.destroy();
+				
+				//Destroy the resizable element
+				resizable.destroy();
+				resizable = null;
+				element = null;
+			},
+			scope: this
+		});
 	}
 	
 	this.getPreview = function(){
@@ -218,7 +246,7 @@ var Slide = function(data, p_id){
 		this.json = Ext.util.JSON.encode({
 			c: '',//Commentaires
 			a: this.animations,
-			t: this.transitions,
+			t: this.transition,
 			e: elementJSON,
 			p: this.properties
 		});

@@ -26,18 +26,18 @@ NetShows.MainPanel = function(){
     NetShows.MainPanel.superclass.constructor.call(this, {
         id: 'main-tabs',
         activeTab: 0,
-        autoDestroy: true,
+        resizeTabs:true,
         region: 'center',
         margins: '0 5 5 0',
         tabWidth: 150,
         minTabWidth: 120,
         enableTabScroll: true,
-        plugins: new Ext.ux.TabCloseMenu(),
 		listeners:{
-			render:function(){
+			'render':function(){
 				this.getTopToolbar().tb.disable();
 			}
 		},
+        plugins: new Ext.ux.TabCloseMenu(),
         tbar: new Ext.ux.HtmlEditorToolbar({
             enableFormat: true,
             enableFontSize: true,
@@ -48,20 +48,20 @@ NetShows.MainPanel = function(){
             enableLinks: true,
             enableFont: true
         }),
-        keys: [{
-            // Delete Key = Delete
+        /*keys: [{
+            //Delete Key = Delete
             key: 46,
             stopEvent: true,
             scope: this
-            //fn: this.getActiveTab().getTopToolbar().fireEvent('remove')
-        }],
+            fn: this.getActiveTab().getTopToolbar().fireEvent('remove')
+        }],*/
         
         items: {
             id: 'main-view',
             title: (this.generalText) ? this.generalText : 'General',
             cls: 'preview',
             closable: false,
-            border: true,
+			border:true,
             html: NetShows.getHomeTemplate().apply({
                 introTitle: (this.introTitleText) ? this.introTitleText : 'Introduction',
                 introContent: (this.introContentText) ? this.introContentText : "Welcome to NetShows, the new presentation maker. We hope you'll enjoy the wide set of hudge features such as amazing transitions, aesthetically pleasing elements animation, and much more..."
@@ -75,8 +75,6 @@ NetShows.MainPanel = function(){
     //Prevent tab change bug on startup
     this.tabclosed = false;
     
-    
-    //this.on('render', this.load, this);
     this.on('tabchange', this.onTabChange, this);
     
 };
@@ -87,17 +85,10 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
         this.el.mask(this.loadingText, 'x-mask-loading');
     },
     
-    removeTab: function(id){
-        var tab = this.getItem('tab-' + id);
-        if (tab) {
-            this.remove(tab);
-        }
-    },
-    
     setSlide: function(params){
-        this.getActiveTab().getComponent('slide-view-'+this.getActiveTab().presentation.id).setSlide(params);
+		this.getActiveTab().getComponent('slide-view-' + this.getActiveTab().presentation.id).setSlide(params);
 		NetShows.accordion.setSlide(params);
-    },
+	},
     
     onTabChange: function(TabPanel, tab){
         //Prevent bug while loading the page
@@ -116,16 +107,16 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
         }
     },
     
-    onTabClose: function(){
-        msg_log('deleting slides data store');
-        this.getActiveTab().presentation.store = null;
-        Ext.MessageBox
+    onCloseTab: function(){
         Ext.Msg.show({
             title: this.saveChangesText ? this.saveChangesText : 'Save changes',
             msg: this.closeMsgText ? this.closeMsgText : 'You have closed a tab that has unsaved changes. Would you like to save your changes ?',
             buttons: Ext.Msg.YESNOCANCEL,
             fn: function(btn){
                 msg_log(btn);
+				
+        		msg_log('deleting slides data store');
+        		this.getActiveTab().presentation.store = null;
             }
         });
     },
@@ -165,15 +156,13 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                 presentation: presentation,
                 items: new NetShows.SlideView(presentation),
                 listeners: {
-                    render: function(){
+					'resize':function(){
+						tab.getComponent(0).resizeEvent();
+					},
+                    'render': function(){
 						this.doLayout();
 						var slideView = tab.getComponent(0);
-						
-				        //slideView.resizeEvent.call(slideView);
-						
-				        tab.on('resize', slideView.resizeEvent, slideView);
 				        
-        
                         tab.getTopToolbar().on('save', slideView.saveSlide, slideView);
                         tab.getTopToolbar().on('newtext', slideView.newText, slideView);
                         tab.getTopToolbar().on('newmap', slideView.newMap, slideView);
@@ -197,7 +186,6 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                                     this.previewWindow = new Ext.Window({
                                         title: (this.previewWindowTitle) ? this.previewWindowTitle : "Presentation preview",
                                         iconCls: 'icon-preview',
-										bodyStyle:'z-index:10000',
                                         width: 500,
                                         height: 400,
                                         resizable: true,
@@ -220,7 +208,9 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                             
                         }, this);
                     },
-                    close: this.onTabClose,
+                    'close': function(){
+						msg_log('close');
+					},//this.onCloseTab,
                     scope: this
                 }
             });

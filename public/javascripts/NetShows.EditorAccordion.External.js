@@ -115,7 +115,8 @@ Ext.extend(NetShows.EditorAccordion.External, Ext.Panel, {
 						ddel: d,
 						elementData: {
 							url: dataView.getRecord(sourceEl).data.url,
-							type: dataView.ownerCt.type
+							type: dataView.ownerCt.type,
+							thumbnail: dataView.getRecord(sourceEl).data.thumbnail
 						}
 					}
 				}

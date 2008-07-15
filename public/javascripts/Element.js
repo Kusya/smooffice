@@ -9,7 +9,7 @@
 	 * Properties
 	 */
 		this.data = data;
-		this.id = Ext.id({},'e');
+		this.id = this.data.i || Ext.id({},'e');
 		this.slideId = slideId;
 		
 		//Generate CSS string
@@ -59,43 +59,11 @@
 					html += '<img src="' + this.data.c.src + '" alt="" title="" width="100%" height="auto" />';
 					break;
 				case 'video':
-					var e = this.data.c.src.substring(this.data.c.src.length - 3, this.data.c.src.length);
-					if (e == 'swf' || e == 'flv') {
-						html += '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-						html += '<param name="movie" value="' + this.data.c.src + '"></param>';
-						html += '<param name="wmode" value="transparent"></param>';
-						html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
-						html += '</object>';
-					}
-					else 
-						if (e == 'wmv' || e == 'wma' || e == 'asx' || e == 'asf') {
-							html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="0" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"></embed>';
-							
-						}
-						else 
-							if (e == 'mov' || e == 'mp4') {
-								html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autoplay="false" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
-								
-							}
-							else 
-								if (e == '.rm') {
-									html += '<embed type="audio/x-pn-realaudio-plugin" style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="false" controls="imagewindow" nojava="true" console="c1212599607702" pluginspage="http://www.real.com/"></embed>';
-									html += '<br><embed type="audio/x-pn-realaudio-plugin"  style="z-index:1;position:absolute" width="100%" height="26" src="' + this.data.c.src + '" autostart="false" nojava="true" controls="ControlPanel" console="c1212599607702"></embed>';
-								}
-								else {
-									html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-									html += '<param name="movie" value="' + this.data.c.src + '"></param>';
-									html += '<param name="wmode" value="transparent"></param>';
-									html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
-									html += '</object>';
-								}
-					
-					html += '<div class="move-corner">&nbsp;</div>';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:auto;position:absolute;" />';
 					break;
 					
 				case 'map':
-					html += '<img src="/images/map.gif" alt="" title="" style="width:100%;height:auto;position:absolute;" />';
-					html += '<div class="move-corner">&nbsp;</div>';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:auto;position:absolute;" />';
 					break;
 					
 				default:
@@ -126,11 +94,54 @@
 			this.el.addClass('element');
 			
 			
-			if (this.data.t == 'map') {
+			switch(this.data.className) {
+				case 'map':
 				this.data.c = !this.data.c ? {} : this.data.c;
 				this.map = new GoogleMap(this.el.dom, this.data.c);
 				this.el.on('load', this.resizeEvent, this);
-			}
+				this.el.addClass('element-mask');
+				this.el.insertFirst({
+					html: '<div class="mask">&nbsp;</div>'
+				});
+			break;
+			case 'video':
+					var html = '';
+					var e = this.data.c.src.substring(this.data.c.src.length - 3, this.data.c.src.length);
+					if (e == 'swf' || e == 'flv') {
+						html += '<object width="100%" height="100%" style="z-index:1;position:absolute">';
+						html += '<param name="movie" value="' + this.data.c.src + '"></param>';
+						html += '<param name="wmode" value="transparent"></param>';
+						html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+						html += '</object>';
+					}
+					else 
+						if (e == 'wmv' || e == 'wma' || e == 'asx' || e == 'asf') {
+							html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="0" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"></embed>';
+							
+						}
+						else 
+							if (e == 'mov' || e == 'mp4') {
+								html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autoplay="false" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
+								
+							}
+							else 
+								if (e == '.rm') {
+									html += '<embed type="audio/x-pn-realaudio-plugin" style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="false" controls="imagewindow" nojava="true" console="c1212599607702" pluginspage="http://www.real.com/"></embed>';
+									html += '<br><embed type="audio/x-pn-realaudio-plugin"  style="z-index:1;position:absolute" width="100%" height="26" src="' + this.data.c.src + '" autostart="false" nojava="true" controls="ControlPanel" console="c1212599607702"></embed>';
+								}
+								else {
+									html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
+									html += '<param name="movie" value="' + this.data.c.src + '"></param>';
+									html += '<param name="wmode" value="transparent"></param>';
+									html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+									html += '</object>';
+								}
+					this.el.dom.innerHTML = html;
+					this.el.addClass('element-mask');
+					this.el.insertFirst({
+						html: '<div class="mask">&nbsp;</div>'
+					});
+				}
 			
 			//Add listeners
 			this.el.on('click', this.onClick, this);
@@ -169,7 +180,7 @@
 		this.getJSON = function(){
 			this.getProperties();
 			return {
-				id: this.id,
+				i: this.id,
 				t: this.data.t,
 				c: this.data.c,
 				p: this.data.p
@@ -218,41 +229,87 @@
 		}
 		
 		this.onClick = function(e){
-			if (this.data.className == 'text') {
-				if (this.mode == null) {
-					this.mode = 'focus';
-					NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
-				}
-				else 
-					if (this.mode == 'focus' && !this.endDrag) {
-						//Remove the resizable element
-						NetShows.mainPanel.getActiveSlideView().removeResizable();
-						this.mode = 'editor';
-						this.el.addClass('text-editor');
-						this.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
-							globalToolBar: NetShows.mainPanel.getTopToolbar(),
-							value: this.el.dom.innerHTML
-						});
-						this.el.hide();
-						this.el.dom.innerHTML = '';
-						this.editor.render(this.el.dom);
-						this.el.show();
+			switch (this.data.className) {
+				case 'text':
+					if (this.mode == null) {
+						this.mode = 'focus';
+						NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 					}
+					else 
+						if (this.mode == 'focus' && !this.endDrag) {
+							//Remove the resizable element
+							NetShows.mainPanel.getActiveSlideView().removeResizable();
+							this.mode = 'editor';
+							this.el.addClass('text-editor');
+							this.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
+								globalToolBar: NetShows.mainPanel.getTopToolbar(),
+								value: this.el.dom.innerHTML
+							});
+							this.el.hide();
+							this.el.dom.innerHTML = '';
+							this.editor.render(this.el.dom);
+							this.el.show();
+						}
+					break;
+				case 'video':
+					if (this.mode == null) {
+						this.mode = 'focus';
+						//this.el.addClass('element-mask');
+						NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+					}
+					else 
+						if (this.mode == 'focus' && !this.endDrag) {
+							//Remove the resizable element
+							NetShows.mainPanel.getActiveSlideView().removeResizable();
+							this.mode = 'play';
+							this.el.removeClass('element-mask');
+						}
+					break;
+				case 'map':
+					if (this.mode == null) {
+						this.mode = 'focus';
+						//this.el.addClass('element-mask');
+						NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+					}
+					else 
+						if (this.mode == 'focus' && !this.endDrag) {
+							//Remove the resizable element
+							NetShows.mainPanel.getActiveSlideView().removeResizable();
+							this.mode = 'modify';
+							this.el.removeClass('element-mask');
+						}
+					break;
+				default:
+					NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
+					break;
 			}
-			else {
-				NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
-			}
-			this.endDrag = false;
+			//this.endDrag = false;
 		}
 		this.blur = function(){
-			if (this.data.className == 'text') {
-				if (this.mode == 'editor') {
-					this.endDrag = false;
-					this.el.removeClass('text-editor');
-					this.el.dom.innerHTML = this.data.c = this.editor.getValue();
-					this.editor.destroy();
-				}
-				this.mode = null;
+			switch (this.data.className) {
+				case 'text':
+					if (this.mode == 'editor') {
+						this.endDrag = false;
+						this.el.removeClass('text-editor');
+						this.el.dom.innerHTML = this.data.c = this.editor.getValue();
+						this.editor.destroy();
+					}
+					this.mode = null;
+					break;
+				case 'video':
+					if (this.mode == 'play') {
+						this.endDrag = false;
+						this.el.addClass('element-mask');
+					}
+					this.mode = null;
+					break;
+				case 'map':
+					if (this.mode == 'modify') {
+						this.endDrag = false;
+						this.el.addClass('element-mask');
+					}
+					this.mode = null;
+					break;
 			}
 		}
 		this.onContextMenu = function(e){

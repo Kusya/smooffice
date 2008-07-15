@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 2.0.2
+ * Ext JS Library 2.1
  * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -10,7 +10,6 @@
 // Very simple plugin for adding a close context menu to tabs
 
 Ext.ux.TabCloseMenu = function(){
-
     var tabs, menu, ctxItem;
     this.init = function(tp){
         tabs = tp;
@@ -21,13 +20,13 @@ Ext.ux.TabCloseMenu = function(){
         if(!menu){ // create context menu on first right click
             menu = new Ext.menu.Menu([{
                 id: tabs.id + '-close',
-                text: (Ext.closeTabText)?Ext.closeTabText:"Close Tab",
+                text: 'Close Tab',
                 handler : function(){
                     tabs.remove(ctxItem);
                 }
             },{
                 id: tabs.id + '-close-others',
-                text: (Ext.closeOthersText)?Ext.closeOthersText:"Close Other Tabs",
+                text: 'Close Other Tabs',
                 handler : function(){
                     tabs.items.each(function(item){
                         if(item.closable && item != ctxItem){
