@@ -105,8 +105,9 @@ Ext.onReady(function(){
 								Ext.each(this.slides, function(item){
 									var index = this.slides.indexOf(item);
 									this.store.getAt(index).data.html = item.getPreview();
-									//NetShows.browserPanel.slideBrowser.slideDataView.refresh();
 								}, this);
+								
+								NetShows.browserPanel.slideBrowser.refresh();
 							}
 							
 							presentation.init = function(){
@@ -117,7 +118,7 @@ Ext.onReady(function(){
 										var mySlide = new Slide(item.data, presentation.id);
 										presentation.slides.push(mySlide);
 									});
-									this.updatePreview();
+									//this.updatePreview();
 								}
 								//Open the presentation in a tab
 								NetShows.mainPanel.openPresentation(presentation);

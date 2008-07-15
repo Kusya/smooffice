@@ -65,8 +65,9 @@ NetShows.EditorAccordion = function(){
     
     
     //Youtube
-    var youtubeTpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap">', //'<img src="{thumbnail}" title="{title}">',
- '<object width="130" height="97"><param name="movie" value="{url}&hl=en"></param><param name="wmode" value="transparent"></param><embed src="{url}&hl=en" type="application/x-shockwave-flash" wmode="transparent" width="130" height="97"></embed></object>', '<div class="title">{title:ellipsis(25)}</div>', '</div>', '</tpl>', '<div class="x-clear"></div>');
+    var youtubeTpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap">', '<img src="{thumbnail}" title="{title}">',
+ //'<object width="130" height="97"><param name="movie" value="{url}&hl=en"></param><param name="wmode" value="transparent"></param><embed src="{url}&hl=en" type="application/x-shockwave-flash" wmode="transparent" width="130" height="97"></embed></object>',
+ '<div class="title">{title:ellipsis(25)}</div>', '</div>', '</tpl>', '<div class="x-clear"></div>');
     
     this.youtube = new NetShows.EditorAccordion.External({
         id: 'youtube-view',
