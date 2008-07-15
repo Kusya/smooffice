@@ -2,26 +2,16 @@
  * @author cgonnet
  */
 NetShows.EditorAccordion.Slide = function(){
-	this.direction2 = [{
-		name: 'Horizontal',
-		code: 'horizontal'
-	}, {
-		name: 'Vertical',
-		code: 'vertical'
-	}];
-	this.direction4 = [{
-		code: 'left',
-		name: 'Left'
-	}, {
-		code: 'right',
-		name: 'Right'
-	}, {
-		code: 'up',
-		name: 'Up'
-	}, {
-		code: 'down',
-		name: 'Down'
-	}];
+	this.backgroundStore = new Ext.data.SimpleStore({
+		fields: ['code', 'mode'],
+		data: [['null', this.backgroundNoneText || 'None'], ['clr', this.backgroundColorText || 'Color']	//, ['img', 'Image']
+		]
+	});
+	this.directionStore = new Ext.data.SimpleStore({
+		fields: ['code', 'name'],
+		data: [['vertical', 'Vertical'], ['horizontal', 'Horizontal']]
+	});
+	
 	this.effects = [{
 		code: 'null',
 		name: this.effectNullText || 'None',
@@ -31,20 +21,20 @@ NetShows.EditorAccordion.Slide = function(){
 	}, {
 		code: 'blind',
 		name: this.effectBlindText || 'Blind',
-		direction: 2,
+		direction: [['vertical', 'Vertical'], ['horizontal', 'Horizontal']],
 		duration: true,
 		horizFirst: false
 	}, {
 		code: 'clip',
 		name: this.effectClipText || 'Clip',
-		direction: 2,
+		direction: [['vertical', 'Vertical'], ['horizontal', 'Horizontal']],
 		duration: true,
 		horizFirst: false
 	}, {
 		code: 'drop',
 		name: this.effectDropText || 'Drop',
 		duration: true,
-		direction: 4,
+		direction: [['left', 'Left'], ['right', 'Right'], ['up', 'Up'], ['down', 'Down']],
 		horizFirst: false
 	}, {
 		code: 'fade',
@@ -68,7 +58,7 @@ NetShows.EditorAccordion.Slide = function(){
 		code: 'slide',
 		name: this.effectSlideText || 'Slide',
 		duration: true,
-		direction: 4,
+		direction: [['left', 'Left'], ['right', 'Right'], ['up', 'Up'], ['down', 'Down']],
 		horizFirst: false
 	}, {
 		code: 'puff',
@@ -145,79 +135,31 @@ NetShows.EditorAccordion.Slide = function(){
 									}
 									
 									//Direction
-									if (item.direction == 2) {
-										
-										//Ext.override(Ext.getCmp('transition-direction4'),{hideLabel:true});
-											Ext.getCmp('transition-direction4').hide();
-										
-										if (initialEffect) {
-											if (initialEffect.p) {
-												if (initialEffect.p.direction) {
-													Ext.each(this.direction2,function(dir2) {
-														if (dir2.code == initialEffect.p.direction) {
-															Ext.getCmp('transition-direction2').setValue(dir2.name);
-														}
-													},this);
+									if (item.direction) {
+										//Set the right value
+										if (initialEffect && initialEffect.p && initialEffect.p.direction) {
+											Ext.each(item.direction,function(directionItem){
+												if (directionItem[0] == initialEffect.p.direction) {
+													Ext.getCmp('transition-direction').setValue(directionItem[1]);
 												}
-												else {
-													Ext.getCmp('transition-direction2').setValue(this.direction2[0].name);
-												}
-											}
-											else {
-												Ext.getCmp('transition-direction2').setValue(this.direction2[0].name);
-											}
+											},this);
 										}
 										else {
-											Ext.getCmp('transition-direction2').setValue(this.direction2[0].name);
+											Ext.getCmp('transition-direction').setValue(item.direction[0][1]);
 										}
+										this.directionStore.loadData(item.direction);
+										Ext.getCmp('transition-direction').enable();
 										
-											//Ext.override(Ext.getCmp('transition-direction2'),{hideLabel:false});
-										Ext.getCmp('transition-direction2').show();
-										Ext.getCmp('transition-direction2').enable();
+									}else{
+										Ext.getCmp('transition-direction').disable();
 									}
-									else 
-										if (item.direction == 4) {
-											//Ext.override(Ext.getCmp('transition-direction4'),{hideLabel:false});
-											Ext.getCmp('transition-direction4').show();
-											//Ext.override(Ext.getCmp('transition-direction2'),{hideLabel:true});
-											Ext.getCmp('transition-direction2').hide();
-											if (initialEffect) {
-												if (initialEffect.p) {
-													if (initialEffect.p.direction) {
-														Ext.each(this.direction4, function(dir4){
-															if (dir4.code == initialEffect.p.direction) {
-																Ext.getCmp('transition-direction2').setValue(dir4.name);
-															}
-														}, this);
-													}
-													else {
-														Ext.getCmp('transition-direction4').setValue(this.direction4[0].name);
-													}
-												}
-												else {
-													Ext.getCmp('transition-direction4').setValue(this.direction4[0].name);
-												}
-											}
-											else {
-												Ext.getCmp('transition-direction4').setValue(this.direction4[0].name);
-											}
-										}
-										else {
-											//Ext.override(Ext.getCmp('transition-direction2'),{hideLabel:false});
-											Ext.getCmp('transition-direction2').show();
-											Ext.getCmp('transition-direction2').disable();
-											//Ext.override(Ext.getCmp('transition-direction4'),{hideLabel:true});
-											Ext.getCmp('transition-direction4').hide();
-										}
 									
 									//horizFirst
 									if (item.horizFirst) {
-										//Ext.override(Ext.getCmp('transition-horizfirst'),{hideLabel:false});
 										Ext.getCmp('transition-horizfirst').show();
 										Ext.getCmp('transition-horizfirst').setValue(initialEffect ? initialEffect.p ? initialEffect.p.horizFirst ? initialEffect.p.horizFirst :false : false : false);
 									}
 									else {
-										//Ext.override(Ext.getCmp('transition-horizfirst'),{hideLabel:true});
 										Ext.getCmp('transition-horizfirst').hide();
 									}
 									
@@ -239,15 +181,12 @@ NetShows.EditorAccordion.Slide = function(){
 					}
 				}, {
 					xtype: 'combo',
-					id: 'transition-direction2',
+					id: 'transition-direction',
 					name: 'direction',
 					displayField: 'name',
 					width: 140,
 					listWidth: 140,
-					store: new Ext.data.SimpleStore({
-						fields: ['code', 'name'],
-						data: [['vertical', 'Vertical'], ['horizontal', 'Horizontal']]
-					}),
+					store: this.directionStore,
 					fieldLabel: (this.directionText) ? this.directionText : 'Direction',
 					forceSelection: true,
 					mode: 'local',
@@ -265,33 +204,6 @@ NetShows.EditorAccordion.Slide = function(){
 							if(field.rendered)
 							field.getEl().parent().show()
 						},*/
-						scope: this
-					},
-					editable: false,
-					shadow: 'drop',
-					triggerAction: 'all',
-					emptyText: (this.directionEmptyText) ? this.directionEmptyText : 'Select a direction...',
-					selectOnFocus: true
-				}, {
-					xtype: 'combo',
-					id: 'transition-direction4',
-					name: 'direction',
-					displayField: 'name',
-					width: 140,
-					listWidth: 140,
-					store: new Ext.data.SimpleStore({
-						fields: ['code', 'name'],
-						data: [['left', 'Left'], ['right', 'Right'], ['up', 'Up'], ['down', 'Down']]
-					}),
-					fieldLabel: (this.directionText) ? this.directionText : 'Direction',
-					forceSelection: true,
-					mode: 'local',
-					listeners: {
-						select: function(field, record){
-							this.slide.setTransition({
-								direction: record.data.code
-							});
-						},
 						scope: this
 					},
 					editable: false,
@@ -356,12 +268,12 @@ NetShows.EditorAccordion.Slide = function(){
 									this.slide.setTransition({
 										o: null
 									});
-									Ext.getCmp('transition-delay').getEl().parent().hide();
+									Ext.getCmp('transition-delay').hide();
 									break;
 								case 'auto':
-									Ext.getCmp('transition-delay').getEl().parent().show();
+									Ext.getCmp('transition-delay').show();
 									this.slide.setTransition({
-										o: 0
+										o: 3000
 									});
 									break;
 							}
@@ -377,7 +289,7 @@ NetShows.EditorAccordion.Slide = function(){
 					fieldLabel: 'Delay (ms)',
 					id: 'transition-delay',
 					name:'delay',
-					value: 0,
+					value: 3000,
 					width: 60,
 					style: 'text-align:right',
 					listeners: {
@@ -444,10 +356,7 @@ NetShows.EditorAccordion.Slide = function(){
 						displayField: 'mode',
 						width: 140,
 						listWidth: 140,
-						store: new Ext.data.SimpleStore({
-							fields: ['code', 'mode'],
-							data: [['null', 'None'], ['clr', 'Color'], ['img', 'Image']]
-						}),
+						store: backgroundStore,
 						forceSelection: true,
 						mode: 'local',
 						editable: false,
@@ -529,15 +438,14 @@ Ext.extend(NetShows.EditorAccordion.Slide, Ext.Panel, {
 		if (this.slide.properties.backgroundColor != undefined) {
 			var color = this.slide.properties.backgroundColor.substring(1, this.slide.properties.backgroundColor.length);
 			Ext.getCmp('clr-container-color-field').setValue(color);
-			//Ext.getCmp('background').select(1,false);
 			Ext.getCmp('background').setValue('Color');
 			Ext.getCmp('clr-container').show();
-			Ext.getCmp('img-container').hide();
+			//Ext.getCmp('img-container').hide();
 		}
 		else {
 			Ext.getCmp('background').setValue('None');
 			Ext.getCmp('clr-container').hide();
-			Ext.getCmp('img-container').hide();
+			//Ext.getCmp('img-container').hide();
 		}
 	}
 });
