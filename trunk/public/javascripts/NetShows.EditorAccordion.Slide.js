@@ -2,7 +2,7 @@
  * @author cgonnet
  */
 NetShows.EditorAccordion.Slide = function(){
-	this.backgroundStore = new Ext.data.SimpleStore({
+	var backgroundStore = new Ext.data.SimpleStore({
 		fields: ['code', 'mode'],
 		data: [['null', this.backgroundNoneText || 'None'], ['clr', this.backgroundColorText || 'Color']	//, ['img', 'Image']
 		]
@@ -128,7 +128,7 @@ NetShows.EditorAccordion.Slide = function(){
 									//Duration
 									if (item.duration) {
 										Ext.getCmp('transition-duration').enable();
-										Ext.getCmp('transition-duration').setValue(initialEffect ? initialEffect.p ? initialEffect.p.duration ? initialEffect.p.duration : 400 : 400 : 400);
+										Ext.getCmp('transition-duration').setValue(initialEffect.duration || 400);
 									}
 									else {
 										Ext.getCmp('transition-duration').disable();
@@ -137,9 +137,9 @@ NetShows.EditorAccordion.Slide = function(){
 									//Direction
 									if (item.direction) {
 										//Set the right value
-										if (initialEffect && initialEffect.p && initialEffect.p.direction) {
+										if (initialEffect && initialEffect.direction) {
 											Ext.each(item.direction,function(directionItem){
-												if (directionItem[0] == initialEffect.p.direction) {
+												if (directionItem[0] == initialEffect.direction) {
 													Ext.getCmp('transition-direction').setValue(directionItem[1]);
 												}
 											},this);
@@ -157,7 +157,7 @@ NetShows.EditorAccordion.Slide = function(){
 									//horizFirst
 									if (item.horizFirst) {
 										Ext.getCmp('transition-horizfirst').show();
-										Ext.getCmp('transition-horizfirst').setValue(initialEffect ? initialEffect.p ? initialEffect.p.horizFirst ? initialEffect.p.horizFirst :false : false : false);
+										Ext.getCmp('transition-horizfirst').setValue(initialEffect.horizFirst ||false);
 									}
 									else {
 										Ext.getCmp('transition-horizfirst').hide();

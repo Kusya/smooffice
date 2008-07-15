@@ -135,13 +135,9 @@ class PresentationController < ApplicationController
               :description => presentation.description,
               :created_at => "#{presentation.created_at}",
               :updated_at => "#{presentation.updated_at}",
-              :master => {:t=>[{
-                  :f=> 'slide',
-                  :direction=> 'down'
-                },{
-                  :f=> 'slide',
-                  :direction=> 'up'
-                }]},
+              :master => {:t=>{
+                  :f=> 'fade'
+                }},
               :slide => get_slides}
           end
         end
