@@ -126,6 +126,7 @@
 						var zob2 = slide[target - 1].transit(0);
 						zob.o = zob2.o;
 					}
+					console.log(zob)
 					return zob;
 				}());
 				thumbnail = false;				
