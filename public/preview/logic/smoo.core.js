@@ -212,7 +212,7 @@
 		 * build a transition object
 		 */
 		this.transit = function(i) {
-			return { el: $this, o: transition[i] };
+			return { el: $this, o: transition };
 		};
 		
 		this.thumbnailize = function(thumbnail) {
