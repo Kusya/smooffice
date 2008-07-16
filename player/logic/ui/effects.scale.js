@@ -116,7 +116,7 @@ $.effects.size = function(o) {
 			from: {y: el.from.height / original.height, x: el.from.width / original.width},
 			to: {y: el.to.height / original.height, x: el.to.width / original.width}
 		};
-		if (scale == 'box' || scale == 'both') { // Scale the css box
+		if (scale != 'content') { // Scale the css box
 			if (factor.from.y != factor.to.y) { // Vertical props scaling
 				props = props.concat(vProps);
 				el.from = $.effects.setTransition(el, vProps, factor.from.y, el.from);
@@ -128,7 +128,7 @@ $.effects.size = function(o) {
 				el.to = $.effects.setTransition(el, hProps, factor.to.x, el.to);
 			};
 		};
-		if (scale == 'content' || scale == 'both') { // Scale the content
+		if (scale != 'box') { // Scale the content
 			if (factor.from.y != factor.to.y) { // Vertical props scaling
 				props = props.concat(cProps);
 				el.from = $.effects.setTransition(el, cProps, factor.from.y, el.from);
