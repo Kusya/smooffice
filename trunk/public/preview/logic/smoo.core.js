@@ -96,15 +96,7 @@
 				var forward = target > current_slide? true : false;
 				// Hide current slide
 				// if (!thumbnail && current_slide >= 0) queue(slide[current_slide].transit(forward? 1 : 0));
-				if (!thumbnail && current_slide >= 0) queue(function() {
-					var zob = slide[current_slide].transit(0);
-					if (current_slide == 0) zob['o'].f = null;
-					else {
-						var zob2 = slide[current_slide - 1].transit(0);
-						zob.o = zob2.o;
-					}
-					return zob;
-				}());
+				if (!thumbnail && current_slide >= 0) queue(slide[current_slide].transit(forward? 1 : 0));
 				$this.queue(function() {
 					// Hide the magic of changeSlide in fullSize
 					if (!thumbnail) $this.css('display', 'none');
@@ -127,7 +119,15 @@
 				else current_slide = target;
 				// Show new slide
 				//if (!thumbnail) queue(slide[target].transit(forward? 0 : 1));
-				if (!thumbnail) queue(slide[target].transit(0));
+				if (!thumbnail) queue(function() {
+					var zob = slide[current_slide].transit(0);
+					if (current_slide == 0) zob['o'].f = null;
+					else {
+						var zob2 = slide[current_slide - 1].transit(0);
+						zob.o = zob2.o;
+					}
+					return zob;
+				}());
 				thumbnail = false;				
 			}
 		}
