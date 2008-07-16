@@ -140,7 +140,6 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			//Remove the resizable class
 			this.resizableElement.getEl().removeClass('x-resizable-pinned');
 			this.resizableElement.destroy(false);
-			msg_log('remove resizable');
 		}
 	},
 	setFocusElement: function(element){
@@ -160,9 +159,23 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		
 		//SetNoFocus
 		if (element == null) {
+			//Disable buttons in toolbar
+			Ext.getCmp('icon-remove').disable();
+			Ext.getCmp('icon-move-back').disable();
+			Ext.getCmp('icon-move-front').disable();
+			Ext.getCmp('icon-move-backwards').disable();
+			Ext.getCmp('icon-move-forwards').disable();
 			this.focusElement = null;
+			NetShows.accordion.setElement(null);
 			return true;
 		}
+		
+		//Enable buttons in toolbar
+		Ext.getCmp('icon-remove').enable();
+		Ext.getCmp('icon-move-back').enable();
+		Ext.getCmp('icon-move-front').enable();
+		Ext.getCmp('icon-move-backwards').enable();
+		Ext.getCmp('icon-move-forwards').enable();
 		
 		var config = {
 			pinned: true,
@@ -214,6 +227,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		
 		this.focusElement = element;
 		this.resizableElement = myResizableElement;
+		NetShows.accordion.setElement(element);
 	},
 	getFocusElement: function(){
 		msg_log(this.focusElement);

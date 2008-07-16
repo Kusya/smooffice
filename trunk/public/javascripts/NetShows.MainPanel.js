@@ -170,6 +170,20 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                         tab.getTopToolbar().on('remove', function(){
 							slideView.actionRemove.execute();
 						}, this);
+						
+						//Layer management
+                        tab.getTopToolbar().on('moveback', function(){
+							slideView.actionMoveBack.execute();
+						}, this);
+                        tab.getTopToolbar().on('movefront', function(){
+							slideView.actionMoveFront.execute();
+						}, this);
+                        tab.getTopToolbar().on('movebackwards', function(){
+							slideView.actionMoveBackwards.execute();
+						}, this);
+                        tab.getTopToolbar().on('moveforwards', function(){
+							slideView.actionMoveForwards.execute();
+						}, this);
                         tab.getTopToolbar().on('play', function(){
 							slideView.setNoFocus(true);
 							slideView.slide.save(function(){

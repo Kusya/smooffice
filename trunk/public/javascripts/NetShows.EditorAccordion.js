@@ -108,6 +108,12 @@ NetShows.EditorAccordion = function(){
         collapsible: true,
         collapsed: true,
         layout: 'accordion',
+	 	listeners: {
+	 		beforecollapse: function(){
+	 			this.animationpanel.getBottomToolbar().items.first().toggle(false);
+	 		},
+	 		scope: this
+	 	},
         layoutConfig: {
 			animate: true,
 			hideCollapseToolbar: false,
@@ -115,7 +121,7 @@ NetShows.EditorAccordion = function(){
 			fill: true,
 			sequence: true
 		},
-        items: [this.slidepanel, this.animationpanel, this.myFolder, this.flickr, this.youtube, this.charts]
+        items: [this.animationpanel,this.slidepanel,  this.myFolder, this.flickr, this.youtube, this.charts]
     });
     
     //A voir si utile ou plutot pollue l'utilisateur
@@ -148,7 +154,10 @@ Ext.extend(NetShows.EditorAccordion, Ext.Panel, {
 	},
 	setSlide:function(params){
 		this.slide =  this.presentation.slides[params.number];
-		this.animationpanel.slide = this.slide;
 		this.slidepanel.setSlide(this.slide);
+		this.animationpanel.setSlide(this.slide);
+	},
+	setElement:function(el){
+		this.animationpanel.setFocusElement(el);
 	}
 });
