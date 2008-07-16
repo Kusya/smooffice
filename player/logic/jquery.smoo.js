@@ -5,12 +5,12 @@
 	$.fn.smoo = function(json_presentation, full_screen) {
 		return this.each(function() {
 			var font_class = {
-				A: { family: 'Arial, Sans, FreeSans, sans-serif', w: 803 },
-				T: { family: '\'Times New Roman\', Serif, Times, FreeSerif, serif', w: 704 },
-				C: { family: '\'Courier New\', Mono, FreeMono, Courier, monospace', w: 1200 },
-				G: { family: 'Georgia, \'Century Schoolbook L\', serif', w: 863 },
-				V: { family: 'Verdana, Geneva, \'Bitstream Vera\', sans-serif', w: 924 }
-			},
+					A: { family: 'Arial, Sans, FreeSans, sans-serif', w: 803 },
+					T: { family: '\'Times New Roman\', Serif, Times, FreeSerif, serif', w: 704 },
+					C: { family: '\'Courier New\', Mono, FreeMono, Courier, monospace', w: 1200 },
+					G: { family: 'Georgia, \'Century Schoolbook L\', serif', w: 863 },
+					V: { family: 'Verdana, Geneva, \'Bitstream Vera\', sans-serif', w: 924 }
+				},
 				$this = $(this).append(
 					'<span class="smooHide">'+
 						// Create font benchmark
@@ -24,7 +24,7 @@
 					'</span>'+
 					'<div class="smooView">'+
 						'<div id="smoo'+Math.floor(Math.random()*100)+'" class="smooPresentation"></div>'+
-						'<div class="smooSlider" />'+
+						'<div class="smooSlider"><div class="smooHandle" /></div>'+
 					'</div>'+
 					'<ul class="smooControl">'+
 						'<li><a class="smoothumb" href="#smoothumb" title="switch to thumbnail"></a></li>'+
@@ -36,7 +36,7 @@
 					'</ul>'
 				),
 				$view = $this.children('div:first').fourthirdize(true),
-				$presentation = $view.children('div:first'),
+				$presentation = $view.children(':first'),
 				// Build & init presentation
 				presentation = new $.smoo.Presentation(
 					$presentation,
@@ -65,39 +65,63 @@
 							break;
 					}
 				}),
-				$control = $this.children('ul:first');
-				$control.mouseover(function(){
-					if ($.smoo.controlTimer) 
-						clearTimeout($.smoo.controlTimer);
-					$control.animate({bottom: '30px', height: '30px'});
-				}).mouseout(function(){
-					$.smoo.controlTimer = setTimeout(function(){
-						if ($control.is(':visible'))
-							$control.animate({height: '2px', bottom: '2px'});
-					}, 800);
-				}).click(function(e){
-					switch (e.target.className) {
-						case 'smoor':
-							presentation.rewind();
-							break;
-						case 'smoof':
-							presentation.forward();							
-							break;
-						case 'smoofr':
-							presentation.fastrewind();
-							break;
-						case 'smooff':
-							presentation.fastforward();
-							break;
-						case 'smoothumb':
-							$control.fadeOut('slow');
-							presentation.thumbnailize();
-							$view.addClass('thumbnail').css('overflow' + $.browser.msie? '-x' : '', 'auto');
-							break;						
-					}
-					$focus.focus();
-				}).mouseout();
-			// Bind click event to the presentation container
+				$control = $this.children('ul:first'),
+				$slider = $view.children(':last');
+			$slider.slider({
+				handle: ':first',
+				axis: 'vertical',
+				min: 0,
+				max: 150,
+				stop: function(event, ui) {
+                    $presentation.animate({'marginTop' : (presentation.length * ui.value / 150 -1) * -18.75 +'%'}, 500);
+                },
+                slide: function(event, ui) {
+                    $presentation.css('marginTop', (presentation.length * ui.value / 150 -1) * -18.75 +'%');
+                }
+			// UGLY: Overwrite keydown event to invert y axis and use steps
+			}).keydown(function(e) {
+				switch(e.which) {
+					case 38:
+						$slider.slider('moveTo', $slider.slider('value') - 150 / presentation.length);
+						break;
+					case 40:
+						$slider.slider('moveTo', $slider.slider('value') + 150 / presentation.length);
+						break;
+				}
+			}).children(':first').unbind('keydown');			
+			$control.mouseover(function(){
+				if ($.smoo.controlTimer) 
+					clearTimeout($.smoo.controlTimer);
+				if (!$view.is('.thumbnail')) $control.animate({bottom: '30px', height: '30px'});
+			}).mouseout(function(){
+				$.smoo.controlTimer = setTimeout(function(){
+					if ($control.is(':visible'))
+						$control.animate({height: '2px', bottom: '2px'});
+				}, 800);
+			}).click(function(e){
+				switch (e.target.className) {
+					case 'smoor':
+						presentation.rewind();
+						break;
+					case 'smoof':
+						presentation.forward();							
+						break;
+					case 'smoofr':
+						presentation.fastrewind();
+						break;
+					case 'smooff':
+						presentation.fastforward();
+						break;
+					case 'smoothumb':
+						$control.fadeOut('slow');						
+						presentation.thumbnailize();
+						$view.addClass('thumbnail');
+						break;						
+				}
+				// $slider.slider('focus', ['.smooHandle', $slider], true);
+				e.target.className != 'smoothumb'? $focus.focus() : $slider.fadeIn('slow').children(':first').focus();
+			}).mouseout();
+			// Bind click event to the view
 			$view.bind('click', function(e) {
 				if ($view.is('.thumbnail')) {
 					var elem = e.target, slide_id;
@@ -108,10 +132,11 @@
 					} while (!slide_id && elem)
 					// Back to fullsize
 					if (elem) {
-						presentation.jump(slide_id[1], true);
-						$view.removeClass('thumbnail').css('overflow', 'hidden');
+						presentation.jump(parseInt(slide_id[1]), true);
+						$view.removeClass('thumbnail');
 						presentation.fullsize();
 						$control.fadeIn('slow').mouseout();
+						$slider.fadeOut('slow');
 					}
 				} else
 					presentation.forward();
@@ -119,9 +144,11 @@
 				$focus.focus();
 				return false;
 			});
+			$presentation.bind('updateSlider', function(e, step) {
+				$slider.slider('moveTo', step * 150 / presentation.length, undefined, true);
+			});
 			if (full_screen) {
 				// This anchor is used to catch keydown event and need to keep focus.
-				// TODO : try a .blur(function() { $focus.focus(); })
 				$focus.focus();
 				// Keep the presentation in 4/3rd, fixed for the weird window.resize event in IE and safari.
 				var resizeTimer = null;
@@ -158,26 +185,5 @@
 					fontSize: parent_width / 4 +'%'
 				}, 'slow');
 		});
-	};
-	
-	$.fn.filterCss = function(map, master) {
-		var $this = $(this), 
-			css = {}, 
-			tmp;
-		for (var i in map) {
-			tmp = $this.css(i);
-			// make sure height, width, top & left are in percent
-			if (/^((wi)|(to)|(lef)|h)/.test(i) && !/%$/.test(tmp)) {
-				tmp = Math.round(100 * (parseInt(tmp) / parseInt(/^(to)|h/.test(i) ? 
-					$this.parents('div.smooPresentation').height() :
-					$this.parents('div.smooPresentation').width()))) 
-				+ '%';
-				// TODO : if it happens to often, consider replacing $this.parent('div.smooPresentation').dimension() by a precalculated dimensions
-				console.error('non percent value found in '+$this.attr('id'));
-			}
-			// add style only if different from master
-			if((!master || master[map[i]] === undefined || tmp != master[map[i]]) && (i != 'fontSize' || /%$/.test(tmp))) css[i] = tmp;
-		}
-		return css;
-	}
+	};	
 })(jQuery);

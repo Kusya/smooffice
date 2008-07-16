@@ -17,10 +17,6 @@ div.smooView {
 div.smooView *  {
 	margin: 0;
 	padding: 0;
-	font-size: 1em;
-	font-weight: normal;
-	font-style: normal;
-	text-decoration: none;
 }
 
 div.smooPresentation {
@@ -64,6 +60,33 @@ div.smooPresentation li  {
 }
 div.smooPresentation ul ul li {
 	font-size: 80%;
+}
+
+/** Slider **/
+div.smooSlider {
+	display: none;
+	position: absolute;
+	top: 50%;
+	margin-top: -75px;
+	right: 5px;
+	width: 5px;
+	height: 150px;
+	background: url(slider.png) no-repeat;
+	cursor: pointer;
+}
+
+div.smooHandle {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	margin: 0 -1px;
+	background: url(handle.png) no-repeat top;
+	cursor: move;
+	overflow: hidden;
+}
+
+div.smooHandle:hover {
+	background-position: bottom;
 }
 
 /** Control bar **/
@@ -122,29 +145,3 @@ ul.smooControl a.smooborder {
 	width: 41px; 
 	background-image: url(border.png)
 }
-
-
-
-
-/* div.smooSlideWrapper {
-	display: block;
-	margin: 0 auto;
-	height: 100%;
-	width: 25%;
-}
-
-div.smooFull {
-	height: 100%;
-	width: 100%;	
-}
-
-div.smooThumb {
-	width:25%;
-	height: 100%;
-	font-size: 25%;
-}
-
-div.smooThumb div.smooSlide  {
-	height:25%;
-	width: 25%;
-} */
