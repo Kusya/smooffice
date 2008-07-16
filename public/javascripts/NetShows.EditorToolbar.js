@@ -22,24 +22,24 @@ NetShows.EditorToolbar = function(){
 				//Catched in MainPanel.openPresentation
 				this.fireEvent('print');
 			},
-			scope:this
+			scope: this
 		}, {
-			tooltip: (this.fullScreenText)?this.fullScreenText:'Full screen',
+			tooltip: (this.fullScreenText) ? this.fullScreenText : 'Full screen',
 			iconCls: 'icon-full',
 			handler: function(){
 				//Catched in MainPanel.openPresentation
 				this.fireEvent('play');
 			},
-			scope:this
+			scope: this
 		}, {
-			text: (this.previewText)?this.previewText:'Preview',
-			tooltip:(this.previewTooltip)?this.previewTooltip:'Preview the current slide',
+			text: (this.previewText) ? this.previewText : 'Preview',
+			tooltip: (this.previewTooltip) ? this.previewTooltip : 'Preview the current slide',
 			iconCls: 'icon-preview',
 			handler: function(){
 				//Catched in MainPanel.openPresentation
 				this.fireEvent('preview');
 			},
-			scope:this
+			scope: this
 		}, '-', {
 			//handler: this.onButtonClick,
 			iconCls: 'icon-copy',
@@ -81,10 +81,48 @@ NetShows.EditorToolbar = function(){
 			scope: this
 		}, {
 			title: 'remove',
+			id:'icon-remove',
 			iconCls: 'icon-cross',
+			tooltip: 'Remove element',
 			handler: function(){
 				//Catched in MainPanel.openPresentation
 				this.fireEvent('remove');
+			},
+			scope: this
+		}, '-', {
+			iconCls: 'icon-move-back',
+			id:'icon-move-back',
+			tooltip: this.moveBackText || "Move back",
+			handler: function(){
+				//Catched in MainPanel.openPresentation
+				this.fireEvent('moveback');
+			},
+			scope: this
+		}, {
+			iconCls: 'icon-move-backwards',
+			id:'icon-move-backwards',
+			tooltip: this.moveBackwardsText || "Move backwards",
+			handler: function(){
+				//Catched in MainPanel.openPresentation
+				this.fireEvent('movebackwards');
+			},
+			scope: this
+		}, {
+			iconCls: 'icon-move-forwards',
+			id:'icon-move-forwards',
+			tooltip: this.moveForwardsText || "Move forwards",
+			handler: function(){
+				//Catched in MainPanel.openPresentation
+				this.fireEvent('moveforwards');
+			},
+			scope: this
+		}, {
+			iconCls: 'icon-move-front',
+			id:'icon-move-front',
+			tooltip: this.moveFrontText || "Move front",
+			handler: function(){
+				//Catched in MainPanel.openPresentation
+				this.fireEvent('movefront');
 			},
 			scope: this
 		}, '-', {

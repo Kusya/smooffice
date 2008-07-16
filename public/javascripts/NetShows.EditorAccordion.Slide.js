@@ -115,12 +115,6 @@ NetShows.EditorAccordion.Slide = function(){
 					triggerAction: 'all',
 					emptyText: this.effectEmptyText || 'Select an effect...',
 					listeners: {
-						'render': function(){
-							//Ext.getCmp('transition-effect').fireEvent('select',Ext.getCmp('transition-effect'),{data:{code:null}},true);
-							//Ext.getCmp('transition-direction4').hide();
-							//Ext.getCmp('transition-direction2').hide();
-							//Ext.getCmp('transition-horizfirst').hide();
-						},
 						'select': function(field, record, initialEffect){
 							Ext.each(this.effects,function(item){
 								
@@ -196,14 +190,6 @@ NetShows.EditorAccordion.Slide = function(){
 								direction: record.data.code
 							});
 						},
-						/*hide:function(field){
-							if(field.rendered)
-							field.getEl().parent().hide()
-						},
-						show:function(field){
-							if(field.rendered)
-							field.getEl().parent().show()
-						},*/
 						scope: this
 					},
 					editable: false,
@@ -255,7 +241,7 @@ NetShows.EditorAccordion.Slide = function(){
 					listWidth: 100,
 					store: new Ext.data.SimpleStore({
 						fields: ['code', 'trigger'],
-						data: [['clic', 'On mouse clic'], ['auto', 'Automatically']]
+						data: [['click', 'On mouse clic'], ['auto', 'Automatically']]
 					}),
 					fieldLabel: (this.triggerText) ? this.triggerText : 'Trigger',
 					forceSelection: true,
@@ -264,16 +250,16 @@ NetShows.EditorAccordion.Slide = function(){
 					listeners: {
 						select: function(field, record){
 							switch (record.data.code) {
-								case 'clic':
+								case 'click':
 									this.slide.setTransition({
-										o: null
+										n: 'click'
 									});
-									Ext.getCmp('transition-delay').hide();
+									Ext.getCmp('transition-delay').disable();
 									break;
 								case 'auto':
-									Ext.getCmp('transition-delay').show();
+									Ext.getCmp('transition-delay').enable();
 									this.slide.setTransition({
-										o: 3000
+										n: 3000
 									});
 									break;
 							}

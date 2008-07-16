@@ -101,25 +101,51 @@ var Slide = function(data, p_id){
 			this.el.remove();
 		}
 	}
+	this.getIndexAnimByElId = function(id){
+		this.tmpId = id;
+		Ext.each(this.animations, function(a, index){
+			if (a.o == this.tmpId) {
+				this.elIndex = index
+				return true
+			}
+		}, this);
+		
+		return this.elIndex;
+	}
+	this.setAnimation = function(element, type, params){
+	
+		if (params.effect != undefined) {
+			this.animations = {
+				f: params.effect
+			};
+		}
+		if (params.direction != undefined) {
+			this.animations.direction = params.direction;
+		}
+		if (params.duration != undefined) {
+			this.transition.duration = params.duration;
+		}
+	}
 	
 	this.setTransition = function(params){
 		//msg_log(params);
-		if(params.effect != undefined){
-			this.transition = {f:params.effect};
+		if (params.effect != undefined) {
+			this.transition = {
+				f: params.effect
+			};
 		}
-		if(params.direction != undefined){
+		if (params.direction != undefined) {
 			this.transition.direction = params.direction;
 		}
-		if(params.duration != undefined){
+		if (params.duration != undefined) {
 			this.transition.duration = params.duration;
 		}
-		if(params.o != undefined){
+		if (params.o != undefined) {
 			this.transition.o = params.o;
 		}
-		if(params.horizFirst != undefined){
+		if (params.horizFirst != undefined) {
 			this.transition.horizFirst = params.horizFirst;
 		}
-		msg_log(this.transition);
 	}
 	
 	this.setBackground = function(params){
@@ -145,16 +171,19 @@ var Slide = function(data, p_id){
 	
 	this.addElement = function(params){
 		/*Set the z-index position to element
-		this.maxIndex++;
-		Ext.apply(params.p, {
-			zIndex: this.maxIndex
-		});*/
-		
+		 this.maxIndex++;
+		 Ext.apply(params.p, {
+		 zIndex: this.maxIndex
+		 });*/
 		var element = new Element(params, this.slideId);
 		this.elements.push(element);
 		element.createDom();
 		
-		this.animations.push({o:element.id});
+		this.animations.push({
+			o: element.id
+		});
+		
+		this.fireEvent('addelement');
 		
 		return element;
 	}
@@ -164,9 +193,17 @@ var Slide = function(data, p_id){
 		var index = this.elements.indexOf(element);
 		this.elements.splice(index, 1);
 		
+		//Delete all corresponding animations
+		Ext.each(this.animations, function(a){
+			if (a.o == element.id) {
+				var index = this.animations.indexOf(a);
+				this.animations.splice(index, 1);
+			}
+		}, this);
+		
 		Ext.fly(element.el).switchOff({
 			easing: 'easeOut',
-			remove:true,
+			remove: true,
 			callback: function(){
 				//Destroy the element
 				element.destroy();
@@ -178,6 +215,15 @@ var Slide = function(data, p_id){
 			},
 			scope: this
 		});
+		this.fireEvent('removeelement');
+	}
+	
+	this.getElById = function(id){
+		Ext.each(this.elements, function(elem){
+			if (elem.id == id) 
+				this.e = elem
+		}, this);
+		return this.e || false;
 	}
 	
 	this.getPreview = function(){
@@ -248,4 +294,12 @@ var Slide = function(data, p_id){
 	};
 	
 	this.init();
+	
+	Slide.superclass.constructor.call(this, {});
+	this.addEvents({
+		'addelement': true,
+		'removeelement': true
+	});
 }
+
+Ext.extend(Slide, Ext.util.Observable, {});
