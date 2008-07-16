@@ -129,7 +129,7 @@
 					console.log(zob)
 					return zob;
 				}());
-				thumbnail = false;				
+				thumbnail = false;
 			}
 		}
 		
