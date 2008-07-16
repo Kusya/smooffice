@@ -97,55 +97,32 @@ ul.smooControl a:hover {
 }
 ul.smooControl a.smoofull {
 	width: 40px; 
-	background-image: url(full.png)
+	background-image: url(/public/preview/layout/full.png)
 }
 ul.smooControl a.smoothumb {
 	width: 40px; 
-	background-image: url(thumb.png)
+	background-image: url(/public/preview/layout/thumb.png)
 }
 ul.smooControl a.smoofr {
 	width: 32px; 
-	background-image: url(fastrewind.png)
+	background-image: url(/public/preview/layout/fastrewind.png)
 }
 ul.smooControl a.smoor {
 	width: 23px; 
-	background-image: url(rewind.png)
+	background-image: url(/public/preview/layout/rewind.png)
 }
 ul.smooControl a.smoof {
 	width: 32px; 
-	background-image: url(forward.png)
+	background-image: url(/public/preview/layout/forward.png)
 }
 ul.smooControl a.smooff {
 	width: 32px; 
-	background-image: url(fastforward.png)
+	background-image: url(/public/preview/layout/fastforward.png)
 }
 ul.smooControl a.smooborder {
 	width: 41px; 
-	background-image: url(border.png)
-}
-
-
-
-
-/* div.smooSlideWrapper {
-	display: block;
-	margin: 0 auto;
-	height: 100%;
-	width: 25%;
-}
-
-div.smooFull {
-	height: 100%;
-	width: 100%;	
-}
-
-div.smooThumb {
-	width:25%;
-	height: 100%;
-	font-size: 25%;
-}
-
-div.smooThumb div.smooSlide  {
+	background-image: url(/public/preview/layout/border.png)
+}oThumb div.smooSlide  {
 	height:25%;
 	width: 25%;
 } */
