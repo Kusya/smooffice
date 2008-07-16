@@ -104,7 +104,7 @@
 						zob.o = zob2.o;
 					}
 					return zob;
-				});
+				}());
 				$this.queue(function() {
 					// Hide the magic of changeSlide in fullSize
 					if (!thumbnail) $this.css('display', 'none');
