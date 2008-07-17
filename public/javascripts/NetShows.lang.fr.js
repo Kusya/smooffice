@@ -1,6 +1,4 @@
-
 if(NetShows.BrowserPanel){
-	msg_log('Language : french');
 	Ext.override(NetShows.BrowserPanel, {
 		presentationsText : "Présentations",
 		slidesText		: "Diapositives"
@@ -28,6 +26,13 @@ if (NetShows.MainPanel) {
 		fullScreenText	: "Visionner en plein écran",
 		generalText		: "Général",
 		loadingText		: 'Chargement...',
+		byText			: 'par',
+		tagsText		: 'Mots-clés',
+		updatedText		: 'Dernière modification le',
+		createdText		: 'Créée le',
+		noDescriptionText:	'Pas de description',
+		noTagsText		:	'Pas de mots-clés',
+		descriptionTitle: "Description",
 		introTitleText	: "Introduction",
 		introContentText: "Bienvenue dans NetShows, le site de création de présentations. Au nom de toute l'equipe, nous vous souhaitons une bonne utilisation. Nous espérons que vous apprecierez la multitude de fonctionnalités telles que des transitions captivantes, des animations esthétiques pour chaque élements, et bien plus encore..."
 	})
@@ -36,7 +41,7 @@ if (NetShows.MainPanel) {
 if (NetShows.PresentationBrowser) {
 	Ext.override(NetShows.PresentationBrowser, {
 		newText			: "Nouveau",
-		newFolderText	: "Nouveau dossier",
+		newFolderText	: "Créer dossier",
 		removeText		: "Supprimer",
 		modifyText		: "Modifier",
 		emptyTrashText	: "Vider la corbeille",
