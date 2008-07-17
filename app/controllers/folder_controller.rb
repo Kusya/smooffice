@@ -108,7 +108,7 @@ class FolderController < ApplicationController
 								
 				@jsonResult.push( { :id => "trash-node",
 									:text => "Trash",
-									:iconCls => "trash-icon-empty",
+									:iconCls => "icon-trash",
 									:cls => "folder-node",
 									:expanded => true,
 									:rendered => true,

@@ -195,7 +195,7 @@ var Slide = function(data, p_id){
 		
 		//Delete all corresponding animations
 		Ext.each(this.animations, function(a){
-			if (a.o == element.id) {
+			if (a && a.o == element.id) {
 				var index = this.animations.indexOf(a);
 				this.animations.splice(index, 1);
 			}

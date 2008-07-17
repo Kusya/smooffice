@@ -66,9 +66,8 @@ Ext.onReady(function(){
 		NetShows.accordion.collapse();
 		NetShows.accordion.disable();
 	}
-	NetShows.browserPanel.presentationBrowser.on('presentationselect', function(presentation){
-		//presentation.author = NetShows.user.firstname + ' ' + NetShows.user.lastname;
-		NetShows.mainPanel.loadPresentation(presentation);
+	NetShows.browserPanel.presentationBrowser.on('presentationselect', function(node){
+		NetShows.mainPanel.loadPresentation(node.attributes,node.isAncestor(node.getOwnerTree().root.lastChild),node.isLeaf());
 		onPreviewView();
 	});
 	NetShows.mainPanel.on('previewview', onPreviewView);

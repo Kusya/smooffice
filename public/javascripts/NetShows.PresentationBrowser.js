@@ -40,7 +40,7 @@ NetShows.PresentationBrowser = function(){
 	this.actionRemove.disable();
 	
 	this.actionModify = new Ext.Action({
-        text: (this.modifyText)?this.modifyText:"Modify",
+        text: this.modifyText||"Modify",
         iconCls:'modify-icon',
         scope: this,
         handler:function(){
@@ -53,21 +53,21 @@ NetShows.PresentationBrowser = function(){
 	});
 	
 	this.actionEmptyTrash = new Ext.Action({
-		text: (this.emptyTrashText)?this.emptyTrashText:"Empty trash",
-		iconCls:'trash-empty-icon',
+		text: this.emptyTrashText||"Empty trash",
+		iconCls:'icon-trash-empty',
 		scope: this,
 		handler: this.emptyTrash
 	});
 	
 	this.actionEdit = new Ext.Action({
-		text: (this.editText)?this.editText:"Edit",
+		text: this.editText||"Edit",
 		iconCls:'edit-icon',
 		scope: this,
 		handler: this.openPresentation
 	});
 	
 	this.actionDetails = new Ext.Action({
-		text: (this.detailsText)?this.detailsText:"Details",
+		text: this.detailsText||"Details",
 		iconCls:'details-icon',
 		scope: this,
 		handler: this.detailsPresentation
@@ -97,7 +97,16 @@ NetShows.PresentationBrowser = function(){
 				'load': this.ready,
 				scope: this
 			}
-        })
+        }),
+		listeners:{
+			'beforeload':function(node){
+				this.disable();
+			},
+			'load':function(node){
+				this.enable();
+			},
+			scope:this
+		}
     });
 	
 	/* Mais à quoi ça sert ce truc de merde ça change rien !!!! */
@@ -315,9 +324,7 @@ Ext.extend(NetShows.PresentationBrowser, Ext.tree.TreePanel, {
 	detailsPresentation : function(){
 		var node = (this.ctxNode)?this.ctxNode:this.getSelectionModel().getSelectedNode();
 		
-		//Diable details view for folders
-		if(node.isLeaf())
-		this.fireEvent('presentationselect', node.attributes);
+		this.fireEvent('presentationselect', node);
 	},
 
 	onClick : function(node){
@@ -339,9 +346,10 @@ Ext.extend(NetShows.PresentationBrowser, Ext.tree.TreePanel, {
 	setActionStates : function (n){
 		var node = (n)?n:(this.ctxNode)?this.ctxNode:this.getSelectionModel().getSelectedNode();
 
-		//Disable function for a folder
-		this.actionEdit.setDisabled(!node.isLeaf());
+		//Disable function for a folder and node in trash bin
+		this.actionEdit.setDisabled(!node.isLeaf() || node.isAncestor(this.trash));
 		this.actionDetails.setDisabled(!node.isLeaf());
+		this.actionModify.setDisabled(node.isAncestor(this.trash));
 		
 		//Disable the remove button from the bottom toolbar when the trash or the presentation folder are selected
     	var removeDisabled = (node.id == 'my-presentations' || node.id == 'trash-node')?true:false;

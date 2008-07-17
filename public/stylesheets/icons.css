@@ -39,9 +39,14 @@
 /*
  * NetShows.PresentationBrowser
  */
-.trash-icon-empty {
+.icon-trash {
     background-image:url(/images/icons/bin.png) !important;
 }
+
+.icon-trash-empty {
+    background-image:url(/images/icons/bin_empty.png) !important;
+}
+
 .presentation-icon {
     background-image:url(/images/icons/picture_empty.png) !important;
 }
@@ -243,9 +248,6 @@
 }
 .icon-user {
 	background-image:url(/images/icons/user2_16.png) ! important;
-}
-.icon-trash-empty {
-	background-image:url(/images/silk/icons/bin_empty.png) ! important;
 }
 .icon-trash-closed {
 	background-image:url(/images/silk/icons/bin_closed.png) ! important;
