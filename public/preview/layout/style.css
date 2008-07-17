@@ -7,29 +7,25 @@ span.smooHide {
 
 /***** Presentation *****/
 
-div.smooPresentation {
-	font-family: sans-serif;
+div.smooView {
 	margin: 0 auto;
 	padding: 0;
 	position: relative;
 	display: block;
 	overflow: hidden;
 }
-div.smooPresentation *  {
+div.smooView *  {
 	margin: 0;
 	padding: 0;
 }
 
-div.smooSlideWrapper {
+div.smooPresentation {
 	height: 100%;
 	width: 100%;
-	margin: 0;
-	padding: 0;
-	position: absolute;
 }
 
 div.smooSlide {
-	display: none;
+	display: block;
 	height: 23%;
 	width: 23%;
 	font-size: 23%;
@@ -66,6 +62,33 @@ div.smooPresentation ul ul li {
 	font-size: 80%;
 }
 
+/** Slider **/
+div.smooSlider {
+	display: none;
+	position: absolute;
+	top: 50%;
+	margin-top: -75px;
+	right: 5px;
+	width: 5px;
+	height: 150px;
+	background: url(slider.png) no-repeat;
+	cursor: pointer;
+}
+
+div.smooHandle {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	margin: 0 -1px;
+	background: url(handle.png) no-repeat top;
+	cursor: move;
+	overflow: hidden;
+}
+
+div.smooHandle:hover {
+	background-position: bottom;
+}
+
 /** Control bar **/
 ul.smooControl {
 	width: 200px;
@@ -76,7 +99,6 @@ ul.smooControl {
 	position: relative;
 	bottom: 30px;
 	overflow: hidden;
-	display: none
 }
 ul.smooControl * {
 	padding: 0;
@@ -95,34 +117,27 @@ ul.smooControl a {
 ul.smooControl a:hover {
 	background-position: 0 0;
 }
-ul.smooControl a.smoofull {
-	width: 40px; 
-	background-image: url(/public/preview/layout/full.png)
-}
 ul.smooControl a.smoothumb {
 	width: 40px; 
-	background-image: url(/public/preview/layout/thumb.png)
+	background-image: url(/preview/layout/thumb.png)
 }
 ul.smooControl a.smoofr {
 	width: 32px; 
-	background-image: url(/public/preview/layout/fastrewind.png)
+	background-image: url(/preview/layout/fastrewind.png)
 }
 ul.smooControl a.smoor {
 	width: 23px; 
-	background-image: url(/public/preview/layout/rewind.png)
+	background-image: url(/preview/layout/rewind.png)
 }
 ul.smooControl a.smoof {
 	width: 32px; 
-	background-image: url(/public/preview/layout/forward.png)
+	background-image: url(/preview/layout/forward.png)
 }
 ul.smooControl a.smooff {
 	width: 32px; 
-	background-image: url(/public/preview/layout/fastforward.png)
+	background-image: url(/preview/layout/fastforward.png)
 }
 ul.smooControl a.smooborder {
 	width: 41px; 
-	background-image: url(/public/preview/layout/border.png)
-}oThumb div.smooSlide  {
-	height:25%;
-	width: 25%;
-} */
+	background-image: url(/preview/layout/border.png)
+}
