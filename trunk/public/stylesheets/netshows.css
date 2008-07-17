@@ -41,6 +41,14 @@ body.x-border-layout-ct {
 /*
  * Accordion Panel
  */
+
+.grid-row-insert-below {
+    border-bottom:1px solid #3366cc;
+}
+.grid-row-insert-above {
+    border-top:1px solid #3366cc;
+} 
+
 .x-form-field-wrap .x-form-color-trigger {
 	background:transparent url(/images/color-trigger.gif) no-repeat 0 0;
     cursor:pointer; 

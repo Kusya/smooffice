@@ -15,6 +15,7 @@ NetShows.SlideView = function(presentation){
 		handler: function(){
 			if (this.focusElement) 
 				this.slide.removeElement(this.resizableElement, this.focusElement);
+				this.setFocusElement(null);
 		},
 		scope: this
 	});
@@ -183,6 +184,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			draggable: true,
 			dynamic: true
 		};
+		
 		switch (element.data.className) {
 			case 'text':
 				//msg_log("text");

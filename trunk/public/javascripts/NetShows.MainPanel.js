@@ -58,16 +58,16 @@ NetShows.MainPanel = function(){
         
         items: {
             id: 'main-view',
-            title: (this.generalText) ? this.generalText : 'General',
+            title: this.generalText || 'General',
             cls: 'preview',
             closable: false,
 			border:true,
             html: NetShows.getHomeTemplate().apply({
-                introTitle: (this.introTitleText) ? this.introTitleText : 'Introduction',
-                introContent: (this.introContentText) ? this.introContentText : "Welcome to NetShows, the new presentation maker. We hope you'll enjoy the wide set of hudge features such as amazing transitions, aesthetically pleasing elements animation, and much more..."
+                introTitle: this.introTitleText || 'Introduction',
+                introContent: this.introContentText || "Welcome to NetShows, the new presentation maker. We hope you'll enjoy the wide set of hudge features such as amazing transitions, aesthetically pleasing elements animation, and much more..."
             }),
             listeners: {
-                'render': this.doLayout
+                'show': this.doLayout
             },
             tbar: [this.actionEdit, '-', this.actionFullScreen]
         }
@@ -83,8 +83,15 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 
     load: function(){
         this.el.mask(this.loadingText, 'x-mask-loading');
-    },
+	},
     
+	//When deleting a node in the treeview, the corresponding tab, if opened, is deleted as well
+	removeTab : function(id){
+		if(tab = this.getItem('tab-' + id)){
+			this.remove(tab);
+		}
+	},
+	
     setSlide: function(params){
 		this.getActiveTab().getComponent('slide-view-' + this.getActiveTab().presentation.id).setSlide(params);
 		NetShows.accordion.setSlide(params);
@@ -121,15 +128,24 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
         });
     },
     //Load a presentation in the General tab
-    loadPresentation: function(presentation){
+    loadPresentation: function(node, notEditable, isLeaf){
         var tab = Ext.getCmp("main-tabs").getItem("main-view");
-        tab.setTitle((this.generalText) ? this.generalText : 'General' + " - " + presentation.text);
-        tab.presentation = presentation;
-        NetShows.getPreviewTemplate().overwrite(tab.body, presentation);
+		if (isLeaf) {
+			tab.setTitle((this.generalText) ? this.generalText : 'General' + " - " + node.text);
+			tab.presentation = node;
+			NetShows.getPreviewTemplate().overwrite(tab.body, node);
+        	this.actionEdit.setDisabled(notEditable);
+        	this.actionFullScreen.setDisabled(notEditable);
+		}else{
+			tab.setTitle(this.generalText || 'General');
+			NetShows.getHomeTemplate().overwrite(tab.body,{
+                introTitle: this.introTitleText || 'Introduction',
+                introContent: this.introContentText || "Welcome to NetShows, the new presentation maker. We hope you'll enjoy the wide set of hudge features such as amazing transitions, aesthetically pleasing elements animation, and much more..."
+            });
+        	this.actionEdit.disable();
+        	this.actionFullScreen.disable();
+		}
         this.setActiveTab(tab);
-        
-        this.actionEdit.enable();
-        this.actionFullScreen.enable();
     },
     //Return the actual edited slide
     getActiveSlide: function(){
