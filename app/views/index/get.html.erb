@@ -95,10 +95,15 @@
         </script>
         <%= javascript_include_tag "/ext/ext-all.js" %>
         <!--Loading Google Maps-->
-        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading Google Maps...';
+        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading Google Maps (1/3)...';
         </script>
         <%= javascript_include_tag "http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" %>
+		
+        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading Google Maps (2/3)...';
+        </script>
         <%= javascript_include_tag "http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" %>
+        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading Google Maps (3/3)...';
+        </script>
         <%= javascript_include_tag "http://www.google.com/uds/solutions/localsearch/gmlocalsearch.js" %>
         <script type="text/javascript">
         	// decode language passed in url
