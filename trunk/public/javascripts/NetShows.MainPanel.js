@@ -133,7 +133,19 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 		if (isLeaf) {
 			tab.setTitle((this.generalText) ? this.generalText : 'General' + " - " + node.text);
 			tab.presentation = node;
-			NetShows.getPreviewTemplate().overwrite(tab.body, node);
+			NetShows.getPreviewTemplate().overwrite(tab.body, {
+				created_at: node.created_at,
+				updated_at: node.updated_at,
+				text: node.text,
+				author: node.author,
+				description: node.description||this.noDescriptionText||'No description',
+				tags: node.tags||this.noTagsText||'No tags',
+				updatedText: this.updatedText||'Last modification on',
+				createdText: this.createdText||'Created on',
+				byText:this.byText||'by',
+				tagsText:this.tagsText||'Tags',
+				descriptionTitle:this.descriptionTitle||'Description'
+			});
         	this.actionEdit.setDisabled(notEditable);
         	this.actionFullScreen.setDisabled(notEditable);
 		}else{

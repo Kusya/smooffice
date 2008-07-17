@@ -88,6 +88,13 @@ Ext.onReady(function(){
 	
 	// A new presentation is opened
 	function onOpenPresentation(presentation){
+		Ext.get('loading-title').dom.innerHTML = presentation.text
+		Ext.get('loading').fadeIn();
+        Ext.get('loading-mask').fadeIn({
+			endOpacity:.5
+		});
+		Ext.get('loading-msg').dom.innerHTML = this.openLoadingText||'Loading presentation...';
+		
 		//Loading the slides from the server
 		if (!presentation.store) {
 			presentation.store = new Ext.data.JsonStore({
@@ -99,29 +106,65 @@ Ext.onReady(function(){
 							//Array of slides
 							presentation.slides = [];
 							
-							//Update slides thumbnail
-							presentation.updatePreview = function(){
-								Ext.each(this.slides, function(item){
-									var index = this.slides.indexOf(item);
-									this.store.getAt(index).data.html = item.getPreview();
-								}, this);
-								
-								NetShows.browserPanel.slideBrowser.refresh();
-							}
-							
 							presentation.init = function(){
+								presentation.nLoaded = 0;
+								
+								Ext.get('loading-msg').dom.innerHTML = this.slidesLoadingText || 'Creating slides...';
+								
 								if (presentation.slides.length == 0) {
 									//For each slide
-									presentation.store.each(function(item){
+									presentation.store.each(function(item, index){
 										//Create each slide in the array from the dataStore
 										var mySlide = new Slide(item.data, presentation.id);
+										
+										this.store.getAt(index).data.html = mySlide.getPreview();
+										
+										//Set an event when the slide is loaded
+										//mySlide.on('load', presentation.onLoad, presentation,{delay:200});
+										/*NetShows.browserPanel.slideBrowser.on('render', function(){
+			 for (var i = 0; i < presentation.slides.length; i++) {
+			 Ext.EventManager.on('preview-' + presentaiton.slides[i].id, 'load', presentation.onLoad, presentation);
+			 }
+			 }, this);*/
 										presentation.slides.push(mySlide);
 									});
-									//this.updatePreview();
+									
 								}
 								//Open the presentation in a tab
 								NetShows.mainPanel.openPresentation(presentation);
+								
+								Ext.get('loading').fadeOut({
+									remove: false,
+									callback: function(){
+										Ext.get('loading-mask').fadeOut({
+											remove: false
+										});
+									}
+								});
 							}
+							
+							//Update slides thumbnail
+							presentation.updatePreview = function(slide){
+								var index = this.slides.indexOf(slide);
+								this.store.getAt(index).data.html = slide.getPreview();
+								NetShows.browserPanel.slideBrowser.refresh();
+							}
+							
+							/*presentation.onLoad = function(){
+								presentation.nLoaded++;
+								msg_log(presentation.nLoaded);
+								if (presentation.nLoaded == presentation.slides.length) {
+									Ext.get('loading').fadeOut({
+										remove: false,
+										callback: function(){
+											Ext.get('loading-mask').fadeOut({
+												remove: false
+											});
+										}
+									});
+								}
+							}*/
+							
 							
 							//Send slides order
 							presentation.saveState = function(){
@@ -148,7 +191,7 @@ Ext.onReady(function(){
 							};
 							//Initialization
 							presentation.init();
-							
+        					
 						},
 						scope: this
 					}
@@ -192,7 +235,7 @@ Ext.onReady(function(){
 		defaultType: 'textfield',
 		items: {
 			xtype: 'combo',
-			fieldLabel: 'Select Language',
+			fieldLabel: this.selectLanguageText||'Select Language',
 			name: 'locale',
 			width: 75,
 			store: new Ext.data.SimpleStore({
@@ -231,4 +274,13 @@ Ext.onReady(function(){
 			height: 24
 		}), NetShows.browserPanel, NetShows.mainPanel, NetShows.accordion]
 	});
+	
+	setTimeout(function(){
+        Ext.get('start-loading').remove();
+        Ext.get('start-loading-mask').fadeOut({remove:true});
+    }, 250);
 });
+
+Ext.EventManager.on(window,'unload',function(){
+	GUnload();
+})

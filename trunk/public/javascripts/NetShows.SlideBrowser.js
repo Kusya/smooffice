@@ -109,12 +109,13 @@ NetShows.SlideBrowser = function(){
 		root: 'slides'
 	});
 	
-	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="{id}">', '<div class="thumb-mask">&nbsp;</div>', '<div class="wrap-under">{html}</div>', '</div>', '</tpl>', '<div class="x-clear"></div>');
+	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="preview-{id}">', '<div class="thumb-mask">&nbsp;</div>', '<div class="wrap-under">{html}</div>', '</div>', '</tpl>', '<div class="x-clear"></div>');
 	
 	this.slideDataView = new Ext.DataView({
+		id:'slide-data-view',
 		//reader: this.reader,
 		tpl: tpl,
-		loadingText: (this.loadingSlidesText) ? this.loadingSlidesText : 'Loading slides...',
+		loadingText: this.loadingSlidesText || 'Loading slides...',
 		singleSelect: true,
 		overClass: 'x-view-over',
 		itemSelector: 'div.thumb-wrap',
@@ -149,8 +150,11 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 	refresh:function(){
 		//Keep selected index before refreshing
 		var selected = this.slideDataView.getSelectedIndexes();
-		//Refresh DataView
-		this.slideDataView.refresh();
+		
+		//Refresh selected slide in the DataView
+		if(selected.length>0)
+			this.slideDataView.refreshNode(selected[0]);
+	
 		//Set previous selected slide
 		this.slideDataView.select(selected);
 		

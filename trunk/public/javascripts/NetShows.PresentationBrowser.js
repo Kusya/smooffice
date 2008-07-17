@@ -240,6 +240,7 @@ Ext.extend(NetShows.PresentationBrowser, Ext.tree.TreePanel, {
 			});
 		}
 		Ext.fly(node.ui.elNode).highlight();
+		this.detailsPresentation();
 	},
 	
 	onNew : function(node, parent){
@@ -262,17 +263,15 @@ Ext.extend(NetShows.PresentationBrowser, Ext.tree.TreePanel, {
 					//Append the new presentation in the tree view and shows it
         			parent.appendChild(node);
 					Ext.fly(node.ui.elNode).slideIn('l', {
-			        	callback: node.select, scope: node, duration: .8, concurrent: false
-			    	});
-					//Hilighting the new presentation
-					Ext.fly(node.ui.elNode).highlight("ffff9c",{
-						callback: function(){
-							msg_log("opening : " + node.id);
-							//Open the presentation after its creation
-							this.fireEvent('presentationopen', node);
-						},
-						scope: this
+						callback: node.select,
+						scope: node,
+						duration: .8,
+						concurrent: false
 					});
+					
+					//Open the presentation after its creation
+					this.fireEvent('presentationopen', node);
+					
 				}, 
 				scope: this
 			});

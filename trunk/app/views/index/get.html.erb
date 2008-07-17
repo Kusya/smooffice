@@ -3,42 +3,129 @@
     <head id="head">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Webshow - Graphic User Interface</title>
-        <%= stylesheet_link_tag '../ext/resources/css/ext-all.css' %>
-        <%= javascript_include_tag "../ext/adapter/ext/ext-base.js" %>
-        <%= javascript_include_tag "../ext/ext-all.js" %>
-        <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" type="text/javascript">
+        <style type="text/css" media="all">
+            #loading-mask {
+                position: absolute;
+				display:none;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 20000;
+                background: #fff;
+            }
+			
+            #start-loading-mask {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 20000;
+                background: white url('/images/smoothies.jpg') no-repeat right bottom;
+            }
+            
+            #start-loading, #loading{
+                position: absolute;
+                left: 40%;
+                top: 40%;
+                padding: 2px;
+                z-index: 20001;
+                height: auto;
+            }
+			
+			#loading{
+				display:none;
+				background:white;
+				border:1px solid #bbb;
+			}
+            
+            #start-loading a, #loading a {
+                color: #225588;
+            }
+            
+            #start-loading .loading-indicator, #loading .loading-indicator {
+                background: transparent;
+                color: #444;
+                font: bold 13px tahoma, arial, helvetica;
+                padding: 10px;
+                margin: 0;
+                height: auto;
+            }
+            
+            #start-loading-msg, #loading-msg {
+                font: normal 10px arial, tahoma, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loading-mask">
+        </div>
+        <div id="loading">
+            <div class="loading-indicator">
+                <img src="/images/smooffice_loading.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/><span id="loading-title">Smooffice Lemon 1.0</span>
+                <br/>
+                <span id="loading-msg"></span>
+            </div>
+        </div>
+		
+        <div id="start-loading-mask">
+        </div>
+        <div id="start-loading">
+            <div class="loading-indicator">
+                <img src="/images/smooffice_loading.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>Smooffice Lemon 1.0
+                <br/>
+                <span id="start-loading-msg">Loading styles and images...</span>
+            </div>
+        </div>
+        <%= stylesheet_link_tag '/ext/resources/css/ext-all.css' %>
+        <%= stylesheet_link_tag 'netshows.css' %>
+        <%= stylesheet_link_tag 'filetree.css' %>
+        <%= stylesheet_link_tag 'filetype.css' %>
+        <%= stylesheet_link_tag 'icons.css' %>
+        <%= stylesheet_link_tag 'spinner.css' %>
+        <%= stylesheet_link_tag "http://www.google.com/uds/css/gsearch.css" %>
+        <%= stylesheet_link_tag "http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css" %>
+        <!--Loading Ext Base-->
+        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading Core API...';
         </script>
-        <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" type="text/javascript">
+        <%= javascript_include_tag "/ext/adapter/ext/ext-base.js" %>
+        <!--Loading Ext UI Components-->
+        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading UI Components...';
         </script>
-        <script src="http://www.google.com/uds/solutions/localsearch/gmlocalsearch.js" type="text/javascript">
+        <%= javascript_include_tag "/ext/ext-all.js" %>
+        <!--Loading Google Maps-->
+        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading Google Maps...';
         </script>
+        <%= javascript_include_tag "http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" %>
+        <%= javascript_include_tag "http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" %>
+        <%= javascript_include_tag "http://www.google.com/uds/solutions/localsearch/gmlocalsearch.js" %>
+        <script type="text/javascript">
+        	// decode language passed in url
+            var locale = window.location.search ? Ext.urlDecode(window.location.search.substring(1)).locale : '';
+            var lg = ' (' + (locale || 'en') + ')';
+            document.getElementById('start-loading-msg').innerHTML = 'Loading languages' + lg + '...';
+        </script>
+		<% if params[:locale] %>
+        <%= javascript_include_tag '/ext/source/locale/ext-lang-' + params[:locale] + '.js' %>
+        <% end %>
         <script type="text/javascript">
             function msg_log(msg){
                 try {
                     console.log(msg);
-                }
-                catch (e){
+                } 
+                catch (e) {
                     //alert('error : ' + e + '\nmsg : '+ msg);
                 }
             }
-            
-            // decode language passed in url
-            var locale = window.location.search ? Ext.urlDecode(window.location.search.substring(1)).locale : '';
-            
-            // append locale script to the head
-            var head = Ext.fly(document.getElementsByTagName('head')[0]);
-            /*if(locale) {
-             Ext.DomHelper.append(head, {
-             tag:'script'
-             ,type:'text/javascript'
-             ,src:'../ext/source/locale/ext-lang-' + locale + '.js'
-             });
-             }*/
+			
             //Declares the name space of the application
             Ext.ns('NetShows');
             
             //AthenticityToken
             NetShows.key = '3890f2b6fb69ca90fe7e19bdedbe26c0ad165f89';
+            
+            //User logged in
             NetShows.user = {
                 username: "<%= @username %>",
                 firstname: "<%= @firstname %>",
@@ -74,31 +161,24 @@
         <%= javascript_include_tag "Element.js" %>
         <%= javascript_include_tag "GoogleMap.js" %>
         <%= javascript_include_tag "Ext.ux.HtmlEditorUsingGlobalToolbar.js" %>
-        <!-- Application localization javascript -->
-        <script type="text/javascript" id="applocale">
-        </script>
-        <!-- Set src for application localization javascript -->
-        <script type="text/javascript">
-            if (locale) {
-                Ext.fly('applocale').set({
-                    src: '/javascripts/NetShows.lang.' + locale + '.js'
-                });
-            }
+        <!-- Set application localization javascript -->
+		<% if params[:locale] %>
+        <%= javascript_include_tag '/javascripts/NetShows.lang.' + params[:locale] + '.js' %>
+        <% end %>
+		
+        <!--Initialization-->
+        <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Initializing...';
         </script>
         <%= javascript_include_tag "NetShows.js" %>
-        <%= stylesheet_link_tag 'netshows.css' %>
-        <%= stylesheet_link_tag 'filetree.css' %>
-        <%= stylesheet_link_tag 'filetype.css' %>
-        <%= stylesheet_link_tag 'icons.css' %>
-        <%= stylesheet_link_tag 'spinner.css' %>
-        <link rel="stylesheet" type="text/css" href="http://www.google.com/uds/css/gsearch.css" />
-        <link rel="stylesheet" type="text/css" href="http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css" />
-    </head>
-    <body onunload="GUnload()">
+		
         <div id="header">
             <div style="margin: 5px; width: auto; float: left; clear: left;">
-            	<div style="float:left;"><img src="/images/icons/user.png" border="0" /></div>
-				<div style="float:left;margin-left:2px;top:-4px"><%= @firstname + ' ' + @lastname %></div>
+                <div style="float:left;">
+                    <img src="/images/icons/user.png" border="0" />
+                </div>
+                <div style="float:left;margin-left:2px;top:-4px">
+                    <%= @firstname + ' ' + @lastname %>
+                </div>
             </div>
             <div style="width: 230px; float: right; clear: right;">
                 <div style="margin: 5px; float: right; clear: right;">
@@ -112,14 +192,20 @@
         <div id="preview-tpl" style="display:none;">
             <div class="post-data">
                 <div style="width:250px;float:right;clear:right;">
-                    <span class="created-date">Created on {created_at:date("F j, Y, g:i a")}</span>
-                    <span class="updated-date">Last modification on {updated_at:date("F j, Y, g:i a")}</span>
+                    <span class="created-date">{createdText} {created_at:date("F j, Y, g:i a")}</span>
+                    <span class="updated-date">{updatedText} {updated_at:date("F j, Y, g:i a")}</span>
                 </div>
                 <h3 class="post-title">{text}</h3>
-                <h4 class="post-author">by {author:defaultValue("You")}</h4>
+                <h4 class="post-author">{byText} {author:defaultValue("You")}</h4>
             </div>
             <div class="post-body">
-                {description}
+                <p>
+                    <h3>{descriptionTitle}</h3>
+                    {description}
+                </p>
+                <p>
+                    <h3>{tagsText}</h3>{tags}
+                </p>
             </div>
         </div>
         <!-- Template used for Home Tab -->
@@ -129,6 +215,7 @@
                 <span class="intro-content">{introContent}</span>
             </div>
         </div>
-		<div id="colorDialog"></div>
+        <div id="colorDialog">
+        </div>
     </body>
 </html>

@@ -49,6 +49,10 @@ var Slide = function(data, p_id){
 			}, this);
 		}
 		this.generateCSS();
+		
+		/*Catched in NetShows.js when the slide is loaded
+		this.fireEvent('load');
+		msg_log('load')*/
 	}
 	
 	this.generateCSS = function(){
@@ -293,13 +297,14 @@ var Slide = function(data, p_id){
 		});
 	};
 	
-	this.init();
-	
 	Slide.superclass.constructor.call(this, {});
 	this.addEvents({
 		'addelement': true,
-		'removeelement': true
+		'removeelement': true,
+		'load': true
 	});
+	
+	this.init();
 }
 
 Ext.extend(Slide, Ext.util.Observable, {});

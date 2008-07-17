@@ -134,7 +134,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		if (e === true || Ext.get(e.target).parent() == Ext.get('slide-wrap-' + this.presentation.id) || Ext.get(e.target) == Ext.get('slide-wrap-' + this.presentation.id) || Ext.get(e.target) == Ext.get('slide-wrap-' + this.presentation.id).parent() || Ext.get(e.target) == Ext.get('slide-view')) {
 			this.setFocusElement(null);
 		}
-		this.presentation.updatePreview();
+		this.presentation.updatePreview(this.slide);
 	},
 	removeResizable: function(){
 		if (this.resizableElement) {
