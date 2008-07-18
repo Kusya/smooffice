@@ -133,14 +133,18 @@ Ext.onReady(function(){
 								//Open the presentation in a tab
 								NetShows.mainPanel.openPresentation(presentation);
 								
-								Ext.get('loading').fadeOut({
-									remove: false,
-									callback: function(){
-										Ext.get('loading-mask').fadeOut({
-											remove: false
-										});
-									}
-								});
+								setTimeout(function(){
+									Ext.get('loading').fadeOut({
+										remove: false,
+										callback: function(){
+										
+										}
+									});
+									Ext.get('loading-mask').fadeOut({
+										remove: false
+									});
+								}, 400);
+								
 							}
 							
 							//Update slides thumbnail
