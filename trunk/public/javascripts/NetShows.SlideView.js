@@ -187,39 +187,23 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		
 		switch (element.data.className) {
 			case 'text':
-				//msg_log("text");
-				Ext.apply(config, {
-					preserveRatio: false,
-					wrap: false
-				});
+				var myResizableElement = new Ext.Resizable(element.el, config);
 				break;
 			case 'img':
-				//msg_log("image");
 				Ext.apply(config, {
-					preserveRatio: true,
-					wrap: false
+					preserveRatio: true
 				});
+				var myResizableElement = new Ext.Resizable(element.el, config);
 				break;
 			case 'video':
-				//msg_log("video");
-				Ext.apply(config, {
-					preserveRatio: false,
-					wrap: false
-				});
+				var myResizableElement = new NetShows.Resizable(element.el, config);
 				break;
 			case 'map':
-				//msg_log("map");
-				Ext.apply(config, {
-					preserveRatio: false,
-					wrap: false
-				});
+				var myResizableElement = new NetShows.Resizable(element.el, config);
 				break;
 			default:
-				msg_log("No class");
 				return false;
 		}
-		
-		var myResizableElement = new Ext.Resizable(element.el, config);
 		
 		if(element.data.className == 'text' || element.data.className == 'video' || element.data.className == 'map'){
 			myResizableElement.dd.endDrag = function(){
