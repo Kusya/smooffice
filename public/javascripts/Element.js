@@ -69,17 +69,11 @@
 				default:
 					html += '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
 					this.data.className = 'text';
-//-------->Inutile plus tard
-					if(this.data.p.fontClass === undefined)
-						this.data.p.fontClass = 'A';
-//-------->
 			}
 			return html;
 		}
 		
 		this.createDom = function(){
-			//msg_log("element.createDom : " + this.data.t);
-			
 			//Append the new node to the slide-wrap
 			this.el = Ext.get(slideId).createChild({
 				id: this.id,
@@ -104,8 +98,8 @@
 				this.map = new GoogleMap(this.el.dom, this.data.c);
 				this.el.on('load', this.resizeEvent, this);
 				this.el.addClass('element-mask');
-				this.el.insertFirst({
-					html: '<div class="mask">&nbsp;</div>'
+				this.el.createChild({
+					html: '<div class="mask"><div class="map">'+(this.mapMaskText||'Click twice to edit map')+'</div></div>'
 				});
 			break;
 			case 'video':
@@ -142,8 +136,8 @@
 								}
 					this.el.dom.innerHTML = html;
 					this.el.addClass('element-mask');
-					this.el.insertFirst({
-						html: '<div class="mask">&nbsp;</div>'
+					this.el.createChild({
+						html: '<div class="mask"><div class="video">'+(this.videoMaskText||'Click twice to play video')+'</div></div>'
 					});
 				}
 			
@@ -258,7 +252,6 @@
 				case 'video':
 					if (this.mode == null) {
 						this.mode = 'focus';
-						//this.el.addClass('element-mask');
 						NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 					}
 					else 
@@ -272,7 +265,6 @@
 				case 'map':
 					if (this.mode == null) {
 						this.mode = 'focus';
-						//this.el.addClass('element-mask');
 						NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 					}
 					else 
@@ -287,7 +279,8 @@
 					NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 					break;
 			}
-			//this.endDrag = false;
+			//Re-initialize endDrag flag
+			this.endDrag = false;
 		}
 		this.blur = function(){
 			switch (this.data.className) {

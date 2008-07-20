@@ -57,13 +57,21 @@
                 font: normal 10px arial, tahoma, sans-serif;
             }
         </style>
+        <%= stylesheet_link_tag '/ext/resources/css/ext-all.css' %>
+        <%= stylesheet_link_tag 'netshows.css' %>
+        <%= stylesheet_link_tag 'filetree.css' %>
+        <%= stylesheet_link_tag 'filetype.css' %>
+        <%= stylesheet_link_tag 'icons.css' %>
+        <%= stylesheet_link_tag 'spinner.css' %>
+        <%= stylesheet_link_tag "http://www.google.com/uds/css/gsearch.css" %>
+        <%= stylesheet_link_tag "http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css" %>
     </head>
     <body>
         <div id="loading-mask">
         </div>
         <div id="loading">
             <div class="loading-indicator">
-                <img src="/images/smooffice_loading.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/><span id="loading-title">Smooffice Lemon 1.0</span>
+                <img src="/images/smooffice_loading.gif" alt="load" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/><span id="loading-title">Smooffice Lemon 1.0</span>
                 <br/>
                 <span id="loading-msg"></span>
             </div>
@@ -73,19 +81,11 @@
         </div>
         <div id="start-loading">
             <div class="loading-indicator">
-                <img src="/images/smooffice_loading.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>Smooffice Lemon 1.0
+                <img src="/images/smooffice_loading.gif" alt="load" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>Smooffice Lemon 1.0
                 <br/>
                 <span id="start-loading-msg">Loading styles and images...</span>
             </div>
         </div>
-        <%= stylesheet_link_tag '/ext/resources/css/ext-all.css' %>
-        <%= stylesheet_link_tag 'netshows.css' %>
-        <%= stylesheet_link_tag 'filetree.css' %>
-        <%= stylesheet_link_tag 'filetype.css' %>
-        <%= stylesheet_link_tag 'icons.css' %>
-        <%= stylesheet_link_tag 'spinner.css' %>
-        <%= stylesheet_link_tag "http://www.google.com/uds/css/gsearch.css" %>
-        <%= stylesheet_link_tag "http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css" %>
         <!--Loading Ext Base-->
         <script type="text/javascript">document.getElementById('start-loading-msg').innerHTML = 'Loading Core API...';
         </script>
@@ -148,6 +148,7 @@
         <%= javascript_include_tag "NetShows.MainPanel.js" %>
         <%= javascript_include_tag "NetShows.PresentationBrowser.js" %>
         <%= javascript_include_tag "NetShows.PresentationWindow.js" %>
+        <%= javascript_include_tag "NetShows.Resizable.js" %>
         <%= javascript_include_tag "NetShows.SlideBrowser.js" %>
         <%= javascript_include_tag "NetShows.SlideView.js" %>
         <%= javascript_include_tag "Ext.form.ColorField.js" %>
@@ -179,7 +180,7 @@
         <div id="header">
             <div style="margin: 5px; width: auto; float: left; clear: left;">
                 <div style="float:left;">
-                    <img src="/images/icons/user.png" border="0" />
+                    <img src="/images/icons/user.png" alt="user" border="0" />
                 </div>
                 <div style="float:left;margin-left:2px;top:-4px">
                     <%= @firstname + ' ' + @lastname %>
@@ -204,13 +205,10 @@
                 <h4 class="post-author">{byText} {author:defaultValue("You")}</h4>
             </div>
             <div class="post-body">
-                <p>
-                    <h3>{descriptionTitle}</h3>
-                    {description}
-                </p>
-                <p>
-                    <h3>{tagsText}</h3>{tags}
-                </p>
+            	<h3>{descriptionTitle}</h3>
+                <p>{description}</p>
+				<h3>{tagsText}</h3>
+                <p>{tags}</p>
             </div>
         </div>
         <!-- Template used for Home Tab -->
