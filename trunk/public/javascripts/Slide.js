@@ -3,7 +3,7 @@
  * Description of the class Slide which composes a presentation
  */
 
-var Slide = function(data, p_id){
+var Slide = function(data, presentation,index){
 	/*
 	 * Properties
 	 */
@@ -12,12 +12,16 @@ var Slide = function(data, p_id){
 	
 	//Id for the dom element
 	this.slideId = 'slide-wrap-' + this.id;
-	this.presentation_id = p_id;
+	this.presentation = presentation;
+	this.presentation_id = this.presentation.id;
 	
 	this.data = data;
 	this.properties = this.data.p ? this.data.p : {};
 	this.data.e = data.e ? data.e : [];
 	this.elements = [];
+	
+	//Index of the slide
+	this.index = index;
 	
 	//Number of elements
 	//this.nbElements = 0;
@@ -25,7 +29,9 @@ var Slide = function(data, p_id){
 	//Min and max layer index
 	//this.minIndex = this.maxIndex = 2000;
 	
-	this.transition = data.t ? data.t : [null];
+	this.transition = data.t ? data.t : {
+		f: "null"
+	};
 	this.animations = data.a ? data.a : [];
 	
 	//The generated dom corresponding to the slide
@@ -116,20 +122,6 @@ var Slide = function(data, p_id){
 		
 		return this.elIndex;
 	}
-	this.setAnimation = function(element, type, params){
-	
-		if (params.effect != undefined) {
-			this.animations = {
-				f: params.effect
-			};
-		}
-		if (params.direction != undefined) {
-			this.animations.direction = params.direction;
-		}
-		if (params.duration != undefined) {
-			this.transition.duration = params.duration;
-		}
-	}
 	
 	this.setTransition = function(params){
 		//msg_log(params);
@@ -150,6 +142,7 @@ var Slide = function(data, p_id){
 		if (params.horizFirst != undefined) {
 			this.transition.horizFirst = params.horizFirst;
 		}
+		NetShows.browserPanel.slideBrowser.setAnimationTransition(this.index);
 	}
 	
 	this.setBackground = function(params){
@@ -268,6 +261,9 @@ var Slide = function(data, p_id){
 	
 	//Send the JSON string of the actual slide
 	this.save = function(callbackFn, scopeFn){
+		
+		NetShows.showMsg(this.presentation.text + ' - ' + (this.slideText||'Slide #') + (this.index +1),this.savingText||'Saving...');
+		
 		//For each element, we get the object used to the JSON
 		var elementJSON = [];
 		

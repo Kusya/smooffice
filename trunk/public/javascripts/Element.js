@@ -9,8 +9,9 @@
 	 * Properties
 	 */
 		this.data = data;
-		this.id = this.data.i || Ext.id({},'e');
 		this.slideId = slideId;
+		this.i = this.data.i || Ext.id({},'e');
+		this.id = this.i;
 		
 		//Generate CSS string
 		this.cssStyle = '';
@@ -67,7 +68,8 @@
 					break;
 					
 				default:
-					html += '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
+					//html += '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
+					html += this.data.c;
 					this.data.className = 'text';
 			}
 			return html;
@@ -76,7 +78,7 @@
 		this.createDom = function(){
 			//Append the new node to the slide-wrap
 			this.el = Ext.get(slideId).createChild({
-				id: this.id,
+				id: this.slideId + this.id,
 				style: 'position: absolute;',
 				html: this.getHTML()
 			});
@@ -178,7 +180,7 @@
 		this.getJSON = function(){
 			this.getProperties();
 			return {
-				i: this.id,
+				i: this.i,
 				t: this.data.t,
 				c: this.data.c,
 				p: this.data.p

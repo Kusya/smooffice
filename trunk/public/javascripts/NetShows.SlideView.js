@@ -220,6 +220,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 	},
 	saveSlide: function(){
 		this.slide.save();
+		NetShows.hideMsg(100);
 	},
 	initialize: function(panel){
 	
@@ -363,7 +364,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			number: 0
 		};
 		
-		if (this.slide) {
+		if (this.slide&&params.savePrevious) {
 			this.slide.saveDomState();
 		}
 		//Set the edited slide

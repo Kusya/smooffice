@@ -151,64 +151,75 @@ Ext.extend(NetShows.PresentationBrowser, Ext.tree.TreePanel, {
 		nextNode.select();
 		
 		//If the node is not in the trash bin then it goes
-		if(node.isAncestor(this.presentations)){
+		if (node.isAncestor(this.presentations)) {
 			//If the node contains many other files we do an effect for them
-			if(!node.isLeaf()){
-				if(node.childNodes){
+			if (!node.isLeaf()) {
+				if (node.childNodes) {
 					node.eachChild(function(me){
 						Ext.fly(me.ui.elNode).ghost('l', {
-				        	duration: .4
-				    	});
+							duration: .4
+						});
 					})
 				}
 			}
-	        Ext.fly(node.ui.elNode).ghost('l', {
-	            callback: function(){
+			Ext.fly(node.ui.elNode).ghost('l', {
+				callback: function(){
 					//node.remove();
 					this.trash.appendChild(node);
 					
 					//If the node contains many other files we do an effect for them
-					if(!node.isLeaf()){
-						if(node.childNodes){
+					if (!node.isLeaf()) {
+						if (node.childNodes) {
 							node.eachChild(function(me){
 								Ext.fly(me.ui.elNode).slideIn('l', {
-						        	duration: .8
-						    	});
+									duration: .8
+								});
 							})
 						}
 					}
 					Ext.fly(node.ui.elNode).slideIn('l', {
-			        	duration: .8, concurrent: false
-			    	});
-					//this.fireEvent('new', node, node.parentNode);
-				}, scope: this, duration: .4, concurrent: false
-	        });
-			//node = new Ext.tree.TreeNode({text: 'test'});
-			
-		}else{
-			var myUrl = (node.isLeaf())?'/presentation/delete':'/folder/delete';
+						duration: .8,
+						concurrent: false
+					});
+				//this.fireEvent('new', node, node.parentNode);
+				},
+				scope: this,
+				duration: .4,
+				concurrent: false
+			});
+		//node = new Ext.tree.TreeNode({text: 'test'});
+		
+		}
+		else {
+			var myUrl = (node.isLeaf()) ? '/presentation/delete' : '/folder/delete';
 			Ext.Ajax.request({
 				url: myUrl,
-				params: { 
+				params: {
 					authenticity_token: NetShows.key,
 					id: node.id
+				},
+				success: function(){
+				
+					//If the node contains many other files we do an effect for them
+					if (!node.isLeaf()) {
+						if (node.childNodes) {
+							node.eachChild(function(me){
+								Ext.fly(me.ui.elNode).ghost('l', {
+									duration: .4
+								});
+							})
+						}
+					}
+					Ext.fly(node.ui.elNode).ghost('l', {
+						callback: node.remove,
+						scope: node,
+						duration: .4,
+						concurrent: false
+					});
 				}
 			});
 			
-			//If the node contains many other files we do an effect for them
-			if(!node.isLeaf()){
-				if(node.childNodes){
-					node.eachChild(function(me){
-						Ext.fly(me.ui.elNode).ghost('l', {
-				        	duration: .4
-				    	});
-					})
-				}
-			}
-	        Ext.fly(node.ui.elNode).ghost('l', {
-	            callback: node.remove, scope: node, duration: .4, concurrent: false
-	        });
-		}		
+		}	
 	},
 	
 	onModify : function(attrs){
@@ -411,7 +422,6 @@ Ext.extend(NetShows.PresentationBrowser, Ext.tree.TreePanel, {
     },
 	
 	emptyTrash : function(){
-		msg_log(this.trash.childNodes);
 		Ext.each(this.trash.childNodes, function(item){
 			this.fireEvent('removeelement', this, item.parentNode, item);
 		}, this);
