@@ -180,7 +180,6 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		
 		var config = {
 			pinned: true,
-			handles: 'all',
 			draggable: true,
 			dynamic: true
 		};

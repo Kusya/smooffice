@@ -163,8 +163,8 @@
 				this.el.applyStyles('height:' + this.getPixelFromPercent(this.data.p.height, Ext.get(this.slideId).getHeight()) + 'px;');
 			}
 			else {
-				this.el.applyStyles('width:80%;');
-				var heightValue = (this.data.t == 'video') ? '80%' : 'auto'
+				this.el.applyStyles('width:50%;');
+				var heightValue = (this.data.t == 'video') ? '50%' : 'auto'
 				this.el.applyStyles('height:' + heightValue + ';');
 				this.el.first().addListener('load', function(){
 					msg_log('computed height ' + this.el.first().getComputedHeight());

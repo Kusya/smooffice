@@ -125,7 +125,6 @@ NetShows.SlideBrowser = function(){
 	
 	this.slideDataView = new Ext.DataView({
 		id:'slide-data-view',
-		//reader: this.reader,
 		tpl: tpl,
 		loadingText: this.loadingSlidesText || 'Loading slides...',
 		singleSelect: true,
@@ -136,7 +135,8 @@ NetShows.SlideBrowser = function(){
 				this.selectSlide(node, true);
 			},
 			scope: this
-		}
+		},
+		plugins:new net.drasill.plugins.SortableDataView()
 	});
 	
 	NetShows.SlideBrowser.superclass.constructor.call(this, {
@@ -145,9 +145,21 @@ NetShows.SlideBrowser = function(){
 		items: this.slideDataView
 	});
 	this.hide();
+	
+	this.slideDataView.on('drop',this.sortDataView,this);
 };
 
 Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
+	sortDataView: function(oldIndex,newIndex,  record){
+		//Updating slides Array
+		var removed = this.presentation.slides.splice(oldIndex, 1);
+		this.presentation.slides.splice(newIndex, 0, removed[0]);
+		
+		this.updateSlideIndexes();
+		this.presentation.saveState();
+		this.slideDataView.select(newIndex)
+		this.selectSlide(this.slideDataView.getNode(newIndex),true);
+	},
 	updateSlideIndexes:function(){
 		Ext.each(this.presentation.slides,function(slide,index){
 			slide.index = index
@@ -157,7 +169,7 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 		if (selectedNode) {
 			var record = this.slideDataView.getRecord(selectedNode);
 			//Change the slide in the tab view
-			msg_log("select slide number : " + this.presentation.store.indexOf(record));
+			msg_log("select slide #" + this.presentation.store.indexOf(record));
 			//Event catched in NetShows.js
 			this.fireEvent('selectslide', {
 				number: this.presentation.store.indexOf(record),
