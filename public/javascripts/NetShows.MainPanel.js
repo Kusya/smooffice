@@ -216,6 +216,8 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 							slideView.setNoFocus(true);
 							slideView.slide.save(function(){
 								window.open('/presentation/show?id=' + id);
+								//Hide message
+								NetShows.hideMsg(100);
 							}, this);
 						}, this);
                         tab.getTopToolbar().on('print', function(){
@@ -246,6 +248,9 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
                                     });
                                     Ext.get('preview-frame').on('load', this.previewWindow.show, this.previewWindow);
                                 }
+								
+								//Hide message
+								NetShows.hideMsg(400);
                             }, this);
                             
                         }, this);

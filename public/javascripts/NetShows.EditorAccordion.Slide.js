@@ -157,13 +157,11 @@ NetShows.EditorAccordion.Slide = function(){
 										Ext.getCmp('transition-horizfirst').hide();
 									}
 									
-									
-									if (initialEffect != true) {
+									if (initialEffect.constructor == Number) {
 										//Send the effect name
 										this.slide.setTransition({
 											effect: record.data.code
 										});
-										Ext.getCmp("transition-effect").setValue(item.name);
 									}
 									else {
 										Ext.getCmp("transition-effect").setValue(item.name);
@@ -241,7 +239,7 @@ NetShows.EditorAccordion.Slide = function(){
 					listWidth: 100,
 					store: new Ext.data.SimpleStore({
 						fields: ['code', 'trigger'],
-						data: [['click', 'On mouse clic'], ['auto', 'Automatically']]
+						data: [['click', 'On mouse click'], ['auto', 'Automatically']]
 					}),
 					fieldLabel: (this.triggerText) ? this.triggerText : 'Trigger',
 					forceSelection: true,

@@ -7,6 +7,7 @@ NetShows.SlideBrowser = function(){
 		text: (this.newSlideText) ? this.newSlideText : "New Slide",
 		iconCls: 'icon-new-slide',
 		handler: function(){
+			NetShows.browserPanel.getTopToolbar().disable();
 			Ext.Ajax.request({
 				url: '/slide/create',
 				params: {
@@ -14,11 +15,14 @@ NetShows.SlideBrowser = function(){
 					id: this.presentation.id
 				},
 				success: function(response){
+					var savePrevious = true;
+					var res = Ext.util.JSON.decode(response.responseText);
 					//Create the new record
 					var myRecord = new Ext.data.Record({
-						'id': 'slide-' + response.responseText,
+						'id': 'slide-' + res.id,
 						'comment': ''
 					});
+					Ext.apply(myRecord.data, res.content);
 					
 					//Get the selected node to insert the record just after
 					var node = this.slideDataView.getSelectedNodes()[0];
@@ -28,18 +32,18 @@ NetShows.SlideBrowser = function(){
 						this.presentation.store.insert(index, myRecord);
 						
 						//Update slides array
-						var mySlide = new Slide(myRecord.data, this.presentation.id);
+						var mySlide = new Slide(myRecord.data, this.presentation, this.presentation.slides.length);
 						this.presentation.slides.splice(index, 0, mySlide);
-						//msg_log(this.presentation.slides);
+					//msg_log(this.presentation.slides);
 					}
 					else {
 						this.presentation.store.add(myRecord);
 						//Update slides array
-						this.presentation.slides.push(new Slide(myRecord.data));
+						this.presentation.slides.push(new Slide(myRecord.data, this.presentation, this.presentation.slides.length));
 						//msg_log(this.presentation.slides);
 						index = this.presentation.store.getCount() - 1;
+						savePrevious = false;
 					}
-					this.slideDataView.refresh();
 					
 					//Save the actual state of the slides and its order
 					this.presentation.saveState();
@@ -47,9 +51,14 @@ NetShows.SlideBrowser = function(){
 					//Select and highlight the new slide
 					var myNode = this.slideDataView.getNode(index);
 					this.slideDataView.select(myNode);
-					
-					this.selectSlide(myNode);
+					this.selectSlide(myNode, savePrevious);
 					Ext.fly(myNode).highlight();
+					
+					this.updateSlideIndexes();
+					NetShows.browserPanel.getTopToolbar().enable();
+				},
+				failure: function(){
+					NetShows.browserPanel.getTopToolbar().enable();
 				},
 				scope: this
 			});
@@ -63,6 +72,7 @@ NetShows.SlideBrowser = function(){
 		iconCls: 'icon-delete-slide',
 		text: (this.removeText) ? this.removeText : 'Remove',
 		handler: function(){
+			NetShows.browserPanel.getTopToolbar().disable();
 			var node = this.slideDataView.getSelectedNodes()[0];
 			if (node) {
 				this.tmpRecord = this.slideDataView.getRecord(node);
@@ -79,7 +89,6 @@ NetShows.SlideBrowser = function(){
 						
 						this.presentation.slides[index].destroy();
 						this.presentation.slides.splice(index, 1);
-						//msg_log(this.presentation.slides);
 						
 						if (this.presentation.store.getCount() == 0) {
 							this.actionNew.execute();
@@ -90,16 +99,19 @@ NetShows.SlideBrowser = function(){
 							var myNode = this.slideDataView.getNode(index);
 							this.slideDataView.select(myNode);
 							
-							
-							this.selectSlide(myNode);
+							this.selectSlide(myNode, false);
 							
 							//Save the actual state of the slides and its order
 							this.presentation.saveState();
 						}
+						
+						this.updateSlideIndexes();
+						NetShows.browserPanel.getTopToolbar().enable();
 					},
 					scope: this
 				});
 			}
+			
 		},
 		scope: this
 	});
@@ -109,7 +121,7 @@ NetShows.SlideBrowser = function(){
 		root: 'slides'
 	});
 	
-	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="preview-{id}">', '<div class="thumb-mask">&nbsp;</div>', '<div class="wrap-under">{html}</div>', '</div>', '</tpl>', '<div class="x-clear"></div>');
+	var tpl = new Ext.XTemplate('<tpl for=".">', '<div class="thumb-wrap" id="preview-{id}">', '<div class="animation">&nbsp;</div>', '<div class="transition">&nbsp;</div>', '<div class="thumb-mask">&nbsp;</div>', '<div class="wrap-under">{html}</div>', '</div>', '</tpl>', '<div class="x-clear"></div>');
 	
 	this.slideDataView = new Ext.DataView({
 		id:'slide-data-view',
@@ -121,7 +133,7 @@ NetShows.SlideBrowser = function(){
 		itemSelector: 'div.thumb-wrap',
 		listeners: {
 			click: function(dataview, index, node, e){
-				this.selectSlide(node);
+				this.selectSlide(node, true);
 			},
 			scope: this
 		}
@@ -136,14 +148,20 @@ NetShows.SlideBrowser = function(){
 };
 
 Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
-	selectSlide:function(selectedNode){
+	updateSlideIndexes:function(){
+		Ext.each(this.presentation.slides,function(slide,index){
+			slide.index = index
+		},this);
+	},
+	selectSlide:function(selectedNode, savePrevious){
 		if (selectedNode) {
 			var record = this.slideDataView.getRecord(selectedNode);
 			//Change the slide in the tab view
 			msg_log("select slide number : " + this.presentation.store.indexOf(record));
 			//Event catched in NetShows.js
 			this.fireEvent('selectslide', {
-				number: this.presentation.store.indexOf(record)
+				number: this.presentation.store.indexOf(record),
+				savePrevious: savePrevious
 			});
 		}
 	},
@@ -154,11 +172,38 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 		//Refresh selected slide in the DataView
 		if(selected.length>0)
 			this.slideDataView.refreshNode(selected[0]);
-	
+			
 		//Set previous selected slide
 		this.slideDataView.select(selected);
 		
-		this.doLayout();
+		//this.doLayout();
+		this.setAnimationTransition(selected[0]);
+	},
+	setAnimationTransition: function(index){
+		var slides;
+		if (index === undefined || index.constructor != Number) {
+			slides = this.presentation.slides;
+			
+		}
+		else {
+			var slides = this.presentation.slides[index];
+			
+		}
+		
+		Ext.each(slides, function(slide){
+			if (slide.transition.f === "null") {
+				Ext.get('preview-' + slide.id).removeClass('thumb-transition');
+			}
+			else {
+				Ext.get('preview-' + slide.id).addClass('thumb-transition');
+			}
+			if (slide.animations.length == 0) {
+				Ext.get('preview-' + slide.id).removeClass('thumb-animation');
+			}
+			else {
+				Ext.get('preview-' + slide.id).addClass('thumb-animation');
+			}
+		}, this);
 	},
 	savePreviousState: function(){
 		this.presentation.selectedSlides = this.slideDataView.getSelectedIndexes();

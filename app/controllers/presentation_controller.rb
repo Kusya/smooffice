@@ -26,7 +26,7 @@ class PresentationController < ApplicationController
       newOrder.save
       
       newContent = Content.new
-      newContent.json = '{"p":{"backgroundColor":"#FFFFFF"}}'
+      newContent.json = '{"c":"","a":[{"o":"e1478"},{"o":"e1639"}],"t":{"f":"null"},"e":[{"i":"e1478","t":"p","c":"<p align=\"center\"><font face=\"arial\" size=\"11\"><b>Title</b></font></p>","p":{"top":"24.35%","left":"10%","width":"80%","height":"10%","fontClass":"A","fontSize":"200%"}},{"i":"e1639","t":"p","c":"<div align=\"center\"><font face=\"arial\" size=\"6\">Sub-title</font></div>","p":{"top":"40%","left":"10%","width":"80%","height":"30%","fontClass":"A","fontSize":"150%"}}],"p":{"backgroundColor":"#FFFFFF"}}'
       newContent.of_slide = newSlide.id
       newContent.save
       

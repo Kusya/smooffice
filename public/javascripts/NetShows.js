@@ -86,14 +86,37 @@ Ext.onReady(function(){
 	NetShows.mainPanel.on('editorview', onEditorView);
 	
 	
-	// A new presentation is opened
-	function onOpenPresentation(presentation){
-		Ext.get('loading-title').dom.innerHTML = presentation.text
+	/* Layered message managing */
+	NetShows.showMsg = function(title,msg){
+		Ext.get('loading-title').dom.innerHTML = title||'';
 		Ext.get('loading').fadeIn();
         Ext.get('loading-mask').fadeIn({
-			endOpacity:.5
+			endOpacity:.6
 		});
-		Ext.get('loading-msg').dom.innerHTML = this.openLoadingText||'Loading presentation...';
+		NetShows.setMsg(msg||'');
+	}
+	
+	NetShows.setMsg = function(msg){
+		Ext.get('loading-msg').dom.innerHTML = msg;
+	}
+	
+	NetShows.hideMsg = function(timeout){
+		setTimeout(function(){
+			Ext.get('loading').fadeOut({
+				remove: false,
+				callback: function(){
+				
+				}
+			});
+			Ext.get('loading-mask').fadeOut({
+				remove: false
+			});
+		}, timeout||250);
+	}
+	
+	// A new presentation is opened
+	function onOpenPresentation(presentation){
+		NetShows.showMsg(presentation.text,this.openLoadingText||'Loading presentation...');
 		
 		//Loading the slides from the server
 		if (!presentation.store) {
@@ -109,13 +132,13 @@ Ext.onReady(function(){
 							presentation.init = function(){
 								presentation.nLoaded = 0;
 								
-								Ext.get('loading-msg').dom.innerHTML = this.slidesLoadingText || 'Creating slides...';
+								NetShows.setMsg(this.slidesLoadingText || 'Creating slides...')
 								
 								if (presentation.slides.length == 0) {
 									//For each slide
 									presentation.store.each(function(item, index){
 										//Create each slide in the array from the dataStore
-										var mySlide = new Slide(item.data, presentation.id);
+										var mySlide = new Slide(item.data, presentation,index);
 										
 										this.store.getAt(index).data.html = mySlide.getPreview();
 										
@@ -133,17 +156,7 @@ Ext.onReady(function(){
 								//Open the presentation in a tab
 								NetShows.mainPanel.openPresentation(presentation);
 								
-								setTimeout(function(){
-									Ext.get('loading').fadeOut({
-										remove: false,
-										callback: function(){
-										
-										}
-									});
-									Ext.get('loading-mask').fadeOut({
-										remove: false
-									});
-								}, 400);
+								NetShows.hideMsg(250);
 								
 							}
 							

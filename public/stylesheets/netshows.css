@@ -87,7 +87,9 @@ body.x-border-layout-ct {
 /*
  * Slide View
  */
-
+.element {
+	overflow:hidden;
+}
 .element-mask .mask{
 	background: white;
 	-moz-opacity:0.3;
@@ -297,6 +299,34 @@ body.x-border-layout-ct {
 	overflow: hidden;
 }
 
+#slides-preview .thumb-wrap .animation{
+	display:none;
+}
+#slides-preview .thumb-animation .animation{
+	display:block;
+	position:absolute;
+	top:-3px;
+	right:-3px;
+	height:16px;
+	width:16px;
+	background: url('/images/icons/bullet_star.png') no-repeat top right;
+	z-index:2;
+}
+
+#slides-preview .thumb-wrap .transition{
+	display:none;
+}
+#slides-preview .thumb-transition .transition{
+	display:block;
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	height:16px;
+	width:16px;
+	background: url('/images/icons/resultset_next.png') no-repeat top right;
+	z-index:2;
+}
+
 #slides-preview .wrap-under{
 	z-index:1;
 }
@@ -307,7 +337,7 @@ body.x-border-layout-ct {
 	-moz-opacity:0.01;
 	opacity:.01;
 	filter:alpha(opacity=1);
-	z-index:20000;
+	z-index:1;
 	background-color:#FFF;
 	zoom:1;
 }
