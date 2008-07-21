@@ -355,6 +355,11 @@ body.x-border-layout-ct {
 	margin: 4px;
 }
 
+#slides-preview .x-view-sortable-drag{
+	border:2px solid yellow;
+	margin: 4px;
+}
+
 #slides-preview .loading-indicator {
 	font-size:11px;
 	background-image:url('/ext/resources/images/default/grid/loading.gif');

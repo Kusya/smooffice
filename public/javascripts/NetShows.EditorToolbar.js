@@ -40,7 +40,7 @@ NetShows.EditorToolbar = function(){
 				this.fireEvent('preview');
 			},
 			scope: this
-		}, '-', {
+		}, /*'-', {
 			//handler: this.onButtonClick,
 			iconCls: 'icon-copy',
 			tooltip: 'Copy element'
@@ -52,7 +52,8 @@ NetShows.EditorToolbar = function(){
 			//handler: this.onButtonClick,
 			iconCls: 'icon-paste',
 			tooltip: 'Paste element'
-		}, '-', {
+		}, */
+		'-', {
 			title: 'text',
 			iconCls: 'icon-text',
 			tooltip: 'Insert text',
@@ -125,7 +126,7 @@ NetShows.EditorToolbar = function(){
 				this.fireEvent('movefront');
 			},
 			scope: this
-		}, '-', {
+		}, /*'-', {
 			title: 'Comment',
 			iconCls: 'icon-comment',
 			tooltip: 'Edit the comments',
@@ -152,7 +153,7 @@ NetShows.EditorToolbar = function(){
 				this.fireEvent('zoomout');
 			},
 			scope: this
-		}]
+		}*/]
 	});
 	NetShows.mainPanel.on('focuselement', this.setFocus, this);
 }
