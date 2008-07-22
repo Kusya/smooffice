@@ -57,14 +57,14 @@
 		 }})*/
 			switch (this.data.t) {
 				case 'img':
-					html += '<img src="' + this.data.c.src + '" alt="" title="" width="100%" height="auto" />';
+					html += '<img src="' + this.data.c.src + '" alt="" title="" style="width:100%;height:' + (this.data.p.height=='auto'?'auto':'100%') + '" />';
 					break;
 				case 'video':
-					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:auto;position:absolute;" />';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:auto;" />';
 					break;
 					
 				case 'map':
-					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:auto;position:absolute;" />';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:auto;" />';
 					break;
 					
 				default:
@@ -76,6 +76,7 @@
 		}
 		
 		this.createDom = function(){
+			this.preserveRatio = (this.data.p.height && this.data.p.height == 'auto')?true:false;
 			//Append the new node to the slide-wrap
 			this.el = Ext.get(slideId).createChild({
 				id: this.slideId + this.id,
@@ -156,14 +157,26 @@
 				this.map = null;//A revoir pour détruire la map
 			}
 		}
+		
+		//setPreserveRatio (checked = true||false)
+		this.setPreserveRatio = function(checked){
+			this.preserveRatio = checked;
+			this.getProperties();
+			//this.createDom();
+			this.data.p.height = checked ? 'auto':'100%';
+			this.el.dom.innerHTML = this.getHTML();
+			this.data.p.height = undefined;
+			this.resizeEvent();
+		}
+		
 		this.resizeEvent = function(){
 			//msg_log('resize ' + this.data.t)
-			if (this.data.p.width && this.data.p.height) {
+			if (this.data.p.width && this.data.p.height && this.data.p.height != 'auto') {
 				this.el.applyStyles('width:' + this.getPixelFromPercent(this.data.p.width, Ext.get(this.slideId).getWidth()) + 'px;');
 				this.el.applyStyles('height:' + this.getPixelFromPercent(this.data.p.height, Ext.get(this.slideId).getHeight()) + 'px;');
 			}
 			else {
-				this.el.applyStyles('width:50%;');
+				this.el.applyStyles('width:'+(this.data.p.width||'50%')+';');
 				var heightValue = (this.data.t == 'video') ? '50%' : 'auto'
 				this.el.applyStyles('height:' + heightValue + ';');
 				this.el.first().addListener('load', function(){
@@ -179,12 +192,14 @@
 		
 		this.getJSON = function(){
 			this.getProperties();
-			return {
+			var properties = {
 				i: this.i,
 				t: this.data.t,
 				c: this.data.c,
 				p: this.data.p
 			};
+			Ext.apply(properties.p,{height:(this.preserveRatio?'auto':this.data.p.height)});
+			return properties;
 		}
 		
 		this.setIndex = function(zIndex){

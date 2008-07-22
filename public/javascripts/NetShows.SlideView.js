@@ -181,17 +181,26 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		var config = {
 			pinned: true,
 			draggable: true,
-			dynamic: true
+			handles: 'all',
+			dynamic: true,
+			minHeight: 10,
+			minWidth:10,
+			minX:0,
+			minY:0//Ext.get('slide-view-' + this.presentation.id).getEl().getComputedWidth()
 		};
+		
+		if (element.preserveRatio) {
+			Ext.apply(config, {
+				preserveRatio: true,
+				handles: 'ne nw se sw'
+			});
+		}
 		
 		switch (element.data.className) {
 			case 'text':
 				var myResizableElement = new Ext.Resizable(element.el, config);
 				break;
 			case 'img':
-				Ext.apply(config, {
-					preserveRatio: true
-				});
 				var myResizableElement = new Ext.Resizable(element.el, config);
 				break;
 			case 'video':
@@ -204,7 +213,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 				return false;
 		}
 		
-		if(element.data.className == 'text' || element.data.className == 'video' || element.data.className == 'map'){
+		if (element.data.className == 'text' || element.data.className == 'video' || element.data.className == 'map') {
 			myResizableElement.dd.endDrag = function(){
 				element.endDrag = true;
 			}
@@ -214,9 +223,9 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		this.resizableElement = myResizableElement;
 		NetShows.accordion.setElement(element);
 	},
-	getFocusElement: function(){
-		msg_log(this.focusElement);
-	},
+	/*getFocusElement: function(){
+	 msg_log(this.focusElement);
+	 },*/
 	saveSlide: function(){
 		this.slide.save();
 		NetShows.hideMsg(100);
@@ -224,8 +233,8 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 	initialize: function(panel){
 	
 		this.getComponent(0).html = '<div class="slide-wrap" id="slide-wrap-' + this.presentation.id + '"></div>';
-		Ext.EventManager.addListener(Ext.get('slide-view-'+this.presentation.id), 'click', this.setNoFocus, this);
-		Ext.EventManager.addListener(Ext.get('slide-view-'+this.presentation.id), 'contextmenu', function(e){
+		Ext.EventManager.addListener(Ext.get('slide-view-' + this.presentation.id), 'click', this.setNoFocus, this);
+		Ext.EventManager.addListener(Ext.get('slide-view-' + this.presentation.id), 'contextmenu', function(e){
 			e.preventDefault();
 		}, this);
 		
@@ -363,7 +372,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			number: 0
 		};
 		
-		if (this.slide&&params.savePrevious) {
+		if (this.slide && params.savePrevious) {
 			this.slide.saveDomState();
 		}
 		//Set the edited slide
@@ -425,10 +434,25 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		if (!this.menuElement) { // create context menu on first right click
 			this.menuElement = new Ext.menu.Menu({
 				id: 'element-ctx',
-				items: [this.actionRemove,this.actionMoveBack,this.actionMoveBackwards,this.actionMoveForwards,this.actionMoveFront]
+				items: [this.actionRemove, '-',this.actionMoveBack, this.actionMoveBackwards, this.actionMoveForwards, this.actionMoveFront,'-', {
+					text: this.preserveRatioText || 'Preserve ratio',
+					checked: element.preserveRatio||false,
+					id:'checkbox-preserve-ratio',
+					checkHandler: function(item, checked){
+						//if(this.focsuElement.preserveRatio != checked){
+						var tmp = this.focusElement;
+						this.setNoFocus(true);
+						tmp.setPreserveRatio(checked);
+						this.setFocusElement(tmp);
+					},
+					scope: this
+				}]
 			});
 		}
 		
+		//Enable preserveRatio option only for images
+		Ext.getCmp('checkbox-preserve-ratio').setDisabled(!element.className == 'img');
+		Ext.getCmp('checkbox-preserve-ratio').setChecked(element.preserveRatio||false);
 		//Show the right clic menu
 		this.menuElement.showAt(e.getXY());
 	}
