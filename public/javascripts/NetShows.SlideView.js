@@ -189,29 +189,26 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			minY:0//Ext.get('slide-view-' + this.presentation.id).getEl().getComputedWidth()
 		};
 		
-		if (element.preserveRatio) {
-			Ext.apply(config, {
-				preserveRatio: true,
-				handles: 'ne nw se sw'
-			});
-		}
-		
 		switch (element.data.className) {
 			case 'text':
-				var myResizableElement = new Ext.Resizable(element.el, config);
 				break;
 			case 'img':
-				var myResizableElement = new Ext.Resizable(element.el, config);
 				break;
 			case 'video':
-				var myResizableElement = new NetShows.Resizable(element.el, config);
+				Ext.apply(config, {
+					removeAll: true
+				})
 				break;
 			case 'map':
-				var myResizableElement = new NetShows.Resizable(element.el, config);
+				Ext.apply(config, {
+					removeAll: true
+				})
 				break;
 			default:
 				return false;
 		}
+		
+		var myResizableElement = new NetShows.Resizable(element.el, config);
 		
 		if (element.data.className == 'text' || element.data.className == 'video' || element.data.className == 'map') {
 			myResizableElement.dd.endDrag = function(){
@@ -434,28 +431,8 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		if (!this.menuElement) { // create context menu on first right click
 			this.menuElement = new Ext.menu.Menu({
 				id: 'element-ctx',
-				items: [this.actionRemove, '-',this.actionMoveBack, this.actionMoveBackwards, this.actionMoveForwards, this.actionMoveFront,'-', {
-					text: this.preserveRatioText || 'Preserve ratio',
-					checked: element.preserveRatio||false,
-					id:'checkbox-preserve-ratio',
-					checkHandler: function(item, checked){
-						//if(this.focsuElement.preserveRatio != checked){
-						var tmp = this.focusElement;
-						this.setNoFocus(true);
-						tmp.setPreserveRatio(checked);
-						this.setFocusElement(tmp);
-					},
-					scope: this
-				}]
+				items: [this.actionRemove, '-',this.actionMoveBack, this.actionMoveBackwards, this.actionMoveForwards, this.actionMoveFront]
 			});
-		}
-		
-		//Enable preserveRatio option only for images
-		if (element.data.className == 'img') {
-			Ext.getCmp('checkbox-preserve-ratio').setDisabled(false);
-			Ext.getCmp('checkbox-preserve-ratio').setChecked(element.preserveRatio || false);
-		}else{
-			Ext.getCmp('checkbox-preserve-ratio').setDisabled(true);
 		}
 		//Show the right clic menu
 		this.menuElement.showAt(e.getXY());

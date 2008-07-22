@@ -76,7 +76,6 @@
 		}
 		
 		this.createDom = function(){
-			this.preserveRatio = (this.data.p.height && this.data.p.height == 'auto')?true:false;
 			//Append the new node to the slide-wrap
 			this.el = Ext.get(slideId).createChild({
 				id: this.slideId + this.id,
@@ -158,17 +157,6 @@
 			}
 		}
 		
-		//setPreserveRatio (checked = true||false)
-		this.setPreserveRatio = function(checked){
-			this.preserveRatio = checked;
-			this.getProperties();
-			//this.createDom();
-			this.data.p.height = checked ? 'auto':'100%';
-			this.el.dom.innerHTML = this.getHTML();
-			this.data.p.height = undefined;
-			this.resizeEvent();
-		}
-		
 		this.resizeEvent = function(){
 			//msg_log('resize ' + this.data.t)
 			if (this.data.p.width && this.data.p.height && this.data.p.height != 'auto') {
@@ -198,7 +186,6 @@
 				c: this.data.c,
 				p: this.data.p
 			};
-			Ext.apply(properties.p,{height:(this.preserveRatio?'auto':this.data.p.height)});
 			return properties;
 		}
 		
