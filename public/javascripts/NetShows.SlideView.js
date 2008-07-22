@@ -451,8 +451,12 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		}
 		
 		//Enable preserveRatio option only for images
-		Ext.getCmp('checkbox-preserve-ratio').setDisabled(!element.className == 'img');
-		Ext.getCmp('checkbox-preserve-ratio').setChecked(element.preserveRatio||false);
+		if (element.data.className == 'img') {
+			Ext.getCmp('checkbox-preserve-ratio').setDisabled(false);
+			Ext.getCmp('checkbox-preserve-ratio').setChecked(element.preserveRatio || false);
+		}else{
+			Ext.getCmp('checkbox-preserve-ratio').setDisabled(true);
+		}
 		//Show the right clic menu
 		this.menuElement.showAt(e.getXY());
 	}
