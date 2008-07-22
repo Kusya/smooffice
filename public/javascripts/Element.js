@@ -60,9 +60,9 @@
 					html += '<img src="' + this.data.c.src + '" alt="" title="" style="width:100%;height:' + (this.data.p.height=='auto'?'auto':'100%') + '" />';
 					break;
 				case 'video':
-					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:auto;" />';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:100%;" />';
+					html += '<div class="mask"><div class="video">' + (this.videoMaskText || 'Click twice to play video') + '</div></div>';
 					break;
-					
 				case 'map':
 					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:auto;" />';
 					break;
@@ -72,6 +72,41 @@
 					html += this.data.c;
 					this.data.className = 'text';
 			}
+			return html;
+		}
+		
+		this.getDomVideo = function(){
+			var html = '<div style="position:absolute;top:40%;left:45%;"><img src="/images/smooffice_loading.gif" alt="load" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/></div>';
+			var e = this.data.c.src.substring(this.data.c.src.length - 3, this.data.c.src.length);
+			if (e == 'swf' || e == 'flv') {
+				html += '<object width="100%" height="100%" style="position:absolute">';
+				html += '<param name="movie" value="' + this.data.c.src + '"></param>';
+				html += '<param name="wmode" value="transparent"></param>';
+				html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+				html += '</object>';
+			}
+			else 
+				if (e == 'wmv' || e == 'wma' || e == 'asx' || e == 'asf') {
+					html += '<embed style="position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="0" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"></embed>';
+					
+				}
+				else 
+					if (e == 'mov' || e == 'mp4') {
+						html += '<embed style="position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autoplay="false" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
+						
+					}
+					else 
+						if (e == '.rm') {
+							html += '<embed type="audio/x-pn-realaudio-plugin" style="position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="false" controls="imagewindow" nojava="true" console="c1212599607702" pluginspage="http://www.real.com/"></embed>';
+							html += '<br><embed type="audio/x-pn-realaudio-plugin"  style="position:absolute" width="100%" height="26" src="' + this.data.c.src + '" autostart="false" nojava="true" controls="ControlPanel" console="c1212599607702"></embed>';
+						}
+						else {
+							html += '<object width="100%" height="100%" style="position:absolute">';
+							html += '<param name="movie" value="' + this.data.c.src + '"></param>';
+							html += '<param name="wmode" value="transparent"></param>';
+							html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+							html += '</object>';
+						}
 			return html;
 		}
 		
@@ -94,54 +129,20 @@
 			this.el.addClass('element');
 			
 			
-			switch(this.data.className) {
+			switch (this.data.className) {
 				case 'map':
-				this.data.c = !this.data.c ? {} : this.data.c;
-				this.map = new GoogleMap(this.el.dom, this.data.c);
-				this.el.on('load', this.resizeEvent, this);
-				this.el.addClass('element-mask');
-				this.el.createChild({
-					html: '<div class="mask"><div class="map">'+(this.mapMaskText||'Click twice to edit map')+'</div></div>'
-				});
-			break;
-			case 'video':
-					var html = '';
-					var e = this.data.c.src.substring(this.data.c.src.length - 3, this.data.c.src.length);
-					if (e == 'swf' || e == 'flv') {
-						html += '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-						html += '<param name="movie" value="' + this.data.c.src + '"></param>';
-						html += '<param name="wmode" value="transparent"></param>';
-						html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
-						html += '</object>';
-					}
-					else 
-						if (e == 'wmv' || e == 'wma' || e == 'asx' || e == 'asf') {
-							html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="0" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"></embed>';
-							
-						}
-						else 
-							if (e == 'mov' || e == 'mp4') {
-								html += '<embed style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autoplay="false" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
-								
-							}
-							else 
-								if (e == '.rm') {
-									html += '<embed type="audio/x-pn-realaudio-plugin" style="z-index:1;position:absolute" width="100%" height="100%" src="' + this.data.c.src + '" autostart="false" controls="imagewindow" nojava="true" console="c1212599607702" pluginspage="http://www.real.com/"></embed>';
-									html += '<br><embed type="audio/x-pn-realaudio-plugin"  style="z-index:1;position:absolute" width="100%" height="26" src="' + this.data.c.src + '" autostart="false" nojava="true" controls="ControlPanel" console="c1212599607702"></embed>';
-								}
-								else {
-									html = '<object width="100%" height="100%" style="z-index:1;position:absolute">';
-									html += '<param name="movie" value="' + this.data.c.src + '"></param>';
-									html += '<param name="wmode" value="transparent"></param>';
-									html += '<embed width="100%" height="100%" src="' + this.data.c.src + '" type="application/x-shockwave-flash" wmode="transparent"></embed>';
-									html += '</object>';
-								}
-					this.el.dom.innerHTML = html;
+					this.data.c = !this.data.c ? {} : this.data.c;
+					this.map = new GoogleMap(this.el.dom, this.data.c);
+					this.el.on('load', this.resizeEvent, this);
 					this.el.addClass('element-mask');
 					this.el.createChild({
-						html: '<div class="mask"><div class="video">'+(this.videoMaskText||'Click twice to play video')+'</div></div>'
+						html: '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click twice to edit map') + '</div></div>'
 					});
-				}
+					break;
+					case 'video':
+					this.el.addClass('element-mask');
+					break;
+			}
 			
 			//Add listeners
 			this.el.on('click', this.onClick, this);
@@ -261,8 +262,9 @@
 					else 
 						if (this.mode == 'focus' && !this.endDrag) {
 							//Remove the resizable element
-							NetShows.mainPanel.getActiveSlideView().removeResizable();
+							NetShows.mainPanel.getActiveSlideView().removeResizable(true);
 							this.mode = 'play';
+							this.el.dom.innerHTML = this.getDomVideo();
 							this.el.removeClass('element-mask');
 						}
 					break;
@@ -274,7 +276,7 @@
 					else 
 						if (this.mode == 'focus' && !this.endDrag) {
 							//Remove the resizable element
-							NetShows.mainPanel.getActiveSlideView().removeResizable();
+							NetShows.mainPanel.getActiveSlideView().removeResizable(true);
 							this.mode = 'modify';
 							this.el.removeClass('element-mask');
 						}
@@ -302,6 +304,7 @@
 						this.endDrag = false;
 						this.el.addClass('element-mask');
 					}
+					this.el.dom.innerHTML = this.getHTML();
 					this.mode = null;
 					break;
 				case 'map':
@@ -314,6 +317,7 @@
 			}
 		}
 		this.onContextMenu = function(e){
+			msg_log(e);
 			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 			NetShows.mainPanel.getActiveSlideView().onContextMenu(e, this);
 		}

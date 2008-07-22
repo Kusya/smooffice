@@ -4,15 +4,14 @@
  * Extended class of Ext.Resizable to avoid bug with video and maps dragging
  */
 NetShows.Resizable = function(element,config){
-	this.removeAll = config.removeAll||false;
 	NetShows.Resizable.superclass.constructor.call(this,element,config);
 };
 Ext.extend(NetShows.Resizable,Ext.Resizable,{
-	destroy: function(removeEl){
+	destroy: function(removeEl,removeAll){
 		this.proxy.remove();
 		
-		//If removeAll == true then unregister the dd proxy
-		if(this.removeAll)
+		//If removeAll == true then unregister the dd proxy of the element
+		if(removeAll)
 			this.dd.unreg();
 			
 		if (this.overlay) {

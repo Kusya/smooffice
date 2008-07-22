@@ -136,11 +136,11 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		}
 		this.presentation.updatePreview(this.slide);
 	},
-	removeResizable: function(){
+	removeResizable: function(removeAll){
 		if (this.resizableElement) {
 			//Remove the resizable class
 			this.resizableElement.getEl().removeClass('x-resizable-pinned');
-			this.resizableElement.destroy(false);
+			this.resizableElement.destroy(false,removeAll);
 		}
 	},
 	setFocusElement: function(element){
@@ -195,14 +195,14 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			case 'img':
 				break;
 			case 'video':
-				Ext.apply(config, {
+				/*Ext.apply(config, {
 					removeAll: true
-				})
+				})*/
 				break;
 			case 'map':
-				Ext.apply(config, {
+				/*Ext.apply(config, {
 					removeAll: true
-				})
+				})*/
 				break;
 			default:
 				return false;
