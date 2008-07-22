@@ -76,20 +76,14 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 	onRender:function(params){
 		NetShows.MainPanel.superclass.onRender.call(this,params);
 		var map = new Ext.KeyMap(document, [{
-            //Delete Key = Delete
-            key: Ext.EventObject.DELETE,
-            stopEvent: true,
-            scope: this,
-            handler: function(){
+			//Delete Key = Delete
+			key: Ext.EventObject.DELETE,
+			stopEvent: true,
+			scope: this,
+			handler: function(){
 				this.getActiveTab().getTopToolbar().fireEvent('remove');
 			}
-        }/*,{
-			key: Ext.EventObject.SHIFT,
-			handler: function(e){
-				this.getActiveSlideView().onShiftKey(e);
-			},
-			scope: this
-		}*/]);
+		}]);
 	},
     load: function(){
         this.el.mask(this.loadingText, 'x-mask-loading');
