@@ -299,5 +299,6 @@ Ext.onReady(function(){
 });
 
 Ext.EventManager.on(window,'unload',function(){
+	msg_log('unload Smooffice');
 	GUnload();
 })
