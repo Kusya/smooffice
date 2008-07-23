@@ -12,7 +12,7 @@
                 width: 100%;
                 height: 100%;
                 z-index: 20000;
-                background: #fff;
+                background: white url('/images/smoothies.jpg') no-repeat right bottom;
             }
 			
             #start-loading-mask {
@@ -68,22 +68,24 @@
     </head>
     <body>
         <div id="loading-mask">
+        	<img src="/images/background.png" alt="" width="325" height="339" style="float:left;top:-80px;left:-80px;position:absolute"/>
         </div>
         <div id="loading">
             <div class="loading-indicator">
-                <img src="/images/smooffice_loading.gif" alt="load" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/><span id="loading-title">Smooffice Lemon 1.0</span>
+                <img src="/images/smooffice_loading.gif" alt="loading..." width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/><span id="loading-title">Smooffice Lemon 1.0</span>
                 <br/>
-                <span id="loading-msg"></span>
+                <div id="loading-msg"></div>
             </div>
         </div>
 		
         <div id="start-loading-mask">
+        <img src="/images/background.png" alt="load" width="325" height="339" style="float:left;top:-80px;left:-80px;position:absolute"/>
         </div>
         <div id="start-loading">
             <div class="loading-indicator">
-                <img src="/images/smooffice_loading.gif" alt="load" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>Smooffice Lemon 1.0
+                <img src="/images/smooffice_loading.gif" alt="loading..." width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>Smooffice Lemon 1.0
                 <br/>
-                <span id="start-loading-msg">Loading styles and images...</span>
+				<p id="start-loading-msg">Loading styles and images...</p>
             </div>
         </div>
         <!--Loading Ext Base-->
@@ -178,7 +180,7 @@
         </script>
         <%= javascript_include_tag "NetShows.js" %>
 		
-        <div id="header">
+        <div id="header"><img src="/images/background_opacity.png" alt="load" width="325" height="339" style="float:left;top:-80px;left:-80px;position:absolute"/>
             <div style="margin: 5px; width: auto; float: left; clear: left;">
                 <div style="float:left;">
                     <img src="/images/icons/user.png" alt="user" border="0" />

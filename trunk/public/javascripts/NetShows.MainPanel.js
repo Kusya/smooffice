@@ -73,8 +73,8 @@ NetShows.MainPanel = function(){
 };
 
 Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
-	onRender:function(params){
-		NetShows.MainPanel.superclass.onRender.call(this,params);
+	onRender: function(params){
+		NetShows.MainPanel.superclass.onRender.call(this, params);
 		var map = new Ext.KeyMap(document, [{
 			//Delete Key = Delete
 			key: Ext.EventObject.DELETE,
@@ -85,55 +85,55 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 			}
 		}]);
 	},
-    load: function(){
-        this.el.mask(this.loadingText, 'x-mask-loading');
+	load: function(){
+		this.el.mask(this.loadingText, 'x-mask-loading');
 	},
-    
+	
 	//When deleting a node in the treeview, the corresponding tab, if opened, is deleted as well
-	removeTab : function(id){
-		if(tab = this.getItem('tab-' + id)){
+	removeTab: function(id){
+		if (tab = this.getItem('tab-' + id)) {
 			this.remove(tab);
 		}
 	},
 	
-    setSlide: function(params){
+	setSlide: function(params){
 		this.getActiveTab().getComponent('slide-view-' + this.getActiveTab().presentation.id).setSlide(params);
 		NetShows.accordion.setSlide(params);
 	},
-    
-    onTabChange: function(TabPanel, tab){
-        //Prevent bug while loading the page
-        if (this.tabclosed || TabPanel.items.getCount() > 1) {
-            if (tab.id == 'main-view') {
-                //msg_log("TabPanel - Preview");
-                this.fireEvent('previewview', tab.presentation);
-            }
-            else {
-                //msg_log("TabPanel - Editor");
-                this.fireEvent('editorview', tab.presentation);
-            }
-        }
-        else {
-            this.tabclosed = true;
-        }
-    },
-    
-    onCloseTab: function(){
-        Ext.Msg.show({
-            title: this.saveChangesText ? this.saveChangesText : 'Save changes',
-            msg: this.closeMsgText ? this.closeMsgText : 'You have closed a tab that has unsaved changes. Would you like to save your changes ?',
-            buttons: Ext.Msg.YESNOCANCEL,
-            fn: function(btn){
-                msg_log(btn);
+	
+	onTabChange: function(TabPanel, tab){
+		//Prevent bug while loading the page
+		if (this.tabclosed || TabPanel.items.getCount() > 1) {
+			if (tab.id == 'main-view') {
+				//msg_log("TabPanel - Preview");
+				this.fireEvent('previewview', tab.presentation);
+			}
+			else {
+				//msg_log("TabPanel - Editor");
+				this.fireEvent('editorview', tab.presentation);
+			}
+		}
+		else {
+			this.tabclosed = true;
+		}
+	},
+	
+	onCloseTab: function(){
+		Ext.Msg.show({
+			title: this.saveChangesText ? this.saveChangesText : 'Save changes',
+			msg: this.closeMsgText ? this.closeMsgText : 'You have closed a tab that has unsaved changes. Would you like to save your changes ?',
+			buttons: Ext.Msg.YESNOCANCEL,
+			fn: function(btn){
+				msg_log(btn);
 				
-        		msg_log('deleting slides data store');
-        		this.getActiveTab().presentation.store = null;
-            }
-        });
-    },
-    //Load a presentation in the General tab
-    loadPresentation: function(node, notEditable, isLeaf){
-        var tab = Ext.getCmp("main-tabs").getItem("main-view");
+				msg_log('deleting slides data store');
+				this.getActiveTab().presentation.store = null;
+			}
+		});
+	},
+	//Load a presentation in the General tab
+	loadPresentation: function(node, notEditable, isLeaf){
+		var tab = Ext.getCmp("main-tabs").getItem("main-view");
 		if (isLeaf) {
 			tab.setTitle((this.generalText) ? this.generalText : 'General' + " - " + node.text);
 			tab.presentation = node;
@@ -142,133 +142,143 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 				updated_at: node.updated_at,
 				text: node.text,
 				author: node.author,
-				description: node.description||this.noDescriptionText||'No description',
-				tags: node.tags||this.noTagsText||'No tags',
-				updatedText: this.updatedText||'Last modification on',
-				createdText: this.createdText||'Created on',
-				byText:this.byText||'by',
-				tagsText:this.tagsText||'Tags',
-				descriptionTitle:this.descriptionTitle||'Description'
+				description: node.description || this.noDescriptionText || 'No description',
+				tags: node.tags || this.noTagsText || 'No tags',
+				updatedText: this.updatedText || 'Last modification on',
+				createdText: this.createdText || 'Created on',
+				byText: this.byText || 'by',
+				tagsText: this.tagsText || 'Tags',
+				descriptionTitle: this.descriptionTitle || 'Description'
 			});
-        	this.actionEdit.setDisabled(notEditable);
-        	this.actionFullScreen.setDisabled(notEditable);
-		}else{
-			tab.setTitle(this.generalText || 'General');
-			NetShows.getHomeTemplate().overwrite(tab.body,{
-                introTitle: this.introTitleText || 'Introduction',
-                introContent: this.introContentText || "Welcome to NetShows, the new presentation maker. We hope you'll enjoy the wide set of hudge features such as amazing transitions, aesthetically pleasing elements animation, and much more..."
-            });
-        	this.actionEdit.disable();
-        	this.actionFullScreen.disable();
+			this.actionEdit.setDisabled(notEditable);
+			this.actionFullScreen.setDisabled(notEditable);
 		}
-        this.setActiveTab(tab);
-    },
-    //Return the actual edited slide
-    getActiveSlide: function(){
-        return this.getActiveTab().getComponent('slide-view-'+this.getActiveTab().presentation.id).slide;
-    },
-    //Return the actual slide-view
-    getActiveSlideView: function(){
-        return this.getActiveTab().getComponent('slide-view-'+this.getActiveTab().presentation.id);
-    },
-    //open a presentation in a new tab
-    openPresentation: function(presentation){
-        var id = !presentation.id ? Ext.id() : presentation.id;
-        var tab;
-        if (!(tab = this.getItem('tab-' + id))) {
-            tab = this.add({
-                id: 'tab-' + id,
-                cls: 'editor',
-                title: presentation.text,
-                tabTip: presentation.text,
-                closable: true,
-                autoScroll: true,
-                border: true,
-                tbar: new NetShows.EditorToolbar(),
-                presentation: presentation,
-                items: new NetShows.SlideView(presentation),
-                listeners: {
-					'resize':function(){
+		else {
+			tab.setTitle(this.generalText || 'General');
+			NetShows.getHomeTemplate().overwrite(tab.body, {
+				introTitle: this.introTitleText || 'Introduction',
+				introContent: this.introContentText || "Welcome to NetShows, the new presentation maker. We hope you'll enjoy the wide set of hudge features such as amazing transitions, aesthetically pleasing elements animation, and much more..."
+			});
+			this.actionEdit.disable();
+			this.actionFullScreen.disable();
+		}
+		this.setActiveTab(tab);
+	},
+	//Return the actual edited slide
+	getActiveSlide: function(){
+		return this.getActiveTab().getComponent('slide-view-' + this.getActiveTab().presentation.id).slide;
+	},
+	//Return the actual slide-view
+	getActiveSlideView: function(){
+		return this.getActiveTab().getComponent('slide-view-' + this.getActiveTab().presentation.id);
+	},
+	//open a presentation in a new tab
+	openPresentation: function(presentation){
+		var id = !presentation.id ? Ext.id() : presentation.id;
+		var tab;
+		if (!(tab = this.getItem('tab-' + id))) {
+			tab = this.add({
+				id: 'tab-' + id,
+				cls: 'editor',
+				title: presentation.text,
+				tabTip: presentation.text,
+				closable: true,
+				autoScroll: true,
+				border: true,
+				tbar: new NetShows.EditorToolbar(),
+				presentation: presentation,
+				items: new NetShows.SlideView(presentation),
+				listeners: {
+					'resize': function(){
 						tab.getComponent(0).resizeEvent();
 					},
-                    'render': function(){
+					'render': function(){
 						this.doLayout();
 						var slideView = tab.getComponent(0);
-				        
-                        tab.getTopToolbar().on('save', slideView.saveSlide, slideView);
-                        tab.getTopToolbar().on('newtext', slideView.newText, slideView);
-                        tab.getTopToolbar().on('newmap', slideView.newMap, slideView);
-                        tab.getTopToolbar().on('newdrawapplet', slideView.newDrawApplet, slideView);
-                        tab.getTopToolbar().on('remove', function(){
+						
+						tab.getTopToolbar().on('save', tab.presentation.save, tab.presentation);
+						tab.getTopToolbar().on('newtext', slideView.newText, slideView);
+						tab.getTopToolbar().on('newmap', slideView.newMap, slideView);
+						tab.getTopToolbar().on('newdrawapplet', slideView.newDrawApplet, slideView);
+						tab.getTopToolbar().on('remove', function(){
 							slideView.actionRemove.execute();
 						}, this);
 						
 						//Layer management
-                        tab.getTopToolbar().on('moveback', function(){
+						tab.getTopToolbar().on('moveback', function(){
 							slideView.actionMoveBack.execute();
 						}, this);
-                        tab.getTopToolbar().on('movefront', function(){
+						tab.getTopToolbar().on('movefront', function(){
 							slideView.actionMoveFront.execute();
 						}, this);
-                        tab.getTopToolbar().on('movebackwards', function(){
+						tab.getTopToolbar().on('movebackwards', function(){
 							slideView.actionMoveBackwards.execute();
 						}, this);
-                        tab.getTopToolbar().on('moveforwards', function(){
+						tab.getTopToolbar().on('moveforwards', function(){
 							slideView.actionMoveForwards.execute();
 						}, this);
-                        tab.getTopToolbar().on('play', function(){
+						tab.getTopToolbar().on('play', function(){
 							slideView.setNoFocus(true);
-							slideView.slide.save(function(){
+							tab.presentation.save(function(){
 								window.open('/presentation/show?id=' + id);
-								//Hide message
-								NetShows.hideMsg(100);
 							}, this);
 						}, this);
-                        tab.getTopToolbar().on('print', function(){
-                            msg_log('print');
-                        }, this);
-                        tab.getTopToolbar().on('preview', function(){
+						tab.getTopToolbar().on('print', function(){
+							msg_log('print');
+						}, this);
+						tab.getTopToolbar().on('preview', function(){
 							slideView.setNoFocus(true);
-                            slideView.slide.save(function(){
-                                if (!this.previewWindow) {
-                                    this.previewWindow = new Ext.Window({
-                                        title: (this.previewWindowTitle) ? this.previewWindowTitle : "Presentation preview",
-                                        iconCls: 'icon-preview',
-                                        width: 500,
-                                        height: 400,
-                                        resizable: true,
-                                        plain: false,
-                                        modal: true,
-                                        autoScroll: true,
-                                        closeAction: 'hide',
-                                        bodyBorder: true,
-                                        html: '<iframe id="preview-frame" style="border:0" width="100%" height="100%" src="/presentation/show?id=' + tab.presentation.id + '&slide_id=' + slideView.slide.id + '"></iframe>'
-                                    });
-                                    this.previewWindow.show();
-                                }
-                                else {
-                                    Ext.get('preview-frame').set({
-                                        src: '/presentation/show?id=' + tab.presentation.id + '&slide_id=' + slideView.slide.id
-                                    });
-                                    Ext.get('preview-frame').on('load', this.previewWindow.show, this.previewWindow);
-                                }
-								
-								//Hide message
-								NetShows.hideMsg(400);
-                            }, this);
-                            
-                        }, this);
-                    },
-                    'close': function(){
+							tab.presentation.save(function(){
+								NetShows.showMsg(this.previewTitle || 'Preview', this.loadingText || 'Loading...');
+								if (!this.previewWindow) {
+									this.previewWindow = new Ext.Window({
+										title: (this.previewWindowTitle) ? this.previewWindowTitle : "Presentation preview",
+										iconCls: 'icon-preview',
+										width: 500,
+										height: 400,
+										resizable: true,
+										plain: false,
+										modal: true,
+										listeners: {
+											show: function(){
+											},
+											scope: this
+										},
+										autoScroll: true,
+										closeAction: 'hide',
+										bodyBorder: true,
+										html: '<div style="position:absolute;top:40%;left:45%;"><img src="/images/smooffice_loading.gif" alt="load" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/></div>' +
+										'<iframe id="preview-frame" style="position:absolute;top:0px;left:0px;border:0;width:100%;height:100%;" src="/presentation/show?id=' +
+										tab.presentation.id +
+										'&slide_id=' +
+										slideView.slide.id +
+										'"></iframe>'
+									});
+									this.previewWindow.show();
+								}
+								else {
+									Ext.get('preview-frame').set({
+										src: '/presentation/show?id=' + tab.presentation.id + '&slide_id=' + slideView.slide.id
+									});
+									Ext.get('preview-frame').on('load', function(){
+										this.previewWindow.show();
+										NetShows.hideMsg(400);
+									}, this);
+								}
+							}, this);
+							
+						}, this);
+					},
+					'close': function(){
 						msg_log('close');
 					},//this.onCloseTab,
-                    scope: this
-                }
-            });
-        }
+					scope: this
+				}
+			});
+		}
 		//Define the presentation to use with the accordion
-        NetShows.accordion.setPresentation(presentation);
+		NetShows.accordion.setPresentation(presentation);
 		
-        tab.show();
-    }
+		tab.show();
+	}
 });

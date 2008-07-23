@@ -45,8 +45,8 @@ NetShows.SlideBrowser = function(){
 						savePrevious = false;
 					}
 					
-					//Save the actual state of the slides and its order
-					this.presentation.saveState();
+					//Set the modifications flag
+					this.presentation.orderChanged = true;
 					
 					//Select and highlight the new slide
 					var myNode = this.slideDataView.getNode(index);
@@ -80,7 +80,7 @@ NetShows.SlideBrowser = function(){
 				//Get the index of the record before deleting
 				var index = this.presentation.store.indexOf(this.tmpRecord);
 				
-				//Make an effect to disappear the slide
+				//Efect to make disappear the slide
 				Ext.fly(node).switchOff({
 					duration: .2,
 					callback: function(){
@@ -101,8 +101,8 @@ NetShows.SlideBrowser = function(){
 							
 							this.selectSlide(myNode, false);
 							
-							//Save the actual state of the slides and its order
-							this.presentation.saveState();
+							//Set the modifications flag
+							this.presentation.orderChanged = true;
 						}
 						
 						this.updateSlideIndexes();
@@ -156,8 +156,8 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 		this.presentation.slides.splice(newIndex, 0, removed[0]);
 		
 		this.updateSlideIndexes();
-		this.presentation.saveState();
-		this.slideDataView.select(newIndex)
+		this.presentation.orderChanged = true;
+		this.slideDataView.select(newIndex);
 		this.selectSlide(this.slideDataView.getNode(newIndex),true);
 	},
 	updateSlideIndexes:function(){

@@ -20,6 +20,9 @@ var Slide = function(data, presentation,index){
 	this.data.e = data.e ? data.e : [];
 	this.elements = [];
 	
+	//Flag for modification to save
+	this.modified = false;
+	
 	//Index of the slide
 	this.index = index;
 	
@@ -49,7 +52,7 @@ var Slide = function(data, presentation,index){
 		if (this.data.e.length > 0) {
 		
 			Ext.each(this.data.e, function(item){
-				var element = new Element(item, this.slideId);
+				var element = new Element(item, this);
 				
 				this.elements.push(element);
 			}, this);
@@ -172,7 +175,7 @@ var Slide = function(data, presentation,index){
 		 Ext.apply(params.p, {
 		 zIndex: this.maxIndex
 		 });*/
-		var element = new Element(params, this.slideId);
+		var element = new Element(params, this);
 		this.elements.push(element);
 		element.createDom();
 		
@@ -260,37 +263,42 @@ var Slide = function(data, presentation,index){
 	}
 	
 	//Send the JSON string of the actual slide
-	this.save = function(callbackFn, scopeFn){
-		
-		NetShows.showMsg(this.presentation.text + ' - ' + (this.slideText||'Slide #') + (this.index +1),this.savingText||'Saving...');
-		
-		//For each element, we get the object used to the JSON
-		var elementJSON = [];
-		
-		Ext.each(this.elements, function(item){
-			elementJSON.push(item.getJSON());
-		}, this);
-		
-		this.json = Ext.util.JSON.encode({
-			c: '',//Commentaires
-			a: this.animations,
-			t: this.transition,
-			e: elementJSON,
-			p: this.properties
-		});
-		
-		msg_log(this.json);
-		
-		Ext.Ajax.request({
-			url: '/slide/save',
-			params: {
-				authenticity_token: NetShows.key,
-				id: this.id,
-				content: this.json
-			},
-			callback: callbackFn,
-			scope: scopeFn
-		});
+	this.save = function(callbackFn){
+		if (this.modified) {
+			this.presentation.nbToSave++;
+			//For each element, we get the object used to the JSON
+			var elementJSON = [];
+			
+			Ext.each(this.elements, function(item){
+				elementJSON.push(item.getJSON());
+			}, this);
+			
+			this.json = Ext.util.JSON.encode({
+				c: '',//Commentaires
+				a: this.animations,
+				t: this.transition,
+				e: elementJSON,
+				p: this.properties
+			});
+			
+			msg_log(this.json);
+			
+			Ext.Ajax.request({
+				url: '/slide/save',
+				params: {
+					authenticity_token: NetShows.key,
+					id: this.id,
+					content: this.json
+				},
+				callback: function(){
+					callbackFn.call(this.presentation, this);
+				},
+				scope:this
+			});
+			
+			//The slide is saved so no more modifications
+			this.modified = false;
+		}
 	};
 	
 	Slide.superclass.constructor.call(this, {});
