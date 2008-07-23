@@ -12,7 +12,7 @@ Ext.extend(NetShows.Resizable,Ext.Resizable,{
 		
 		//If removeAll == true then unregister the dd proxy of the element
 		if(removeAll)
-			this.dd.unreg();
+			this.dd.lock();
 			
 		if (this.overlay) {
 			this.overlay.removeAllListeners();

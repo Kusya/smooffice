@@ -186,27 +186,8 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 			minHeight: 10,
 			minWidth:10,
 			minX:0,
-			minY:0//Ext.get('slide-view-' + this.presentation.id).getEl().getComputedWidth()
+			minY:0
 		};
-		
-		switch (element.data.className) {
-			case 'text':
-				break;
-			case 'img':
-				break;
-			case 'video':
-				/*Ext.apply(config, {
-					removeAll: true
-				})*/
-				break;
-			case 'map':
-				/*Ext.apply(config, {
-					removeAll: true
-				})*/
-				break;
-			default:
-				return false;
-		}
 		
 		var myResizableElement = new NetShows.Resizable(element.el, config);
 		
@@ -220,13 +201,6 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		this.resizableElement = myResizableElement;
 		NetShows.accordion.setElement(element);
 	},
-	/*getFocusElement: function(){
-	 msg_log(this.focusElement);
-	 },
-	saveSlide: function(){
-		this.slide.save();
-		NetShows.hideMsg(100);
-	},*/
 	initialize: function(panel){
 	
 		this.getComponent(0).html = '<div class="slide-wrap" id="slide-wrap-' + this.presentation.id + '"></div>';

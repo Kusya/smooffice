@@ -99,7 +99,7 @@ var GoogleMap = function(element,attrs){
 					el.closeInfoWindow();
 				});
 				GEvent.addListener(marker, "dragend", function(){
-					msg_log(latlng.lat());
+					//msg_log(latlng.lat());
 				});
 			}
 			

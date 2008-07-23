@@ -95,7 +95,8 @@ Ext.onReady(function(){
 		if (!Ext.get('loading').isVisible()) {
 			Ext.get('loading').fadeIn();
 			Ext.get('loading-mask').fadeIn({
-				endOpacity: .6
+				endOpacity: .7,
+				easing: 'easeIn'
 			});
 		}
 	}

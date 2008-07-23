@@ -66,8 +66,8 @@
 					break;
 				case 'map':
 					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:auto;" />';
+					html += '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click to edit map') + '</div></div>';
 					break;
-					
 				default:
 					//html += '<' + this.data.t + '>' + this.data.c + '</' + this.data.t + '>';
 					html += this.data.c;
@@ -118,6 +118,20 @@
 				style: 'position: absolute;',
 				html: this.getHTML()
 			});
+							
+			switch (this.data.className) {
+				case 'map':
+					this.data.c = !this.data.c ? {} : this.data.c;
+					this.el.addClass('element-mask');
+					//this.el.on('load', this.resizeEvent, this);
+					/*this.el.createChild({
+					 html: '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click to edit map') + '</div></div>'
+					 });*/
+					break;
+				case 'video':
+					this.el.addClass('element-mask');
+					break;
+			}
 			
 			//Apply CSS style to the element
 			this.generateCSS();
@@ -128,22 +142,6 @@
 			
 			//Add element class
 			this.el.addClass('element');
-			
-			
-			switch (this.data.className) {
-				case 'map':
-					this.data.c = !this.data.c ? {} : this.data.c;
-					this.map = new GoogleMap(this.el.dom, this.data.c);
-					this.el.on('load', this.resizeEvent, this);
-					this.el.addClass('element-mask');
-					this.el.createChild({
-						html: '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click to edit map') + '</div></div>'
-					});
-					break;
-					case 'video':
-					this.el.addClass('element-mask');
-					break;
-			}
 			
 			//Add listeners
 			this.el.on('click', this.onClick, this);
@@ -211,7 +209,7 @@
 			//Get the width value
 			this.data.p.width = this.getPercentOf(this.el.getComputedWidth(), Ext.get(this.slideId).getComputedWidth());
 			
-			if (this.data.t == 'map') {
+			if (this.data.t == 'map' && this.map) {
 				this.data.c = this.map.getContent();
 			}
 			else 
@@ -229,6 +227,8 @@
 		}
 		
 		this.remove = function(){
+			this.el.removeAllListeners();
+			this.el.update("");
 			this.el.remove();
 		}
 		
@@ -280,6 +280,7 @@
 							//Remove the resizable element
 							NetShows.mainPanel.getActiveSlideView().removeResizable(true);
 							this.mode = 'modify';
+							this.map = new GoogleMap(this.el.dom, this.data.c);
 							this.el.removeClass('element-mask');
 						}
 					break;
@@ -305,21 +306,23 @@
 					if (this.mode == 'play') {
 						this.endDrag = false;
 						this.el.addClass('element-mask');
+						this.el.dom.innerHTML = this.getHTML();
 					}
-					this.el.dom.innerHTML = this.getHTML();
 					this.mode = null;
 					break;
 				case 'map':
 					if (this.mode == 'modify') {
 						this.endDrag = false;
 						this.el.addClass('element-mask');
+						this.data.c = this.map.getContent();
+						this.map = null;
+						this.el.dom.innerHTML = this.getHTML();
 					}
 					this.mode = null;
 					break;
 			}
 		}
 		this.onContextMenu = function(e){
-			msg_log(e);
 			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 			NetShows.mainPanel.getActiveSlideView().onContextMenu(e, this);
 		}
