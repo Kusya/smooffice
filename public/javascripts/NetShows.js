@@ -88,16 +88,24 @@ Ext.onReady(function(){
 	
 	/* Layered message managing */
 	NetShows.showMsg = function(title,msg){
-		Ext.get('loading-title').dom.innerHTML = title||'';
-		Ext.get('loading').fadeIn();
-        Ext.get('loading-mask').fadeIn({
-			endOpacity:.6
-		});
 		NetShows.setMsg(msg||'');
+		NetShows.setTitle(title||'');
+		
+		//If mask is not displayed yet, fade in it
+		if (!Ext.get('loading').isVisible()) {
+			Ext.get('loading').fadeIn();
+			Ext.get('loading-mask').fadeIn({
+				endOpacity: .6
+			});
+		}
 	}
 	
 	NetShows.setMsg = function(msg){
 		Ext.get('loading-msg').dom.innerHTML = msg;
+	}
+	
+	NetShows.setTitle = function(title){
+		Ext.get('loading-title').dom.innerHTML = title;
 	}
 	
 	NetShows.hideMsg = function(timeout){
@@ -182,30 +190,71 @@ Ext.onReady(function(){
 								}
 							}*/
 							
+							presentation.saveEnd = function(slide){
+								this.nbToSave--;
+								
+								if (slide != undefined) {
+									NetShows.showMsg(this.text + ' - ' + (this.slideText || 'Slide #') + (slide.index + 1), this.savingText || 'Saving...');
+								}else{
+									NetShows.showMsg(presentation.text,this.openLoadingText||'Saving presentation...');
+								}
+								
+								if (this.nbToSave <= 0) {
+									if (this.callbackFn) 
+										this.callbackFn.call(this.scopeFn);
+									//Hide message
+									NetShows.hideMsg(200);
+								}
+							}
 							
 							//Send slides order
-							presentation.saveState = function(){
-								//Setting the array of slides or delete it
-								presentation.slideOrder = [];
+							presentation.save = function(callbackFn, scopeFn){
+								presentation.nbToSave = 0;
+								presentation.callbackFn = callbackFn;
+								presentation.scopeFn = scopeFn;
 								
-								//for each slide setting the id
-								Ext.each(presentation.slides, function(item){
-									presentation.slideOrder.push({
-										id: item.data.id
+								//Save slides order if necessary and slides themself
+								if (presentation.orderChanged) {
+									NetShows.showMsg(presentation.text,this.openLoadingText||'Saving presentation...');
+									presentation.nbToSave++;
+									//Setting the array of slides or delete it
+									presentation.slideOrder = [];
+									
+									//for each slide setting the id
+									Ext.each(presentation.slides, function(item){
+										presentation.slideOrder.push({
+											id: item.data.id
+										});
+										item.save(presentation.saveEnd);
 									});
-								});
-								
-								msg_log('Saving order : ' + Ext.util.JSON.encode(presentation.slideOrder));
-								Ext.Ajax.request({
-									url: '/presentation/slides_order',
-									params: {
-										authenticity_token: NetShows.key,
-										id: presentation.id,
-										order: Ext.util.JSON.encode(presentation.slideOrder)
+									
+									msg_log('Saving order : ' + Ext.util.JSON.encode(presentation.slideOrder));
+									Ext.Ajax.request({
+										url: '/presentation/slides_order',
+										params: {
+											authenticity_token: NetShows.key,
+											id: presentation.id,
+											order: Ext.util.JSON.encode(presentation.slideOrder)
+										},
+										callback: function(){
+											presentation.saveEnd();
+										},
+										scope:this
+									});
+									presentation.orderChanged = false;
+								}
+								else {
+									NetShows.showMsg(presentation.text,this.openLoadingText||'Saving presentation...');
+									//Save all slides
+									Ext.each(presentation.slides, function(item){
+										item.save(presentation.saveEnd);
+									});
+									if(presentation.nbToSave == 0){
+										presentation.saveEnd();
 									}
-								});
-								
+								}
 							};
+							
 							//Initialization
 							presentation.init();
         					

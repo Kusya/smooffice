@@ -222,11 +222,11 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 	},
 	/*getFocusElement: function(){
 	 msg_log(this.focusElement);
-	 },*/
+	 },
 	saveSlide: function(){
 		this.slide.save();
 		NetShows.hideMsg(100);
-	},
+	},*/
 	initialize: function(panel){
 	
 		this.getComponent(0).html = '<div class="slide-wrap" id="slide-wrap-' + this.presentation.id + '"></div>';

@@ -4,12 +4,13 @@
  * Element which compose a slide
  */
 
- Element = function(data, slideId){
+ Element = function(data, slide){
  	/*
 	 * Properties
 	 */
 		this.data = data;
-		this.slideId = slideId;
+		this.slide = slide;
+		this.slideId = this.slide.slideId;
 		this.i = this.data.i || Ext.id({},'e');
 		this.id = this.i;
 		
@@ -57,11 +58,11 @@
 		 }})*/
 			switch (this.data.t) {
 				case 'img':
-					html += '<img src="' + this.data.c.src + '" alt="" title="" style="width:100%;height:' + (this.data.p.height=='auto'?'auto':'100%') + '" />';
+					html += '<img src="' + this.data.c.src + '" alt="" title="" style="width:100%;height:100%" />';
 					break;
 				case 'video':
 					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:100%;" />';
-					html += '<div class="mask"><div class="video">' + (this.videoMaskText || 'Click twice to play video') + '</div></div>';
+					html += '<div class="mask"><div class="video">' + (this.videoMaskText || 'Click to play video') + '</div></div>';
 					break;
 				case 'map':
 					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:auto;" />';
@@ -112,7 +113,7 @@
 		
 		this.createDom = function(){
 			//Append the new node to the slide-wrap
-			this.el = Ext.get(slideId).createChild({
+			this.el = Ext.get(this.slideId).createChild({
 				id: this.slideId + this.id,
 				style: 'position: absolute;',
 				html: this.getHTML()
@@ -136,7 +137,7 @@
 					this.el.on('load', this.resizeEvent, this);
 					this.el.addClass('element-mask');
 					this.el.createChild({
-						html: '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click twice to edit map') + '</div></div>'
+						html: '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click to edit map') + '</div></div>'
 					});
 					break;
 					case 'video':
@@ -180,7 +181,7 @@
 		}
 		
 		this.getJSON = function(){
-			this.getProperties();
+			//this.getProperties();
 			var properties = {
 				i: this.i,
 				t: this.data.t,
@@ -232,6 +233,7 @@
 		}
 		
 		this.onClick = function(e){
+			this.slide.modified = true;
 			switch (this.data.className) {
 				case 'text':
 					if (this.mode == null) {
