@@ -4,7 +4,15 @@
  * TODO : Check link between slide view and selectrow : too much recursion
  */
 NetShows.EditorAccordion.Animation = function(){
-
+	/*var i = {
+		type:"show/hide/animate",
+		o:{
+			delay:200,
+			duration:200,
+			effect:"fade"
+		},
+		trigger:'click/after/with'
+	}*/
 
 	this.effectsInOut = [{
 		code: 'null',

@@ -248,7 +248,7 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 										closeAction: 'hide',
 										bodyBorder: true,
 										html: '<div style="position:absolute;top:40%;left:45%;"><img src="/images/smooffice_loading.gif" alt="load" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/></div>' +
-										'<iframe id="preview-frame" style="position:absolute;top:0px;left:0px;border:0;width:100%;height:100%;" src="/presentation/show?id=' +
+										'<iframe id="preview-frame" style="border:0;position:relative;width:100%;height:100%" src="/presentation/show?id=' +
 										tab.presentation.id +
 										'&slide_id=' +
 										slideView.slide.id +
