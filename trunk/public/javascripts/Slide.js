@@ -117,13 +117,52 @@ var Slide = function(data, presentation,index){
 	this.getIndexAnimByElId = function(id){
 		this.tmpId = id;
 		Ext.each(this.animations, function(a, index){
-			if (a.o == this.tmpId) {
+			if (a.id == this.tmpId) {
 				this.elIndex = index
 				return true
 			}
 		}, this);
 		
-		return this.elIndex;
+		return this.elIndex||false;
+	}
+	
+	this.getAnimIndex = function(id,type){
+		this.tmpId = id;
+		this.tmpType = type;
+		this.tmpIndex = false;
+		Ext.each(this.animations, function(a, index){
+			if (a) {//Prevent bug with remove() function in array
+				if (a.id == this.tmpId && a.type == this.tmpType) {
+					msg_log('getAnimIndex : ' + id + ' - ' + type);
+					this.tmpIndex = index
+					return true
+				}
+			}
+		}, this);
+		
+		return this.tmpIndex;
+	}
+	
+	this.addAnimation = function(params){
+		return (this.animations.push(params)-1);
+	}
+	
+	this.removeAnimation = function(id, type){
+		this.tmpId = id;
+		this.tmpType = type;
+		this.tmpIndex = false;
+		Ext.each(this.animations, function(a, index){
+			if (a) {//Prevent bug with remove() function in array
+				if (a.id == this.tmpId && a.type == this.tmpType) {
+					msg_log('removeAnimation : ' + id + ' - ' + type);
+					//Remove animation from animations array
+					this.animations.splice(index, 1);
+					this.tmpIndex = index;
+					return true
+				}
+			}
+		}, this);
+		return this.tmpIndex;
 	}
 	
 	this.setTransition = function(params){
@@ -179,9 +218,10 @@ var Slide = function(data, presentation,index){
 		this.elements.push(element);
 		element.createDom();
 		
+		/*
 		this.animations.push({
 			o: element.id
-		});
+		});*/
 		
 		this.fireEvent('addelement');
 		
@@ -189,13 +229,14 @@ var Slide = function(data, presentation,index){
 	}
 	
 	this.removeElement = function(resizable, element){
-		//Remove the element from the elements table
+		//Remove the element from elements array
 		var index = this.elements.indexOf(element);
 		this.elements.splice(index, 1);
 		
+		this.tmpId = element.id;
 		//Delete all corresponding animations
 		Ext.each(this.animations, function(a){
-			if (a && a.o == element.id) {
+			if (a && a.id == element.id) {
 				var index = this.animations.indexOf(a);
 				this.animations.splice(index, 1);
 			}
@@ -215,6 +256,8 @@ var Slide = function(data, presentation,index){
 			},
 			scope: this
 		});
+
+		//Fire remove event, catched in NetShows.EditorAccordion.Animation.setSlide()
 		this.fireEvent('removeelement');
 	}
 	
