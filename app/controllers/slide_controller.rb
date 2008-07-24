@@ -32,7 +32,7 @@ class SlideController < ApplicationController
 		@slide.save
 		
 		content = Content.new
-		content.json = '{"c":"","a":[{"o":"e1478"},{"o":"e1639"}],"t":{"f":"null"},"e":[{"i":"e1478","t":"p","c":"<p align=\"center\"><font face=\"arial\" size=\"11\"><b>Title</b></font></p>","p":{"top":"10%","left":"10%","width":"80%","height":"10%","fontClass":"A","fontSize":"200%"}},{"i":"e1639","t":"p","c":"<font face=\"arial\" size=\"3\">Text</font>","p":{"top":"25%","left":"10%","width":"80%","height":"65%","fontClass":"A","fontSize":"100%"}}],"p":{"backgroundColor":"#FFFFFF"}}'
+		content.json = '{"c":"","a":[],"t":{"f":"null"},"e":[{"i":"e1478","t":"p","c":"<p align=\"center\"><font face=\"arial\" size=\"11\"><b>Title</b></font></p>","p":{"top":"10%","left":"10%","width":"80%","height":"10%","fontClass":"A","fontSize":"200%"}},{"i":"e1639","t":"p","c":"<font face=\"arial\" size=\"3\">Text</font>","p":{"top":"25%","left":"10%","width":"80%","height":"65%","fontClass":"A","fontSize":"100%"}}],"p":{"backgroundColor":"#FFFFFF"}}'
 		content.of_slide = @slide.id
 		content.save
 		@slide.last_content = content.id
