@@ -114,18 +114,10 @@ var Slide = function(data, presentation,index){
 			this.el.remove();
 		}
 	}
-	this.getIndexAnimByElId = function(id){
-		this.tmpId = id;
-		Ext.each(this.animations, function(a, index){
-			if (a.id == this.tmpId) {
-				this.elIndex = index
-				return true
-			}
-		}, this);
-		
-		return this.elIndex||false;
-	}
 	
+	/*
+	 * gets the first animation of element id with type 'type'
+	 */
 	this.getAnimIndex = function(id,type){
 		this.tmpId = id;
 		this.tmpType = type;
@@ -133,7 +125,6 @@ var Slide = function(data, presentation,index){
 		Ext.each(this.animations, function(a, index){
 			if (a) {//Prevent bug with remove() function in array
 				if (a.id == this.tmpId && a.type == this.tmpType) {
-					msg_log('getAnimIndex : ' + id + ' - ' + type);
 					this.tmpIndex = index
 					return true
 				}
@@ -147,8 +138,8 @@ var Slide = function(data, presentation,index){
 		return (this.animations.push(params)-1);
 	}
 	
-	this.removeAnimation = function(id, type){
-		this.tmpId = id;
+	this.removeAnimation = function(index){
+		/*this.tmpId = id;
 		this.tmpType = type;
 		this.tmpIndex = false;
 		Ext.each(this.animations, function(a, index){
@@ -161,8 +152,11 @@ var Slide = function(data, presentation,index){
 					return true
 				}
 			}
-		}, this);
-		return this.tmpIndex;
+		}, this);*/
+		
+		this.animations.splice(index, 1);
+
+		return true;
 	}
 	
 	this.setTransition = function(params){
@@ -209,19 +203,9 @@ var Slide = function(data, presentation,index){
 	}
 	
 	this.addElement = function(params){
-		/*Set the z-index position to element
-		 this.maxIndex++;
-		 Ext.apply(params.p, {
-		 zIndex: this.maxIndex
-		 });*/
 		var element = new Element(params, this);
 		this.elements.push(element);
 		element.createDom();
-		
-		/*
-		this.animations.push({
-			o: element.id
-		});*/
 		
 		this.fireEvent('addelement');
 		
@@ -233,14 +217,27 @@ var Slide = function(data, presentation,index){
 		var index = this.elements.indexOf(element);
 		this.elements.splice(index, 1);
 		
-		this.tmpId = element.id;
-		//Delete all corresponding animations
-		Ext.each(this.animations, function(a){
-			if (a && a.id == element.id) {
-				var index = this.animations.indexOf(a);
-				this.animations.splice(index, 1);
+		//Find all corresponding animations
+		this.toRemove = [];
+		var currentAnim;
+		for (var a in this.animations) {
+			currentAnim = this.animations[a];
+			if (currentAnim.constructor == Object) {
+				if (element.id == currentAnim.id) {
+					//Because it provokes bugs when deleting element in a parsed array, store the index to delete
+					this.toRemove.push(parseInt(a));
+				}
 			}
-		}, this);
+		}
+		
+		//Reverse array to delete by descending order
+		this.toRemove.reverse();
+		//Delete corresponding animations
+		for (var i in this.toRemove){
+			if (this.toRemove[i].constructor == Number) {
+				this.animations.splice(this.toRemove[i], 1);
+			}
+		}
 		
 		Ext.fly(element.el).switchOff({
 			easing: 'easeOut',
@@ -308,6 +305,7 @@ var Slide = function(data, presentation,index){
 	//Send the JSON string of the actual slide
 	this.save = function(callbackFn){
 		if (this.modified) {
+			this.getProperties();
 			this.presentation.nbToSave++;
 			//For each element, we get the object used to the JSON
 			var elementJSON = [];
