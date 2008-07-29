@@ -95,16 +95,16 @@ NetShows.EditorAccordion.Animation = function(){
 		duration: true
 	}];
 	
-	this.animEffects = [{
+	this.animateEffects = [{
 		code: 'null',
 		name: this.effectNullText || 'None'
 	}, {
 		code: 'scale',
 		name: this.effectScaleText || 'Scale',
-		size: true,
+		percent: true,
 		duration: true
 	}, {
-		code: 'opacity',
+		code: 'fade',
 		name: this.effectOpacityText || 'Opacity',
 		duration: true,
 		opacity: true
@@ -125,7 +125,9 @@ NetShows.EditorAccordion.Animation = function(){
 		name: this.triggerClickText || 'On mouse clic',
 	}, {
 		code: 'after',
-		name: this.triggerAfterText || 'After last animation',
+		name: this.triggerAfterText || 'After last animation'/*,
+		nameAnimation: this.triggerAfterText || 'After last animation',
+		nameTransition: this.triggerAfterTransitionText||'After transition'*/
 	}	//-------> à prévoir
 	/*, {
 	 code: 'with',
@@ -133,23 +135,9 @@ NetShows.EditorAccordion.Animation = function(){
 	 }*/
 	];
 	
-	//Used for first row selected : after transition instead of after last animation
-	this.triggers2 = [{
-		code: 'click',
-		name: this.triggerClickText || 'On mouse clic',
-	}, {
-		code: 'after',
-		name: this.triggerAfterTransitionText||'After transition'
-	}	//-------> à prévoir
-	/*, {
-	 code: 'with',
-	 name: this.triggerWithText || 'With last animation',
-	 }*/
-	];
-	//------->
 	
 	this.triggerStore = new Ext.data.JsonStore({
-		fields: ['code', 'name'],
+		fields: ['code', 'name'/*,'nameAnimation','nameTransition'*/],
 		data: this.triggers
 	});
 	
@@ -288,17 +276,16 @@ NetShows.EditorAccordion.Animation = function(){
 							if (this.focusAnimation != rec.data) {
 								//Keep the focus on the current animation
 								this.focusAnimation = rec.data;
-								triggerIndex = Ext.getCmp('anmation-trigger').get
+								
+								/*var afterAnimRecord = this.triggerStore.getAt(1);
 								if (this.focusAnimation.index == 0) {
-										this.triggerStore.loadData(this.triggers2);
+										afterAnimRecord.data.name = afterAnimRecord.data.nameTransition;
 								}
 								else {
-									msg_log(this.triggerStore.store);
-									if (this.triggerStore.store == this.triggers2) {
-										this.triggerStore.loadData(this.triggers);
-									}
+										afterAnimRecord.data.name = afterAnimRecord.data.nameAnimation;
+									
 								}
-								Ext.getCmp('anmation-trigger').select(triggerIndex);
+								//Ext.getCmp('animation-trigger').select(triggerIndex);*/
 								
 								//Update panel
 								Ext.getCmp('animation-' + this.focusAnimation.type + '-effect').fireEvent('select', Ext.getCmp('animation-' + this.focusAnimation.type + '-effect'), {
@@ -344,6 +331,8 @@ NetShows.EditorAccordion.Animation = function(){
 					editable: false,
 					listeners: {
 						select: function(field, record, init){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							Ext.each(this.triggers, function(trigger){
 								//Either the user selects || or the grid selects
 								if ((trigger.code == record.data.code) || (record.data.$this && (trigger.code == record.data.$this.trigger))) {
@@ -362,7 +351,7 @@ NetShows.EditorAccordion.Animation = function(){
 										case 'after':
 											Ext.getCmp('animation-delay').enable();
 											if (init === true) {
-												Ext.getCmp('animation-trigger').setValue((this.focusAnimation.index == 0)?trigger.name2:trigger.name);
+												Ext.getCmp('animation-trigger').setValue(trigger.name);
 											}
 											else {
 												this.focusAnimation.$this.trigger = 'after';
@@ -398,12 +387,19 @@ NetShows.EditorAccordion.Animation = function(){
 					fieldLabel: 'Delay (ms)',
 					id: 'animation-delay',
 					value: 0,
-					width: 50,
+					width: 70,
 					style: 'text-align:right',
 					name: 'delay',
 					listeners: {
-						spin: function(field){
+						'spin': function(field){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.delay = field.getValue();
+						},
+						'change': function(field,newValue,oldValue){
+							//The slide is modified
+							this.slide.fireEvent('modified');
+							this.focusAnimation.$this.o.delay = newValue;
 						},
 						scope: this
 					},
@@ -439,14 +435,19 @@ NetShows.EditorAccordion.Animation = function(){
 						this.optionsAnimationsWindow.getEl().alignTo(this.getEl(), 'tl', [-240, 0]);
 						Ext.fly(this.optionsAnimationsWindow.getEl()).slideIn('r', {
 							easing: 'easeOut',
-							scope: this
+							callback: function(){
+								setTimeout(function(){
+									msg_log(Ext.getCmp('options-window').hidden)
+								}, 250);
+							},scope:this
 						});
+						this.optionsVisible = true;
 					}
 					else {
 						Ext.fly(this.optionsAnimationsWindow.getEl()).slideOut('r', {
-							easing: 'easeOut',
-							scope: this
+							easing: 'easeIn'
 						});
+						this.optionsVisible = false;
 					}
 				},
 				scope: this
@@ -505,6 +506,8 @@ NetShows.EditorAccordion.Animation = function(){
 					editable: false,
 					listeners: {
 						'select': function(field, record, initialEffect){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.setAnimation(record, initialEffect, 'show');
 						},
 						scope: this
@@ -526,6 +529,8 @@ NetShows.EditorAccordion.Animation = function(){
 					mode: 'local',
 					listeners: {
 						select: function(field, record){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.direction = record.data.code;
 						},
 						scope: this
@@ -542,8 +547,9 @@ NetShows.EditorAccordion.Animation = function(){
 					boxLabel: this.horizFirstText || 'Fold horizontally first',
 					listeners: {
 						check: function(field, checked){
-							if (this.focusAnimation) 
-								this.focusAnimation.$this.o.horizFirst = checked;
+							//The slide is modified
+							this.slide.fireEvent('modified');
+							this.focusAnimation.$this.o.horizFirst = checked;
 						},
 						scope: this
 					}
@@ -551,11 +557,13 @@ NetShows.EditorAccordion.Animation = function(){
 					fieldLabel: 'Duration (ms)',
 					id: 'animation-show-duration',
 					value: 0,
-					width: 50,
+					width: 70,
 					style: 'text-align:right',
 					name: 'duration',
 					listeners: {
 						spin: function(field){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.duration = field.getValue();
 						},
 						scope: this
@@ -596,6 +604,8 @@ NetShows.EditorAccordion.Animation = function(){
 					editable: false,
 					listeners: {
 						'select': function(field, record, initialEffect){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.setAnimation(record, initialEffect, 'hide');
 						},
 						scope: this
@@ -617,6 +627,8 @@ NetShows.EditorAccordion.Animation = function(){
 					mode: 'local',
 					listeners: {
 						select: function(field, record){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.direction = record.data.code;
 						},
 						scope: this
@@ -633,6 +645,8 @@ NetShows.EditorAccordion.Animation = function(){
 					boxLabel: this.horizFirstText || 'Fold horizontally first',
 					listeners: {
 						check: function(field, checked){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.horizFirst = checked;
 						},
 						scope: this
@@ -641,11 +655,13 @@ NetShows.EditorAccordion.Animation = function(){
 					fieldLabel: 'Duration (ms)',
 					id: 'animation-hide-duration',
 					value: 0,
-					width: 50,
+					width: 70,
 					style: 'text-align:right',
 					name: 'duration',
 					listeners: {
 						spin: function(field){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.duration = field.getValue();
 						},
 						scope: this
@@ -660,7 +676,7 @@ NetShows.EditorAccordion.Animation = function(){
 			},   //Animate effects panel
 			{
 				title: this.animateTitle || 'Animate',
-				id: 'anim-panel',
+				id: 'animate-panel',
 				layout: 'form',
 				autoHeight: true,
 				labelAlign: 'top',
@@ -672,12 +688,12 @@ NetShows.EditorAccordion.Animation = function(){
 				items: [{
 					xtype: 'combo',
 					name: 'effect',
-					id: 'animation-anim-effect',
+					id: 'animation-animate-effect',
 					displayField: 'name',
 					width: 140,
 					listWidth: 140,
 					store: new Ext.data.JsonStore({
-						data: this.animEffects,
+						data: this.animateEffects,
 						fields: ['code', 'name']
 					}),
 					fieldLabel: this.effectText || 'Effect',
@@ -685,7 +701,9 @@ NetShows.EditorAccordion.Animation = function(){
 					typeAhead: true,
 					listeners: {
 						'select': function(field, record, initialEffect){
-							this.setAnimation(record, initialEffect, 'anim');
+							//The slide is modified
+							this.slide.fireEvent('modified');
+							this.setAnimation(record, initialEffect, 'animate');
 						},
 						scope: this
 					},
@@ -696,26 +714,28 @@ NetShows.EditorAccordion.Animation = function(){
 					emptyText: this.effectEmptyText || 'Select an effect...',
 					selectOnFocus: true
 				}, new Ext.ux.form.Spinner({
-					id: 'animation-anim-opacity',
-					fieldLabel: 'Opacity (%)',
-					value: 100,
+					id: 'animation-animate-opacity',
+					fieldLabel: 'Opacity (0.0-1.0)',
+					value: 1,
 					width: 50,
 					style: 'text-align:right',
 					name: 'opacity',
 					listeners: {
 						spin: function(field){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.opacity = field.getValue();
 						},
 						scope: this
 					},
 					strategy: new Ext.ux.form.Spinner.NumberStrategy({
 						minValue: 0,
-						maxValue: 100,
-						incrementValue: 5,
-						alternateIncrementValue: 10
+						maxValue: 1,
+						incrementValue: .05,
+						alternateIncrementValue: .10
 					})
 				}), new Ext.ux.form.Spinner({
-					id: 'animation-anim-size',
+					id: 'animation-animate-percent',
 					fieldLabel: 'Size (%)',
 					value: 100,
 					width: 50,
@@ -723,7 +743,9 @@ NetShows.EditorAccordion.Animation = function(){
 					name: 'duration',
 					listeners: {
 						spin: function(field){
-							this.focusAnimation.$this.o.width = field.getValue();
+							//The slide is modified
+							this.slide.fireEvent('modified');
+							this.focusAnimation.$this.o.percent = field.getValue();
 						},
 						scope: this
 					},
@@ -734,14 +756,16 @@ NetShows.EditorAccordion.Animation = function(){
 						alternateIncrementValue: 100
 					})
 				}), new Ext.ux.form.Spinner({
-					id: 'animation-anim-duration',
+					id: 'animation-animate-duration',
 					fieldLabel: 'Duration (ms)',
 					value: 0,
-					width: 50,
+					width: 70,
 					style: 'text-align:right',
 					name: 'duration',
 					listeners: {
 						spin: function(field){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							this.focusAnimation.$this.o.duration = field.getValue();
 						},
 						scope: this
@@ -756,14 +780,17 @@ NetShows.EditorAccordion.Animation = function(){
 					xtype: 'button',
 					text: 'Add action',
 					handler: function(){
+						//The slide is modified
+						this.slide.fireEvent('modified');
 						//Create animation
 						var index = this.slide.addAnimation({
 							id: this.focusElement.id,
-							type: 'anim',
+							type: 'animate',
 							o: {
 								duration: 0,
 								delay: 0,
-								effect: 'opacity'
+								effect: 'fade',
+								opacity: 1
 							},
 							trigger: 'click'
 						});
@@ -809,7 +836,7 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 	},
 	onTabChange: function(tabPanel, tab){
 		//Get the type corresponding to active tab
-		var type = tab.id.substring(0, 4);
+		var type = tab.id.match(/(.*?)-/)[1];
 		
 		//If one element is focused
 		if (this.focusElement) {
@@ -855,7 +882,7 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 	/* findEffectByCode : Find effect description object by code and type criteria
 	 * params:
 	 * - code : effect code
-	 * - type : effect type (show/hide/anim)
+	 * - type : effect type (show/hide/animate)
 	 */
 	findEffectByCode: function(code, type){
 		//Parse all available effects to find the corresponding one
@@ -874,18 +901,16 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 	 * params
 	 * - record : the record object containing effect name and code
 	 * - initialEffect : this.focusAnimation
-	 * - type: effect type show/hide/anim
+	 * - type: effect type show/hide/animate
 	 */
 	setAnimation: function(record, initialEffect, type){
-		//If the user selects on his/her-self, initialEffect is the selected index, or else it's focusAnimation
+		//If the user selects on his/her own, initialEffect is the selected index, or else it's focusAnimation
 		var userSelect = (initialEffect.constructor == Number);
-		
-		
 		
 		this.tmpEffect = this.findEffectByCode(record.data.code, type);
 		//If the selected effect has been found
 		if (this.tmpEffect !== false) {
-		
+			
 			//Duration
 			if (this.tmpEffect.duration) {
 				Ext.getCmp('animation-' + type + '-duration').enable();
@@ -931,7 +956,7 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 			//Opacity
 			if (this.tmpEffect.opacity) {
 				Ext.getCmp('animation-' + type + '-opacity').enable();
-				Ext.getCmp('animation-' + type + '-opacity').setValue(!userSelect && initialEffect.$this.o && initialEffect.$this.o.opacity || 100);
+				Ext.getCmp('animation-' + type + '-opacity').setValue(!userSelect && initialEffect.$this.o && initialEffect.$this.o.opacity || 1);
 			}
 			else 
 				if (Ext.getCmp('animation-' + type + '-opacity')) {
@@ -939,13 +964,13 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 				}
 			
 			//Scale
-			if (this.tmpEffect.size) {
-				Ext.getCmp('animation-' + type + '-size').enable();
-				Ext.getCmp('animation-' + type + '-size').setValue(!userSelect && initialEffect.$this.o && initialEffect.$this.o.width || 100);
+			if (this.tmpEffect.percent) {
+				Ext.getCmp('animation-' + type + '-percent').enable();
+				Ext.getCmp('animation-' + type + '-percent').setValue(!userSelect && initialEffect.$this.o && initialEffect.$this.o.percent || 100);
 			}
 			else 
-				if (Ext.getCmp('animation-' + type + '-size')) {
-					Ext.getCmp('animation-' + type + '-size').disable();
+				if (Ext.getCmp('animation-' + type + '-percent')) {
+					Ext.getCmp('animation-' + type + '-percent').disable();
 				}
 			
 			//If the user selects the effect, write it inside slide animation
@@ -953,11 +978,15 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 				//If the selected effect is null, delete it
 				if (this.tmpEffect.code == "null") {
 					if (this.slide.removeAnimation(this.focusAnimation.index)) {
-						Ext.fly(Ext.getCmp('animation-grid').getView().getRow(this.focusAnimation.index)).ghost('l', {
-							duration: .4,
-							callback: this.refresh,
-							scope: this
-						});
+						if (this.optionsVisible) {
+							Ext.fly(Ext.getCmp('animation-grid').getView().getRow(this.focusAnimation.index)).ghost('l', {
+								duration: .4,
+								callback: this.refresh,
+								scope: this
+							});
+						}else{
+							this.refresh();
+						}
 						//Disable trigger and delay
 						Ext.getCmp('animation-trigger').disable();
 						this.focusAnimation=null;
@@ -1020,20 +1049,22 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 		//Set a proper title for each animated element
 		switch (anim.$element.data.className) {
 			case 'img':
-				anim.element = '<img src="' + anim.$element.data.c.src + '" style="float:left;" height="12" /><div style="float:left;margin-left: 2px;">' + (this.imageText || 'Image') + '</div>';
+				anim.element = '<div style="overflow:hidden;width:12px;height:12px;float:left;"><img src="' + anim.$element.data.c.src + '" height="12" /></div><div style="float:left;margin-left: 2px;">' + (this.imageText || 'Image') + '</div>';
 				break;
 			case 'map':
-				anim.element = '<img src="' + anim.$element.data.c.img + '" height="16"  />' + (this.mapText || 'Map');
+				anim.element = '<div style="overflow:hidden;width:12px;height:12px;float:left;"><img src="' + anim.$element.data.c.img + '" height="12"  /></div><div style="float:left;margin-left: 2px;">' + (this.mapText || 'Map') + '</div>';
 				break;
 			case 'video':
-				anim.element = '<img src="' + anim.$element.data.c.img + '" height="16"  />' + (this.videoText || 'Video');
+				anim.element = '<div style="overflow:hidden;width:12px;height:12px;float:left;"><img src="' + anim.$element.data.c.img + '" height="12"  /></div><div style="float:left;margin-left: 2px;">' + (this.videoText || 'Video') + '</div>';
 				break;
 			default:
 				anim.element = anim.$element.data.c;
 				break;
 		}
+		
 		//Effect name
 		anim.effect = this.findEffectByCode(animation.o.effect, animation.type).name;
+		
 		//Show/Hide/Animate
 		anim.type = animation.type;
 		
@@ -1057,7 +1088,7 @@ Ext.extend(NetShows.EditorAccordion.Animation, Ext.Panel, {
 		this.ds.loadData(this.animations);
 		
 		//Select the right row
-		if (Ext.getCmp('animation-grid').rendered && index !== undefined) {
+		if (this.optionsVisible && index !== undefined) {
 			if (animate) {
 				Ext.fly(Ext.getCmp('animation-grid').getView().getRow(index)).slideIn('l', {
 					duration: .8,

@@ -254,7 +254,16 @@ Ext.onReady(function(){
 										presentation.saveEnd();
 									}
 								}
+								this.modified = false;
 							};
+							
+							presentation.destroy = function(){
+								presentation.store.removeAll();
+								presentation.store = null;
+								Ext.each(presentation.slides,function(obj){
+									presentation.slides.remove(obj);
+								});
+							}
 							
 							//Initialization
 							presentation.init();

@@ -1,7 +1,7 @@
 /**
  * @author Clément GONNET
  * 
- * Element which compose a slide
+ * Element composing a slide
  */
 
  Element = function(data, slide){
@@ -42,20 +42,6 @@
 		this.getHTML = function(){
 			var html = '';
 			this.data.className = this.data.t;
-			/*new Ext.ux.Media({mediaCfg:{
-		 mediaType   : 'SWF'
-		 ,url    : 'clock.swf'
-		 ,id     :  'inlineClock'
-		 ,style: {display:'inline', width:'100px',height:'80px'}
-		 ,start    : true
-		 ,loop     : true
-		 ,controls :false
-		 ,params: {
-		 wmode     :'opaque'
-		 ,scale     :'exactfit'
-		 ,salign    :'t'
-		 }
-		 }})*/
 			switch (this.data.t) {
 				case 'img':
 					html += '<img src="' + this.data.c.src + '" alt="" title="" style="width:100%;height:100%" />';
@@ -65,7 +51,7 @@
 					html += '<div class="mask"><div class="video">' + (this.videoMaskText || 'Click to play video') + '</div></div>';
 					break;
 				case 'map':
-					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:auto;" />';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:100%;position:absolute;" />';
 					html += '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click to edit map') + '</div></div>';
 					break;
 				default:
@@ -123,10 +109,6 @@
 				case 'map':
 					this.data.c = !this.data.c ? {} : this.data.c;
 					this.el.addClass('element-mask');
-					//this.el.on('load', this.resizeEvent, this);
-					/*this.el.createChild({
-					 html: '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click to edit map') + '</div></div>'
-					 });*/
 					break;
 				case 'video':
 					this.el.addClass('element-mask');
@@ -211,6 +193,11 @@
 			
 			if (this.data.t == 'map' && this.map) {
 				this.data.c = this.map.getContent();
+				this.data.c.img = "http://maps.google.com/staticmap?key=ABQIAAAA6nu66NIBsHREF4gj2EiD4xQGfL5CarnNMXkmV6A3I8IaSFdSLBTPZfbkf0arAo50-3HUPOyNF5cb3A"+
+				"&center="+this.data.c.center.x+","+this.data.c.center.y+
+				"&size=512x512"+
+				"&zoom="+this.data.c.zoom;
+				//"&markers="
 			}
 			else 
 				if (this.data.className == 'text') {
@@ -233,7 +220,7 @@
 		}
 		
 		this.onClick = function(e){
-			this.slide.modified = true;
+			this.fireEvent('modified');
 			switch (this.data.className) {
 				case 'text':
 					if (this.mode == null) {
@@ -314,7 +301,8 @@
 					if (this.mode == 'modify') {
 						this.endDrag = false;
 						this.el.addClass('element-mask');
-						this.data.c = this.map.getContent();
+						this.getProperties();
+//						this.data.c = this.map.getContent();
 						this.map = null;
 						this.el.dom.innerHTML = this.getHTML();
 					}
@@ -326,4 +314,12 @@
 			NetShows.mainPanel.getActiveSlideView().setFocusElement(this);
 			NetShows.mainPanel.getActiveSlideView().onContextMenu(e, this);
 		}
-	}
+	
+	Element.superclass.constructor.call(this, {});
+	this.addEvents({
+		'modified': true
+	});
+}
+
+Ext.extend(Element, Ext.util.Observable, {});
+

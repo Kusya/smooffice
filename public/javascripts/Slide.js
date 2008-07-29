@@ -26,15 +26,14 @@ var Slide = function(data, presentation,index){
 	//Index of the slide
 	this.index = index;
 	
-	//Number of elements
-	//this.nbElements = 0;
+	//Whether the slide is visible (used for saving action)
+	this.isVisible = false;
 	
-	//Min and max layer index
-	//this.minIndex = this.maxIndex = 2000;
-	
-	this.transition = data.t ? data.t : {
+	this.transition = data.t ? data.t : [{
 		f: "null"
-	};
+	},{
+		t: "null"
+	}];
 	this.animations = data.a ? data.a : [];
 	
 	//The generated dom corresponding to the slide
@@ -48,20 +47,24 @@ var Slide = function(data, presentation,index){
 	 */
 	//Generate slide content
 	this.init = function(){
+		//Event on Modified
+		this.on('modified', this.setModified,this);
+		
 		//If the slide has elements
 		if (this.data.e.length > 0) {
 		
 			Ext.each(this.data.e, function(item){
 				var element = new Element(item, this);
-				
+				element.on('modified',this.setModified,this);
 				this.elements.push(element);
 			}, this);
 		}
 		this.generateCSS();
-		
-		/*Catched in NetShows.js when the slide is loaded
-		this.fireEvent('load');
-		msg_log('load')*/
+	}
+	
+	this.setModified = function(){
+		this.modified = true;
+		this.presentation.modified = true;
 	}
 	
 	this.generateCSS = function(){
@@ -102,6 +105,7 @@ var Slide = function(data, presentation,index){
 			//Resize the elements from % values
 			this.resizeEvent();
 		}
+		this.isVisible = true;
 	}
 	this.destroy = function(){
 		//Destroy all elements
@@ -162,21 +166,23 @@ var Slide = function(data, presentation,index){
 	this.setTransition = function(params){
 		//msg_log(params);
 		if (params.effect != undefined) {
-			this.transition = {
+			this.transition = [{
+				f: "null"
+			}, {
 				f: params.effect
-			};
+			}];
 		}
 		if (params.direction != undefined) {
-			this.transition.direction = params.direction;
+			this.transition[1].direction = params.direction;
 		}
 		if (params.duration != undefined) {
-			this.transition.duration = params.duration;
+			this.transition[1].duration = params.duration;
 		}
 		if (params.o != undefined) {
-			this.transition.o = params.o;
+			this.transition[1].o = params.o;
 		}
 		if (params.horizFirst != undefined) {
-			this.transition.horizFirst = params.horizFirst;
+			this.transition[1].horizFirst = params.horizFirst;
 		}
 		NetShows.browserPanel.slideBrowser.setAnimationTransition(this.index);
 	}
@@ -300,12 +306,16 @@ var Slide = function(data, presentation,index){
 		this.getProperties();
 		//Hide the slide
 		this.el.setDisplayed(false);
+		this.isVisible = false;
 	}
 	
 	//Send the JSON string of the actual slide
 	this.save = function(callbackFn){
 		if (this.modified) {
-			this.getProperties();
+			//Get properties if the slide is actually edited
+			if(this.isVisible)
+				this.getProperties();
+
 			this.presentation.nbToSave++;
 			//For each element, we get the object used to the JSON
 			var elementJSON = [];
@@ -314,7 +324,7 @@ var Slide = function(data, presentation,index){
 				elementJSON.push(item.getJSON());
 			}, this);
 			
-			this.json = Ext.util.JSON.encode({
+			var json = Ext.util.JSON.encode({
 				c: '',//Commentaires
 				a: this.animations,
 				t: this.transition,
@@ -322,14 +332,14 @@ var Slide = function(data, presentation,index){
 				p: this.properties
 			});
 			
-			msg_log(this.json);
+			msg_log(json);
 			
 			Ext.Ajax.request({
 				url: '/slide/save',
 				params: {
 					authenticity_token: NetShows.key,
 					id: this.id,
-					content: this.json
+					content: json
 				},
 				callback: function(){
 					callbackFn.call(this.presentation, this);
