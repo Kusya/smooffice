@@ -4,7 +4,7 @@
  */
 NetShows.MainPanel = function(){
     this.actionEdit = new Ext.Action({
-        text: (this.editText) ? this.editText : 'Edit',
+        text: this.editText || 'Edit',
         iconCls: 'edit-icon',
         handler: function(){
             this.fireEvent('presentationopen', this.getActiveTab().presentation);
@@ -14,7 +14,7 @@ NetShows.MainPanel = function(){
     this.actionEdit.disable();
     
     this.actionFullScreen = new Ext.Action({
-        text: (this.fullScreenText) ? this.fullScreenText : 'Full screen',
+        text: this.fullScreenText || 'Full screen',
         iconCls: 'icon-full',
         handler: function(){
             window.open('/presentation/show?id=' + this.getActiveTab().presentation.id);

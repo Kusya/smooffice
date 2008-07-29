@@ -47,11 +47,11 @@
 					html += '<img src="' + this.data.c.src + '" alt="" title="" style="width:100%;height:100%" />';
 					break;
 				case 'video':
-					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;position:absolute;height:100%;" />';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:100%;position:absolute" />';
 					html += '<div class="mask"><div class="video">' + (this.videoMaskText || 'Click to play video') + '</div></div>';
 					break;
 				case 'map':
-					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:100%;position:absolute;" />';
+					html += '<img src="'+this.data.c.img+'" alt="" title="" style="width:100%;height:100%;position:absolute" />';
 					html += '<div class="mask"><div class="map">' + (this.mapMaskText || 'Click to edit map') + '</div></div>';
 					break;
 				default:
@@ -193,11 +193,22 @@
 			
 			if (this.data.t == 'map' && this.map) {
 				this.data.c = this.map.getContent();
-				this.data.c.img = "http://maps.google.com/staticmap?key=ABQIAAAA6nu66NIBsHREF4gj2EiD4xQGfL5CarnNMXkmV6A3I8IaSFdSLBTPZfbkf0arAo50-3HUPOyNF5cb3A"+
-				"&center="+this.data.c.center.x+","+this.data.c.center.y+
-				"&size=512x512"+
-				"&zoom="+this.data.c.zoom;
-				//"&markers="
+				
+				this.tmpMarkers = '';
+				Ext.each(this.data.c.markers, function(m, index){
+					this.tmpMarkers += m[0] + "," + m[1] + "|"
+				}, this);
+				this.data.c.img = "http://maps.google.com/staticmap?key=ABQIAAAA6nu66NIBsHREF4gj2EiD4xQGfL5CarnNMXkmV6A3I8IaSFdSLBTPZfbkf0arAo50-3HUPOyNF5cb3A" +
+				"&center=" +
+				this.data.c.center.y +
+				"," +
+				this.data.c.center.x +
+				"&size=512x512" +
+				"&zoom=" +
+				this.data.c.zoom +
+				"&markers=" +
+				this.tmpMarkers;
+				
 			}
 			else 
 				if (this.data.className == 'text') {

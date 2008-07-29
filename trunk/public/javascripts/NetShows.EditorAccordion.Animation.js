@@ -122,7 +122,7 @@ NetShows.EditorAccordion.Animation = function(){
 	
 	this.triggers = [{
 		code: 'click',
-		name: this.triggerClickText || 'On mouse clic',
+		name: this.triggerClickText || 'On mouse click',
 	}, {
 		code: 'after',
 		name: this.triggerAfterText || 'After last animation'/*,
@@ -185,11 +185,12 @@ NetShows.EditorAccordion.Animation = function(){
 	
 	this.optionsAnimationsWindow = new Ext.Window({
 		id: 'options-window',
-		title: (this.optionWindowTitle) ? this.optionWindowTitle : 'Animation order',
+		title: this.optionWindowTitle || 'Animation order',
 		iconCls: 'icon-preview',
 		width: 240,
 		height: 350,
-		resizable: false,
+		resizable: true,
+		resizeHandles: 's',
 		plain: true,
 		autoScroll: false,
 		closeAction: 'hide',
@@ -204,213 +205,211 @@ NetShows.EditorAccordion.Animation = function(){
 			},
 			scope: this
 		},
-		items: [new Ext.FormPanel({
-			bodyBorder: false,
-			items: [{
-				xtype: 'grid',
-				id: 'animation-grid',
-				height: 215,
-				ddGroup: 'testGroup',
-				viewConfig: {
-					forceFit: true
+		layout: 'border',
+		items: [{
+			xtype: 'grid',
+			region:'center',
+			id: 'animation-grid',
+			ddGroup: 'testGroup',
+			viewConfig: {
+				forceFit: true
+			},
+			enableDragDrop: true,
+			enableHdMenu: false,
+			listeners: {
+				render: function(g){
+					var ddrow = new Ext.ux.dd.GridReorderDropTarget(g, {
+						copy: false,
+						listeners: {
+							beforerowmove: function(objThis, oldIndex, newIndex, records){
+							},
+							afterrowmove: function(objThis, oldIndex, newIndex, records){
+								//Updating slide animations
+								var removed = this.slide.animations.splice(oldIndex, 1);
+								this.slide.animations.splice(newIndex, 0, removed[0]);
+								
+								//Updating animations
+								var removed = this.animations.splice(oldIndex, 1);
+								this.animations.splice(newIndex, 0, removed[0]);
+								
+								//Update animations index
+								Ext.each(this.animations, function(a, i){
+									a.index = i;
+								}, this)
+								
+								g.getStore().loadData(this.animations);
+							},
+							scope: this
+						}
+					});
+					
+					// if you need scrolling, register the grid view's scroller with the scroll manager
+					Ext.dd.ScrollManager.register(g.getView().getEditorParent());
 				},
-				enableDragDrop: true,
-				enableHdMenu: false,
+				beforedestroy: function(g){
+					// if you previously registered with the scroll manager, unregister it (if you don't it will lead to problems in IE)
+					Ext.dd.ScrollManager.unregister(g.getView().getEditorParent());
+				},
+				scope: this
+			},
+			border: false,
+			ds: this.ds,
+			cm: colModel,
+			sm: new Ext.grid.RowSelectionModel({
+				singleSelect: true,
 				listeners: {
-					render: function(g){
-						var ddrow = new Ext.ux.dd.GridReorderDropTarget(g, {
-							copy: false,
-							listeners: {
-								beforerowmove: function(objThis, oldIndex, newIndex, records){
-								},
-								afterrowmove: function(objThis, oldIndex, newIndex, records){
-									//Updating slide animations
-									var removed = this.slide.animations.splice(oldIndex, 1);
-									this.slide.animations.splice(newIndex, 0, removed[0]);
-									
-									//Updating animations
-									var removed = this.animations.splice(oldIndex, 1);
-									this.animations.splice(newIndex, 0, removed[0]);
-									
-									//Update animations index
-									Ext.each(this.animations, function(a, i){
-										a.index = i;
-									}, this)
-									
-									g.getStore().loadData(this.animations);
-								},
-								scope: this
-							}
-						});
+					rowselect: function(sm, rowIndex, rec){
+						this.userSelect = true;
+						//rec.data = animation object
 						
-						// if you need scrolling, register the grid view's scroller with the scroll manager
-						Ext.dd.ScrollManager.register(g.getView().getEditorParent());
+						Ext.getCmp('animation-tabpanel').enable();
+						Ext.getCmp('animation-trigger').enable();
+						
+						//Only if the element is different, select it in the slide view
+						if (rec.data.$element != this.focusElement) {
+							this.focusElement = rec.data.$element;
+							//Focus corresponding element in slideView
+							NetShows.mainPanel.getActiveSlideView().setFocusElement(rec.data.$element);
+						}
+						
+						//Select the effect only if the selected animation has changed
+						if (this.focusAnimation != rec.data) {
+							//Keep the focus on the current animation
+							this.focusAnimation = rec.data;
+							
+							/*var afterAnimRecord = this.triggerStore.getAt(1);
+						 if (this.focusAnimation.index == 0) {
+						 afterAnimRecord.data.name = afterAnimRecord.data.nameTransition;
+						 }
+						 else {
+						 afterAnimRecord.data.name = afterAnimRecord.data.nameAnimation;
+						 
+						 }
+						 //Ext.getCmp('animation-trigger').select(triggerIndex);*/
+							//Update panel
+							Ext.getCmp('animation-' + this.focusAnimation.type + '-effect').fireEvent('select', Ext.getCmp('animation-' + this.focusAnimation.type + '-effect'), {
+								data: {
+									code: this.focusAnimation.$this.o.effect || "null"
+								}
+							}, this.focusAnimation);
+							
+							//Shows the panel
+							Ext.getCmp('animation-tabpanel').activate(rec.data.type + '-panel');
+							
+							//Select the right trigger and its parameters
+							Ext.getCmp('animation-trigger').fireEvent('select', Ext.getCmp('animation-trigger'), rec, true);
+						}
 					},
-					beforedestroy: function(g){
-						// if you previously registered with the scroll manager, unregister it (if you don't it will lead to problems in IE)
-						Ext.dd.ScrollManager.unregister(g.getView().getEditorParent());
+					scope: this
+				}
+			})
+		}, new Ext.FormPanel({
+			bodyBorder: false,
+			id: 'options-window-form',
+			labelAlign: 'top',
+			defaultType: 'textfield',
+			defaults: {
+				labelSeparator: ''
+			},
+			region:'south',
+			border: false,
+			height: 98,
+			bodyStyle: 'margin-top:5px;margin-left:5px;background:transparent',
+			
+			items: [{
+				xtype: 'combo',
+				name: 'trigger',
+				id: 'animation-trigger',
+				displayField: 'name',
+				width: 140,
+				listWidth: 140,
+				store: this.triggerStore,
+				fieldLabel: this.triggerText || 'Trigger',
+				forceSelection: true,
+				typeAhead: true,
+				mode: 'local',
+				editable: false,
+				listeners: {
+					select: function(field, record, init){
+						//The slide is modified
+						this.slide.fireEvent('modified');
+						Ext.each(this.triggers, function(trigger){
+							//Either the user selects || or the grid selects
+							if ((trigger.code == record.data.code) || (record.data.$this && (trigger.code == record.data.$this.trigger))) {
+								switch (trigger.code) {
+									case 'click':
+										Ext.getCmp('animation-delay').disable();
+										
+										if (init === true) {
+											Ext.getCmp('animation-trigger').setValue(trigger.name);
+										}
+										else {
+											this.focusAnimation.$this.trigger = 'click';
+											this.focusAnimation.$this.o.delay = 0;
+										}
+										break;
+									case 'after':
+										Ext.getCmp('animation-delay').enable();
+										if (init === true) {
+											Ext.getCmp('animation-trigger').setValue(trigger.name);
+										}
+										else {
+											this.focusAnimation.$this.trigger = 'after';
+											this.focusAnimation.$this.o.delay = 0;
+										}
+										
+										Ext.getCmp('animation-delay').setValue(this.focusAnimation.$this.o.delay);
+										break;
+									case 'with':
+										Ext.getCmp('animation-delay').enable();
+										if (init === true) {
+											Ext.getCmp('animation-trigger').setValue(trigger.name);
+										}
+										else {
+											this.focusAnimation.$this.trigger = 'with';
+											this.focusAnimation.$this.o.delay = 0;
+										}
+										Ext.getCmp('animation-delay').setValue(this.focusAnimation.$this.o.delay);
+										break;
+								}
+								
+							}
+						}, this);
+						
 					},
 					scope: this
 				},
-				border: false,
-				ds: this.ds,
-				cm: colModel,
-				sm: new Ext.grid.RowSelectionModel({
-					singleSelect: true,
-					listeners: {
-						rowselect: function(sm, rowIndex, rec){
-							this.userSelect = true;
-							//rec.data = animation object
-							
-							Ext.getCmp('animation-tabpanel').enable();
-							Ext.getCmp('animation-trigger').enable();
-							
-							//Only if the element is different, select it in the slide view
-							if (rec.data.$element != this.focusElement) {
-								this.focusElement = rec.data.$element;
-								//Focus corresponding element in slideView
-								NetShows.mainPanel.getActiveSlideView().setFocusElement(rec.data.$element);
-							}
-							
-							//Select the effect only if the selected animation has changed
-							if (this.focusAnimation != rec.data) {
-								//Keep the focus on the current animation
-								this.focusAnimation = rec.data;
-								
-								/*var afterAnimRecord = this.triggerStore.getAt(1);
-								if (this.focusAnimation.index == 0) {
-										afterAnimRecord.data.name = afterAnimRecord.data.nameTransition;
-								}
-								else {
-										afterAnimRecord.data.name = afterAnimRecord.data.nameAnimation;
-									
-								}
-								//Ext.getCmp('animation-trigger').select(triggerIndex);*/
-								
-								//Update panel
-								Ext.getCmp('animation-' + this.focusAnimation.type + '-effect').fireEvent('select', Ext.getCmp('animation-' + this.focusAnimation.type + '-effect'), {
-									data: {
-										code: this.focusAnimation.$this.o.effect || "null"
-									}
-								}, this.focusAnimation);
-								
-								//Shows the panel
-								Ext.getCmp('animation-tabpanel').activate(rec.data.type + '-panel');
-								
-								//Select the right trigger and its parameters
-								Ext.getCmp('animation-trigger').fireEvent('select', Ext.getCmp('animation-trigger'), rec, true);
-							}
-						},
-						scope: this
-					}
-				})
-			}, {
-				id: 'options-window-form',
-				layout: 'form',
-				labelAlign: 'top',
-				defaultType: 'textfield',
-				defaults: {
-					labelSeparator: ''
+				shadow: 'drop',
+				triggerAction: 'all',
+				emptyText: this.triggerEmptyText || 'Select a trigger...',
+				selectOnFocus: true
+			}, new Ext.ux.form.Spinner({
+				fieldLabel: 'Delay (ms)',
+				id: 'animation-delay',
+				value: 0,
+				width: 70,
+				style: 'text-align:right',
+				name: 'delay',
+				listeners: {
+					'spin': function(field){
+						//The slide is modified
+						this.slide.fireEvent('modified');
+						this.focusAnimation.$this.o.delay = field.getValue();
+					},
+					'change': function(field, newValue, oldValue){
+						//The slide is modified
+						this.slide.fireEvent('modified');
+						this.focusAnimation.$this.o.delay = newValue;
+					},
+					scope: this
 				},
-				border: false,
-				height: 98,
-				bodyStyle: 'margin-top:5px;margin-left:5px;background:transparent',
-				
-				items: [{
-					xtype: 'combo',
-					name: 'trigger',
-					id: 'animation-trigger',
-					displayField: 'name',
-					width: 140,
-					listWidth: 140,
-					store: this.triggerStore,
-					fieldLabel: this.triggerText || 'Trigger',
-					forceSelection: true,
-					typeAhead: true,
-					mode: 'local',
-					editable: false,
-					listeners: {
-						select: function(field, record, init){
-							//The slide is modified
-							this.slide.fireEvent('modified');
-							Ext.each(this.triggers, function(trigger){
-								//Either the user selects || or the grid selects
-								if ((trigger.code == record.data.code) || (record.data.$this && (trigger.code == record.data.$this.trigger))) {
-									switch (trigger.code) {
-										case 'click':
-											Ext.getCmp('animation-delay').disable();
-											
-											if (init === true) {
-												Ext.getCmp('animation-trigger').setValue(trigger.name);
-											}
-											else {
-												this.focusAnimation.$this.trigger = 'click';
-												this.focusAnimation.$this.o.delay = 0;
-											}
-											break;
-										case 'after':
-											Ext.getCmp('animation-delay').enable();
-											if (init === true) {
-												Ext.getCmp('animation-trigger').setValue(trigger.name);
-											}
-											else {
-												this.focusAnimation.$this.trigger = 'after';
-												this.focusAnimation.$this.o.delay = 0;
-											}
-											
-											Ext.getCmp('animation-delay').setValue(this.focusAnimation.$this.o.delay);
-											break;
-										case 'with':
-											Ext.getCmp('animation-delay').enable();
-											if (init === true) {
-												Ext.getCmp('animation-trigger').setValue(trigger.name);
-											}
-											else {
-												this.focusAnimation.$this.trigger = 'with';
-												this.focusAnimation.$this.o.delay = 0;
-											}
-											Ext.getCmp('animation-delay').setValue(this.focusAnimation.$this.o.delay);
-											break;
-									}
-									
-								}
-							}, this);
-							
-						},
-						scope: this
-					},
-					shadow: 'drop',
-					triggerAction: 'all',
-					emptyText: this.triggerEmptyText || 'Select a trigger...',
-					selectOnFocus: true
-				}, new Ext.ux.form.Spinner({
-					fieldLabel: 'Delay (ms)',
-					id: 'animation-delay',
-					value: 0,
-					width: 70,
-					style: 'text-align:right',
-					name: 'delay',
-					listeners: {
-						'spin': function(field){
-							//The slide is modified
-							this.slide.fireEvent('modified');
-							this.focusAnimation.$this.o.delay = field.getValue();
-						},
-						'change': function(field,newValue,oldValue){
-							//The slide is modified
-							this.slide.fireEvent('modified');
-							this.focusAnimation.$this.o.delay = newValue;
-						},
-						scope: this
-					},
-					strategy: new Ext.ux.form.Spinner.NumberStrategy({
-						minValue: 0,
-						maxValue: 60000,
-						incrementValue: 10,
-						alternateIncrementValue: 100
-					})
-				})]
-			}]
+				strategy: new Ext.ux.form.Spinner.NumberStrategy({
+					minValue: 0,
+					maxValue: 60000,
+					incrementValue: 10,
+					alternateIncrementValue: 100
+				})
+			})]
 		})]
 	});
 	
@@ -434,18 +433,14 @@ NetShows.EditorAccordion.Animation = function(){
 						this.optionsAnimationsWindow.show();
 						this.optionsAnimationsWindow.getEl().alignTo(this.getEl(), 'tl', [-240, 0]);
 						Ext.fly(this.optionsAnimationsWindow.getEl()).slideIn('r', {
-							easing: 'easeOut',
-							callback: function(){
-								setTimeout(function(){
-									msg_log(Ext.getCmp('options-window').hidden)
-								}, 250);
-							},scope:this
+							easing: 'easeOut'
 						});
 						this.optionsVisible = true;
 					}
 					else {
 						Ext.fly(this.optionsAnimationsWindow.getEl()).slideOut('r', {
-							easing: 'easeIn'
+							easing: 'easeIn',
+							afterStyle:'display:none'
 						});
 						this.optionsVisible = false;
 					}
