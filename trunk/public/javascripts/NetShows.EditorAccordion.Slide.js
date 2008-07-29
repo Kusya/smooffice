@@ -116,6 +116,8 @@ NetShows.EditorAccordion.Slide = function(){
 					emptyText: this.effectEmptyText || 'Select an effect...',
 					listeners: {
 						'select': function(field, record, initialEffect){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 							Ext.each(this.effects,function(item){
 								
 								if (record.data.code === item.code) {
@@ -157,6 +159,8 @@ NetShows.EditorAccordion.Slide = function(){
 										Ext.getCmp('transition-horizfirst').hide();
 									}
 									
+									Ext.getCmp('transition-delay').disable();
+									
 									if (initialEffect.constructor == Number) {
 										//Send the effect name
 										this.slide.setTransition({
@@ -179,7 +183,7 @@ NetShows.EditorAccordion.Slide = function(){
 					width: 140,
 					listWidth: 140,
 					store: this.directionStore,
-					fieldLabel: (this.directionText) ? this.directionText : 'Direction',
+					fieldLabel: this.directionText || 'Direction',
 					forceSelection: true,
 					mode: 'local',
 					listeners: {
@@ -193,7 +197,7 @@ NetShows.EditorAccordion.Slide = function(){
 					editable: false,
 					shadow: 'drop',
 					triggerAction: 'all',
-					emptyText: (this.directionEmptyText) ? this.directionEmptyText : 'Select a direction...',
+					emptyText: this.directionEmptyText || 'Select a direction...',
 					selectOnFocus: true
 				}, {
 					xtype: 'checkbox',
@@ -241,7 +245,7 @@ NetShows.EditorAccordion.Slide = function(){
 						fields: ['code', 'trigger'],
 						data: [['click', 'On mouse click'], ['auto', 'Automatically']]
 					}),
-					fieldLabel: (this.triggerText) ? this.triggerText : 'Trigger',
+					fieldLabel: this.triggerText || 'Trigger',
 					forceSelection: true,
 					typeAhead: true,
 					mode: 'local',
@@ -257,7 +261,7 @@ NetShows.EditorAccordion.Slide = function(){
 								case 'auto':
 									Ext.getCmp('transition-delay').enable();
 									this.slide.setTransition({
-										n: 3000
+										n: 1000
 									});
 									break;
 							}
@@ -267,13 +271,13 @@ NetShows.EditorAccordion.Slide = function(){
 					editable: false,
 					shadow: 'drop',
 					triggerAction: 'all',
-					emptyText: (this.triggerEmptyText) ? this.triggerEmptyText : 'Select a trigger...',
+					emptyText: this.triggerEmptyText || 'Select a trigger...',
 					selectOnFocus: true
 				}, new Ext.ux.form.Spinner({
 					fieldLabel: 'Delay (ms)',
 					id: 'transition-delay',
 					name:'delay',
-					value: 3000,
+					value: 1000,
 					width: 60,
 					style: 'text-align:right',
 					listeners: {
@@ -304,7 +308,7 @@ NetShows.EditorAccordion.Slide = function(){
 				
 				items: [{
 					xtype: 'fieldset',
-					title: this.modelTitle ? this.modelTitle : 'Template & layout',
+					title: this.modelTitle || 'Template & layout',
 					autoHeight: true,
 					defaultType: 'textfield',
 					defaults: {
@@ -325,7 +329,7 @@ NetShows.EditorAccordion.Slide = function(){
 						editable: false,
 						shadow: 'drop',
 						triggerAction: 'all',
-						emptyText: (this.effectEmptyText) ? this.effectEmptyText : 'Select a template...'
+						emptyText: this.effectEmptyText || 'Select a template...'
 					}
 				}, {
 					xtype: 'fieldset',
@@ -333,7 +337,7 @@ NetShows.EditorAccordion.Slide = function(){
 					defaults: {
 						hideLabel: true
 					},
-					title: this.backgroundTitle ? this.backgroundTitle : 'Background',
+					title: this.backgroundTitle || 'Background',
 					items: [{
 						xtype: 'combo',
 						id: 'background',
@@ -346,7 +350,7 @@ NetShows.EditorAccordion.Slide = function(){
 						editable: false,
 						shadow: 'drop',
 						triggerAction: 'all',
-						emptyText: (this.backgroundEmptyText) ? this.backgroundEmptyText : 'Select a background...',
+						emptyText: this.backgroundEmptyText || 'Select a background...',
 						selectOnFocus: true,
 						listeners: {
 							'render': function(){
@@ -354,6 +358,8 @@ NetShows.EditorAccordion.Slide = function(){
 								Ext.getCmp('img-container').hide();
 							},
 							'select': function(field, record){
+							//The slide is modified
+							this.slide.fireEvent('modified');
 								switch (record.data.code) {
 									case 'null':
 										Ext.getCmp('clr-container').hide();
@@ -385,6 +391,8 @@ NetShows.EditorAccordion.Slide = function(){
 							defaultColor: 'FFFFFF',
 							listeners: {
 								select: function(value){
+									//The slide is modified
+									this.slide.fireEvent('modified');
 									this.slide.setBackground({
 										type: 'color',
 										p: {

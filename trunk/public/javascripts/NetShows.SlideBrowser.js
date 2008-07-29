@@ -193,17 +193,18 @@ Ext.extend(NetShows.SlideBrowser, Ext.Panel, {
 	},
 	setAnimationTransition: function(index){
 		var slides;
+		//Update all slide
 		if (index === undefined || index.constructor != Number) {
 			slides = this.presentation.slides;
-			
 		}
+		//Update slides[index]
 		else {
 			var slides = this.presentation.slides[index];
 			
 		}
 		
 		Ext.each(slides, function(slide){
-			if (slide.transition.f === "null") {
+			if (slide.transition[0].f === "null" && slide.transition[1].f === "null") {
 				Ext.get('preview-' + slide.id).removeClass('thumb-transition');
 			}
 			else {

@@ -33,11 +33,30 @@ NetShows.MainPanel = function(){
         minTabWidth: 120,
         enableTabScroll: true,
 		listeners:{
-			'render':function(){
+			'render': function(){
 				this.getTopToolbar().tb.disable();
-			}
+				var map = new Ext.KeyMap(this.el, [{
+					//Delete Key = Delete
+					key: Ext.EventObject.DELETE,
+					stopEvent: true,
+					scope: this,
+					handler: function(){
+						this.getActiveTab().getTopToolbar().fireEvent('remove');
+					}
+				}]);
+			},
+			scope:this
 		},
-        plugins: new Ext.ux.TabCloseMenu(),
+		/*keys:[{
+			//Delete Key = Remove element
+			key: Ext.EventObject.DELETE,
+			stopEvent: true,
+			scope: this,
+			handler: function(){
+				this.getActiveTab().getTopToolbar().fireEvent('remove');
+			}
+		}],*/
+        //plugins: new Ext.ux.TabCloseMenu(),
         tbar: new Ext.ux.HtmlEditorToolbar({
             enableFormat: true,
             enableFontSize: true,
@@ -60,31 +79,19 @@ NetShows.MainPanel = function(){
                 introContent: this.introContentText || "Welcome to NetShows, the new presentation maker. We hope you'll enjoy the wide set of hudge features such as amazing transitions, aesthetically pleasing elements animation, and much more..."
             }),
             listeners: {
-                'show': this.doLayout
+                //'show': this.doLayout
             },
             tbar: [this.actionEdit, '-', this.actionFullScreen]
         }
     });
     //Prevent tab change bug on startup
     this.tabclosed = false;
-    
+
     this.on('tabchange', this.onTabChange, this);
-    
+    this.on('beforeremove', this.onTabClose, this); 
 };
 
 Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
-	onRender: function(params){
-		NetShows.MainPanel.superclass.onRender.call(this, params);
-		var map = new Ext.KeyMap(document, [{
-			//Delete Key = Delete
-			key: Ext.EventObject.DELETE,
-			stopEvent: true,
-			scope: this,
-			handler: function(){
-				this.getActiveTab().getTopToolbar().fireEvent('remove');
-			}
-		}]);
-	},
 	load: function(){
 		this.el.mask(this.loadingText, 'x-mask-loading');
 	},
@@ -118,18 +125,34 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 		}
 	},
 	
-	onCloseTab: function(){
-		Ext.Msg.show({
-			title: this.saveChangesText ? this.saveChangesText : 'Save changes',
-			msg: this.closeMsgText ? this.closeMsgText : 'You have closed a tab that has unsaved changes. Would you like to save your changes ?',
-			buttons: Ext.Msg.YESNOCANCEL,
-			fn: function(btn){
-				msg_log(btn);
-				
-				msg_log('deleting slides data store');
-				this.getActiveTab().presentation.store = null;
-			}
-		});
+	onTabClose: function(tabpanel, tab){
+		if (tab.presentation.modified || tab.presentation.orderChanged) {
+			Ext.Msg.show({
+				title: tabpanel.saveChangesText || 'Save changes',
+				msg: tabpanel.closeMsgText || 'You have closed a tab that has unsaved changes. Would you like to save your changes ?',
+				buttons: Ext.Msg.YESNOCANCEL,
+				icon: Ext.Msg.QUESTION,
+				fn: function(btn){
+					if (btn == "yes") {
+						tabpanel.un('beforeremove', tabpanel.onTabClose);
+						tab.presentation.save(tab.presentation.destroy(), tab.presentation);
+						tabpanel.remove(tab);
+						tabpanel.on('beforeremove', tabpanel.onTabClose, tabpanel);
+					}
+					else 
+						if (btn == "no") {
+							tabpanel.un('beforeremove', tabpanel.onTabClose);
+							tab.presentation.destroy();
+							tabpanel.remove(tab);
+							tabpanel.on('beforeremove', tabpanel.onTabClose, tabpanel);
+						}
+				}
+			});
+			return false;
+		}else{
+			tab.presentation.destroy();
+			return true;
+		}
 	},
 	//Load a presentation in the General tab
 	loadPresentation: function(node, notEditable, isLeaf){
@@ -178,6 +201,7 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 		var tab;
 		if (!(tab = this.getItem('tab-' + id))) {
 			tab = this.add({
+				xtype:'panel',
 				id: 'tab-' + id,
 				cls: 'editor',
 				title: presentation.text,
@@ -269,9 +293,10 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 							
 						}, this);
 					},
-					'close': function(){
+					'beforeclose': function(){
 						msg_log('close');
-					},//this.onCloseTab,
+						this.onTabClose();
+					},
 					scope: this
 				}
 			});
