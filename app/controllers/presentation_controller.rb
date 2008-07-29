@@ -26,7 +26,7 @@ class PresentationController < ApplicationController
       newOrder.save
       
       newContent = Content.new
-      newContent.json = '{"c":"","a":[],"t":{"f":"null"},"e":[{"i":"e1478","t":"p","c":"<p align=\"center\"><font face=\"arial\" size=\"11\"><b>Title</b></font></p>","p":{"top":"24.35%","left":"10%","width":"80%","height":"10%","fontClass":"A","fontSize":"200%"}},{"i":"e1639","t":"p","c":"<div align=\"center\"><font face=\"arial\" size=\"6\">Sub-title</font></div>","p":{"top":"40%","left":"10%","width":"80%","height":"30%","fontClass":"A","fontSize":"150%"}}],"p":{"backgroundColor":"#FFFFFF"}}'
+      newContent.json = '{"c":"","a":[],"e":[{"i":"e1478","t":"p","c":"<p align=\"center\"><font face=\"arial\" size=\"11\"><b>Title</b></font></p>","p":{"top":"24.35%","left":"10%","width":"80%","height":"10%","fontClass":"A","fontSize":"200%"}},{"i":"e1639","t":"p","c":"<div align=\"center\"><font face=\"arial\" size=\"6\">Sub-title</font></div>","p":{"top":"40%","left":"10%","width":"80%","height":"30%","fontClass":"A","fontSize":"150%"}}],"p":{"backgroundColor":"#FFFFFF"}}'
       newContent.of_slide = newSlide.id
       newContent.save
       
@@ -118,7 +118,7 @@ class PresentationController < ApplicationController
       slide_content = Content.find_by_id(slide.last_content)
       
       content_json = JSON.parse(slide_content.json)
-      content_json[:id] = "slide-#{slide.id}"			
+      content_json[:id] = "slide-#{slide.id}"     
       @slides_to_json.push(content_json)
     }
     @slides_to_json
@@ -134,11 +134,23 @@ class PresentationController < ApplicationController
               :author => name,
               :description => presentation.description,
               :created_at => "#{presentation.created_at}",
-              :updated_at => "#{presentation.updated_at}",
-              :master => {:t=>{
-                  :f=> 'fade'
-                }},
-              :slide => get_slides}
+              :updated_at => "#{presentation.updated_at}"}
+            
+            #Either one slide defined
+            if(params[:slide_id] != nil)
+              @slides = []
+              slide = Slide.find_by_id(params[:slide_id][6,params[:slide_id].size])
+              slide_content = Content.find_by_id(slide.last_content)
+              
+              content_json = JSON.parse(slide_content.json)
+              content_json[:id] = "slide-#{slide.id}"     
+              @slides.push(content_json)
+              @slides.push(JSON.parse('{"p":{"backgroundColor":"#000000"},"t":[{"f":"null"},{"f":"null"}]}'))
+              #Or all slides
+            else
+              @slides = get_slides
+            end
+            @presentation_json[:slide] = @slides
           end
         end
       end

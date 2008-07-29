@@ -1,11 +1,12 @@
 /**
- * @author Clément GONNET
+ * @author Clément GONNET & Samuel GARNIER
  * GoogleMap class file
  */
 var GoogleMap = function(element,attrs){
 	var el;
-	var zoom = attrs.zoom?attrs.zoom:17;
-	var markers = attrs.markers?attrs.markers:new Array();
+	var zoom = attrs.zoom||17;
+	msg_log(attrs.markers);
+	var markers = attrs.markers||new Array();
 	var center = attrs.center?new GLatLng(attrs.center.y,attrs.center.x):new GLatLng(54.56997, -1.23608);
 	
 	// A AddAMarkerControl is a GControl that displays a marker
@@ -90,7 +91,7 @@ var GoogleMap = function(element,attrs){
 			
 			// Add markers if exist
 			for (var i = 0; i < markers.length; i++) {
-				var marker = new GMarker(markers[i], {
+				var marker = new GMarker(new GLatLng(markers[i][0], markers[i][1]), {
 					draggable: true
 				});
 				el.addOverlay(marker);

@@ -423,7 +423,7 @@ Ext.extend(NetShows.EditorAccordion.Slide, Ext.Panel, {
 		
 		/* Transition */
 		//Effect
-		Ext.getCmp('transition-effect').fireEvent('select',Ext.getCmp('transition-effect'),{data:{code:this.slide.transition.f||"null"}},this.slide.transition);
+		Ext.getCmp('transition-effect').fireEvent('select',Ext.getCmp('transition-effect'),{data:{code:this.slide.transition[1].f||"null"}},this.slide.transition);
 		
 		/* Appearance */
 		//Background

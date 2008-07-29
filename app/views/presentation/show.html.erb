@@ -30,7 +30,7 @@
 		<!--<script type="text/javascript" src="/preview/firebug/firebug.js"></script>-->
         <script type="text/javascript">
         	var presentation1 = <%=@presentation_json.to_json %>;
-			
+			console.log(presentation1);
 			//console.log(presentation1);
             $(document).ready(function(){
 				$('#view').smoo(presentation1, true);

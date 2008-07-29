@@ -16,8 +16,8 @@ var Slide = function(data, presentation,index){
 	this.presentation_id = this.presentation.id;
 	
 	this.data = data;
-	this.properties = this.data.p ? this.data.p : {};
-	this.data.e = data.e ? data.e : [];
+	this.properties = this.data.p || {};
+	this.data.e = data.e || [];
 	this.elements = [];
 	
 	//Flag for modification to save
@@ -29,12 +29,12 @@ var Slide = function(data, presentation,index){
 	//Whether the slide is visible (used for saving action)
 	this.isVisible = false;
 	
-	this.transition = data.t ? data.t : [{
+	this.transition = data.t || [{
 		f: "null"
 	},{
 		t: "null"
 	}];
-	this.animations = data.a ? data.a : [];
+	this.animations = data.a || [];
 	
 	//The generated dom corresponding to the slide
 	this.el = null;
@@ -164,7 +164,6 @@ var Slide = function(data, presentation,index){
 	}
 	
 	this.setTransition = function(params){
-		//msg_log(params);
 		if (params.effect != undefined) {
 			this.transition = [{
 				f: "null"

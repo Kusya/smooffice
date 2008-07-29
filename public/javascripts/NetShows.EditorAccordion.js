@@ -103,7 +103,7 @@ NetShows.EditorAccordion = function(){
         margins: '0 5 5 0',
         cmargins: '0 5 5 0',
         region: 'east',
-        width: 180,
+        width: 200,
         split: true,
         collapsible: true,
         collapsed: true,
