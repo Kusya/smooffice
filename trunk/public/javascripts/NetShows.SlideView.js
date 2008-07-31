@@ -280,7 +280,7 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 	},
 	newText: function(){
 		var myElement = this.slide.addElement({
-			t: 'p',
+			t: 'text',
 			c: '<p align="center"><font size="4" face="arial"><b>Text</b></font></p>',
 			p: {
 				top: '45%',
@@ -288,7 +288,8 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 				width: '12%',
 				height: '7%',
 				fontClass: 'A'
-			}
+			},
+			fictif: true
 		});
 		this.setFocusElement(myElement);
 	},
@@ -383,20 +384,13 @@ Ext.extend(NetShows.SlideView, Ext.Panel, {
 		//Set the right margins to keep the slide centered
 		Ext.get('slide-wrap-' + this.presentation.id).parent().setStyle("padding", '2px');
 		
+		Ext.get('slide-wrap-' + this.presentation.id).scale(width, height);
 		Ext.get('slide-wrap-' + this.presentation.id).setWidth(width);
 		Ext.get('slide-wrap-' + this.presentation.id).setHeight(height);
-		//Ext.get("slide-wrap").scale(width, height);
 		
 		//Set the right measurments for each elements
 		if (this.slide) 
 			this.slide.resizeEvent();
-		
-		/*Ext.get('slide-wrap-'+this.presentation.id).animate({
-		 fontSize: {
-		 to: 200,
-		 unit: "%"
-		 }
-		 });*/
 	},
 	
 	//Right clic

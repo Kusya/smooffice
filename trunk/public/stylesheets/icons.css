@@ -19,6 +19,15 @@
 .icon-delete-slide {
     background-image:url(/images/icons/image_delete.png) !important;
 }
+.icon-tpl-i{
+    background-image:url(/images/icons/picture.png) !important;
+}
+.icon-tpl-it{
+    background-image:url(/images/icons/text_dropcaps.png) !important;
+}
+.icon-tpl-t{
+    background-image:url(/images/icons/text_align_left.png) !important;
+}
 
 /*
  * NetShows.SlideView

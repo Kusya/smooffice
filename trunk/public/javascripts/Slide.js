@@ -30,9 +30,9 @@ var Slide = function(data, presentation,index){
 	this.isVisible = false;
 	
 	this.transition = data.t || [{
-		f: "null"
+		f: null
 	},{
-		t: "null"
+		f: null
 	}];
 	this.animations = data.a || [];
 	
@@ -164,18 +164,21 @@ var Slide = function(data, presentation,index){
 	}
 	
 	this.setTransition = function(params){
-		if (params.effect != undefined) {
+		//The slide is modified
+		this.fireEvent('modified');
+		
+		if (params.effect !== undefined) {
 			this.transition = [{
-				f: "null"
+				f: null
 			}, {
 				f: params.effect
 			}];
 		}
 		if (params.direction != undefined) {
-			this.transition[1].direction = params.direction;
+			this.transition[1].direction = parseInt(params.direction);
 		}
 		if (params.duration != undefined) {
-			this.transition[1].duration = params.duration;
+			this.transition[1].duration = parseInt(params.duration);
 		}
 		if (params.o != undefined) {
 			this.transition[1].o = params.o;
@@ -184,6 +187,7 @@ var Slide = function(data, presentation,index){
 			this.transition[1].horizFirst = params.horizFirst;
 		}
 		NetShows.browserPanel.slideBrowser.setAnimationTransition(this.index);
+		msg_log(this.transition);
 	}
 	
 	this.setBackground = function(params){
@@ -271,14 +275,129 @@ var Slide = function(data, presentation,index){
 		return this.e || false;
 	}
 	
-	this.getPreview = function(){
-		var globalHtml = '<div style="' + this.cssStyle + 'width:100%;height:100%;position:absolute;">';
+	this.getThumbnail = function(){
+		var globalHtml = '<div class="thumbnail-wrap" style="' + this.cssStyle + '">';
 		
 		Ext.each(this.elements, function(item){
 			globalHtml += item.getPreview();
 		}, this);
 		globalHtml += '</div>'
 		return globalHtml;
+	}
+	
+	this.getInnerText = function(node, ignorewhitespace){
+		var text = "";
+		// if the node has children, loop through them
+		if (node.hasChildNodes()) {
+			var children = node.childNodes;
+			for (var i = 0; i < children.length; i++) {
+				// if node is a text node append it
+				if (children[i].nodeName == "#text") {
+					if (ignorewhitespace) {
+						if (!/^\s+$/.test(children[i].nodeValue)) {
+							text = text.concat(children[i].nodeValue);
+						}
+					}
+					else {
+						text = text.concat(children[i].nodeValue);
+					}
+				}
+				// if node is a line break append \n
+				else 
+					if (children[i].nodeName == "BR") {
+						text = text.concat("\n");
+					}
+					// otherwise call this function again to get the text
+					else {
+						text = text.concat(this.getInnerText(children[i]));
+					}
+			}
+		}
+		// it has no children, so get the text
+		else {
+			// if node is a text node append it
+			if (node.nodeName == "#text") {
+				text = text.concat(node.nodeValue);
+			}
+			// if node is a line break append \n
+			else 
+				if (node.nodeName == "BR") {
+					text = text.concat("\n");
+				}
+		}
+		return text;
+	}
+	
+	this.getTitle = function(){
+		var myTitle = false;
+		//Loof for an element with type 'title'
+		Ext.each(this.elements, function(elem){
+			if (elem.data.t == 'title') {
+				myTitle = elem;
+				return true;
+			}
+		}, this);
+		
+		/*If not found, take the first text element
+		if (myTitle === false) {
+			Ext.each(this.elements, function(elem){
+				if (elem.data.className == 'text') {
+					myTitle = elem;
+					return true;
+				}
+			}, this);
+		}*/
+		
+		//If we finally get the title
+		if (myTitle !== false) {
+			var tmpElement = Ext.get('tmp').createChild({
+				html: myTitle.data.c
+			});
+			var text = this.getInnerText(tmpElement.dom);
+			tmpElement.remove();
+		}
+		else {
+			var text = '';
+		}
+		return text;
+	}
+	
+	this.getText = function(){
+		var myText = false;
+		//Loof for an element with type 'text'
+		Ext.each(this.elements, function(elem){
+			if (elem.data.t == 'text') {
+				myText = elem;
+				return true;
+			}
+		}, this);
+		
+		/*If not found, take the second text element
+		if (myText === false) {
+			var n = 0;
+			Ext.each(this.elements, function(elem){
+				if (elem.data.className == 'text') {
+					n++;
+					if (n == 2) {
+						myText = elem;
+						return true;
+					}
+				}
+			}, this);
+		}*/
+		
+		//If we finally get a text element
+		if (myText !== false) {
+			var tmpElement = Ext.get('tmp').createChild({
+				html: myText.data.c
+			});
+			var text = this.getInnerText(tmpElement.dom);
+			tmpElement.remove();
+		}
+		else {
+			var text = '';
+		}
+		return text;
 	}
 	
 	this.getProperties = function(){
@@ -308,14 +427,16 @@ var Slide = function(data, presentation,index){
 		this.isVisible = false;
 	}
 	
-	//Send the JSON string of the actual slide
-	this.save = function(callbackFn){
-		if (this.modified) {
+	/*
+	 * create JSON object of the slide
+	 * @return JSON string
+	 */
+	this.getJSON = function(){
+		
 			//Get properties if the slide is actually edited
 			if(this.isVisible)
 				this.getProperties();
 
-			this.presentation.nbToSave++;
 			//For each element, we get the object used to the JSON
 			var elementJSON = [];
 			
@@ -323,22 +444,30 @@ var Slide = function(data, presentation,index){
 				elementJSON.push(item.getJSON());
 			}, this);
 			
-			var json = Ext.util.JSON.encode({
+			var json = {
 				c: '',//Commentaires
 				a: this.animations,
 				t: this.transition,
 				e: elementJSON,
 				p: this.properties
-			});
+			};
 			
 			msg_log(json);
+			return json;
+	}
+	
+	//Send the JSON string of the actual slide
+	this.save = function(callbackFn){
+		if (this.modified) {
+			//Advise the presentation that one slide has to be saved
+			this.presentation.nbToSave++;
 			
 			Ext.Ajax.request({
 				url: '/slide/save',
 				params: {
 					authenticity_token: NetShows.key,
 					id: this.id,
-					content: json
+					content: Ext.util.JSON.encode(this.getJSON())
 				},
 				callback: function(){
 					callbackFn.call(this.presentation, this);

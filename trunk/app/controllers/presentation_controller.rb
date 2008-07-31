@@ -26,7 +26,7 @@ class PresentationController < ApplicationController
       newOrder.save
       
       newContent = Content.new
-      newContent.json = '{"c":"","a":[],"e":[{"i":"e1478","t":"p","c":"<p align=\"center\"><font face=\"arial\" size=\"11\"><b>Title</b></font></p>","p":{"top":"24.35%","left":"10%","width":"80%","height":"10%","fontClass":"A","fontSize":"200%"}},{"i":"e1639","t":"p","c":"<div align=\"center\"><font face=\"arial\" size=\"6\">Sub-title</font></div>","p":{"top":"40%","left":"10%","width":"80%","height":"30%","fontClass":"A","fontSize":"150%"}}],"p":{"backgroundColor":"#FFFFFF"}}'
+      newContent.json = '{"c":"","a":[],"e":[{"i":"e1478","t":"title","c":"<p align=\"center\"><font face=\"arial\" size=\"11\"><b>Title</b></font></p>","p":{"top":"24.35%","left":"10%","width":"80%","height":"10%","fontClass":"A","fontSize":"200%"}},{"i":"e1639","t":"text","c":"<div align=\"center\"><font face=\"arial\" size=\"6\">Sub-title</font></div>","p":{"top":"40%","left":"10%","width":"80%","height":"30%","fontClass":"A","fontSize":"150%"}}],"p":{"backgroundColor":"#FFFFFF"}}'
       newContent.of_slide = newSlide.id
       newContent.save
       
@@ -145,7 +145,7 @@ class PresentationController < ApplicationController
               content_json = JSON.parse(slide_content.json)
               content_json[:id] = "slide-#{slide.id}"     
               @slides.push(content_json)
-              @slides.push(JSON.parse('{"p":{"backgroundColor":"#000000"},"t":[{"f":"null"},{"f":"null"}]}'))
+              @slides.push(JSON.parse('{"p":{"backgroundColor":"#000000"},"t":[{"f":null},{"f":null}]}'))
               #Or all slides
             else
               @slides = get_slides

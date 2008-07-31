@@ -244,9 +244,18 @@
 							NetShows.mainPanel.getActiveSlideView().removeResizable();
 							this.mode = 'editor';
 							this.el.addClass('text-editor');
+							
+							//If element content is fictif
+							if (this.data.fictif) {
+								var textValue = '<p align="center"><font size="4" face="arial"><b>&nbsp;</b></font></p>';
+								this.data.fictif = undefined;
+							}
+							else {
+								var textValue = this.el.dom.innerHTML;
+							}
 							this.editor = new Ext.ux.HtmlEditorUsingGlobalToolbar({
 								globalToolBar: NetShows.mainPanel.getTopToolbar(),
-								value: this.el.dom.innerHTML
+								value: textValue
 							});
 							this.el.hide();
 							this.el.dom.innerHTML = '';

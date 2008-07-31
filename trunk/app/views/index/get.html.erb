@@ -39,7 +39,9 @@
 				background:white;
 				border:1px solid #bbb;
 			}
-            
+            #start-loading{
+				border:1px solid white;
+            }
             #start-loading a, #loading a {
                 color: #225588;
             }
@@ -65,8 +67,10 @@
         <%= stylesheet_link_tag 'spinner.css' %>
         <%= stylesheet_link_tag "http://www.google.com/uds/css/gsearch.css" %>
         <%= stylesheet_link_tag "http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css" %>
+		<link type="text/css" rel="stylesheet" href="/preview/layout/style.css"/>
     </head>
     <body>
+    	<div id="tmp" style="width:0;height:0;visibility:hidden"></div>
         <div id="loading-mask">
         	<img src="/images/background.png" alt="" width="325" height="339" style="float:left;top:-80px;left:-80px;position:absolute"/>
         </div>
@@ -171,6 +175,25 @@
         <%= javascript_include_tag "GoogleMap.js" %>
         <%= javascript_include_tag "Ext.ux.HtmlEditorUsingGlobalToolbar.js" %>
         <%= javascript_include_tag "plugins.SortableDataView.js" %>
+		
+		
+        <script type="text/javascript" src="/preview/logic/jquery.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.core.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/ui.core.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/ui.slider.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.blind.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.clip.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.drop.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.explode.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.fade.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.fold.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.scale.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/effects.slide.js"></script>
+		<script type="text/javascript" src="/preview/logic/gmaps/GoogleMap.js"></script>
+		<script type="text/javascript" src="/preview/logic/smoo.core.js"></script>
+        <script type="text/javascript" src="/preview/logic/jquery.smoo.js"></script>
+		
+		
         <!-- Set application localization javascript -->
 		<% if params[:locale] %>
         <%= javascript_include_tag '/javascripts/NetShows.lang.' + params[:locale] + '.js' %>

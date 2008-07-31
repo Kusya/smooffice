@@ -13,7 +13,7 @@ NetShows.EditorAccordion.Slide = function(){
 	});
 	
 	this.effects = [{
-		code: 'null',
+		code: null,
 		name: this.effectNullText || 'None',
 		direction: false,
 		duration: false,
@@ -116,8 +116,12 @@ NetShows.EditorAccordion.Slide = function(){
 					emptyText: this.effectEmptyText || 'Select an effect...',
 					listeners: {
 						'select': function(field, record, initialEffect){
+							//If the user selects on his/her own, initialEffect is the selected index, or else it's focusAnimation
+							var userSelect = (initialEffect.constructor == Number);
+							
 							//The slide is modified
-							this.slide.fireEvent('modified');
+							if(userSelect) this.slide.fireEvent('modified');
+							
 							Ext.each(this.effects,function(item){
 								
 								if (record.data.code === item.code) {
@@ -159,7 +163,7 @@ NetShows.EditorAccordion.Slide = function(){
 										Ext.getCmp('transition-horizfirst').hide();
 									}
 									
-									Ext.getCmp('transition-delay').disable();
+									//Ext.getCmp('transition-delay').disable();
 									
 									if (initialEffect.constructor == Number) {
 										//Send the effect name
@@ -234,7 +238,7 @@ NetShows.EditorAccordion.Slide = function(){
 						incrementValue: 10,
 						alternateIncrementValue: 100
 					})
-				}), {
+				})/*, {
 					xtype: 'combo',
 					id: 'transition-trigger',
 					displayField: 'trigger',
@@ -294,7 +298,7 @@ NetShows.EditorAccordion.Slide = function(){
 						incrementValue: 10,
 						alternateIncrementValue: 100
 					})
-				})]
+				})*/]
 			}, {
 				title: 'Appearance',
 				layout: 'form',
@@ -423,7 +427,7 @@ Ext.extend(NetShows.EditorAccordion.Slide, Ext.Panel, {
 		
 		/* Transition */
 		//Effect
-		Ext.getCmp('transition-effect').fireEvent('select',Ext.getCmp('transition-effect'),{data:{code:this.slide.transition[1].f||"null"}},this.slide.transition);
+		Ext.getCmp('transition-effect').fireEvent('select',Ext.getCmp('transition-effect'),{data:{code:this.slide.transition[1].f||null}},this.slide.transition);
 		
 		/* Appearance */
 		//Background
@@ -432,12 +436,10 @@ Ext.extend(NetShows.EditorAccordion.Slide, Ext.Panel, {
 			Ext.getCmp('clr-container-color-field').setValue(color);
 			Ext.getCmp('background').setValue('Color');
 			Ext.getCmp('clr-container').show();
-			//Ext.getCmp('img-container').hide();
 		}
 		else {
 			Ext.getCmp('background').setValue('None');
 			Ext.getCmp('clr-container').hide();
-			//Ext.getCmp('img-container').hide();
 		}
 	}
 });
