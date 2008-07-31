@@ -128,7 +128,7 @@ Ext.onReady(function(){
 		NetShows.showMsg(presentation.text,this.openLoadingText||'Loading presentation...');
 		
 		//Loading the slides from the server
-		if (!presentation.store) {
+		if (!presentation.isLoaded) {
 			presentation.store = new Ext.data.JsonStore({
 				url: '/presentation/get_slides',
 				fields: ['id', 'comment', 'a', 'e', 't', 'p'],
@@ -138,8 +138,10 @@ Ext.onReady(function(){
 							//Array of slides
 							presentation.slides = [];
 							
+							presentation.isLoaded = true;
+							
 							presentation.init = function(){
-								presentation.nLoaded = 0;
+								//presentation.nLoaded = 0;
 								
 								NetShows.setMsg(this.slidesLoadingText || 'Creating slides...')
 								
@@ -149,8 +151,11 @@ Ext.onReady(function(){
 										//Create each slide in the array from the dataStore
 										var mySlide = new Slide(item.data, presentation,index);
 										
-										this.store.getAt(index).data.html = mySlide.getPreview();
-										
+										this.store.getAt(index).data.thumbnail = mySlide.getThumbnail();
+										this.store.getAt(index).data.title = mySlide.getTitle();
+										this.store.getAt(index).data.text = mySlide.getText();
+										this.store.getAt(index).data.index = mySlide.index + 1;
+												
 										//Set an event when the slide is loaded
 										//mySlide.on('load', presentation.onLoad, presentation,{delay:200});
 										/*NetShows.browserPanel.slideBrowser.on('render', function(){
@@ -160,7 +165,6 @@ Ext.onReady(function(){
 			 }, this);*/
 										presentation.slides.push(mySlide);
 									});
-									
 								}
 								//Open the presentation in a tab
 								NetShows.mainPanel.openPresentation(presentation);
@@ -172,8 +176,18 @@ Ext.onReady(function(){
 							//Update slides thumbnail
 							presentation.updatePreview = function(slide){
 								var index = this.slides.indexOf(slide);
-								this.store.getAt(index).data.html = slide.getPreview();
+								presentation.updateSlideData(slide);
 								NetShows.browserPanel.slideBrowser.refresh();
+							}
+							
+							//Update slides data for thumbnails
+							presentation.updateSlideData = function(slide){
+								var index = this.slides.indexOf(slide);
+								
+								this.store.getAt(index).data.thumbnail = slide.getThumbnail();
+								this.store.getAt(index).data.title = slide.getTitle();
+								this.store.getAt(index).data.text = slide.getText();
+								this.store.getAt(index).data.index = slide.index + 1;
 							}
 							
 							/*presentation.onLoad = function(){
@@ -263,6 +277,9 @@ Ext.onReady(function(){
 								Ext.each(presentation.slides,function(obj){
 									presentation.slides.remove(obj);
 								});
+								presentation.slides = null;
+								presentation.isLoaded = false;
+								presentation.selectedSlides = null;
 							}
 							
 							//Initialization
@@ -294,7 +311,6 @@ Ext.onReady(function(){
 	}
 	NetShows.mainPanel.on('presentationopen', onOpenPresentation);
 	NetShows.browserPanel.presentationBrowser.on('presentationopen', onOpenPresentation);
-	
 	
 	//Manage the selection of a new slide in the slides browser
 	NetShows.browserPanel.slideBrowser.on('selectslide', NetShows.mainPanel.setSlide, NetShows.mainPanel);
@@ -357,8 +373,20 @@ Ext.onReady(function(){
     }, 250);
 });
 
-Ext.EventManager.on(window,'unload',function(){
-	msg_log('unload Smooffice');
-	if(GUnload)
-	GUnload();
+Ext.EventManager.on(window,'beforeunload',function(e){
+		NetShows.mainPanel.items.each(function(item, index){
+			if (index > 0) {
+				NetShows.mainPanel.remove(item);
+			}
+		},this);
+	
+	e.browserEvent.returnValue=this.exitMsgText||"You may loose all your unsaved modifications !";
+	/*GUnload();
+	msg_log(e);
+	if (e.browserEvent.which == 1) {
+		NetShows.showMsg('Smooffice Lemon 1.0', this.exitingText || 'Exiting Smooffice...');
+	}*/
+},this);
+Ext.EventManager.on(window,'unload',function(e){
+	NetShows.showMsg('Smooffice Lemon 1.0', this.exitingText || 'Exiting Smooffice...');
 },this);

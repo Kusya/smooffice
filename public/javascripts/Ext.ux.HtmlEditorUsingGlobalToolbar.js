@@ -16,27 +16,26 @@ Ext.ux.GlobalHtmlEditorMngr = {
 }
 
 Ext.ux.HtmlEditorToolbar = function(config){
-    if (!config)
-        config = {};
-    
-    Ext.apply(config, {
-        enableFormat: true,
-        enableFontSize: true,
-        enableColors: true,
-        enableAlignments: true,
-        enableLists: true,
-        enableSourceEdit: true,
-        enableLinks: true,
-        enableFont: true,
-        createLinkText: 'Please enter the URL for the link:',
-        defaultLinkValue: 'http:/' + '/',
-        fontFamilies: ['Arial', 'Courier New', 'Tahoma', 'Times New Roman', 'Verdana'],
-        defaultFont: 'tahoma'
-    })
-    
-    this.config = config;
-    Ext.apply(this, config);
-    
+	if (!config) 
+		config = {};
+	
+	Ext.apply(config, {
+		enableFormat: true,
+		enableFontSize: true,
+		enableColors: true,
+		enableAlignments: true,
+		enableLists: true,
+		enableSourceEdit: true,
+		enableLinks: true,
+		enableFont: true,
+		createLinkText: 'Please enter the URL for the link:',
+		defaultLinkValue: 'http:/' + '/',
+		fontFamilies: ['Arial, Sans, FreeSans, sans-serif', 'Times New Roman, Serif, Times, FreeSerif, serif', 'Courier New, Mono, FreeMono, Courier, monospace', 'Georgia, "Century Schoolbook L", serif', 'Verdana, Geneva, "Bitstream Vera", sans-serif'],
+		defaultFont: 'Arial, Sans, FreeSans, sans-serif'
+	});
+	
+	this.config = config;
+	Ext.apply(this, config);
 }
 Ext.ux.HtmlEditorToolbar.prototype = {
     btn: function(id, toggle, handler, ico){
@@ -68,7 +67,7 @@ Ext.ux.HtmlEditorToolbar.prototype = {
     createFontOptions: function(){
         var buf = [], fs = this.fontFamilies, ff, lc;
         for (var i = 0, len = fs.length; i < len; i++) {
-            ff = fs[i];
+            ff = fs[i].replace(/,.*/,'');
             lc = ff.toLowerCase();
             buf.push('<option value="', lc, '" style="font-family:', ff, ';"', (this.defaultFont == lc ? ' selected="true">' : '>'), ff, '</option>');
         }

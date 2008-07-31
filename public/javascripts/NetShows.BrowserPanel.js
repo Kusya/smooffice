@@ -11,7 +11,7 @@ NetShows.BrowserPanel = function(){
 	
 	NetShows.BrowserPanel.superclass.constructor.call(this, {
         id:'browser-panel',
-		title: (this.presentationsText)?this.presentationsText:"Presentations",
+		title: this.presentationsText||"Presentations",
         autoScroll:true,
 		frame: false,
 		bufferResize: true,
@@ -25,7 +25,7 @@ NetShows.BrowserPanel = function(){
 			this.presentationBrowser,
 			this.slideBrowser
 		],
-		tbar: [this.presentationBrowser.actionNew,this.presentationBrowser.actionNewFolder,this.presentationBrowser.actionRemove,this.slideBrowser.actionNew,this.slideBrowser.actionRemove]
+		tbar: [this.presentationBrowser.actionNew,this.presentationBrowser.actionNewFolder,this.presentationBrowser.actionRemove,this.slideBrowser.actionToggleTpl,this.slideBrowser.actionNew,this.slideBrowser.actionRemove]
 	});
 	this.on('previewview', this.onPreviewView, this);
 	this.on('editorview', this.onEditorView, this);
@@ -49,23 +49,22 @@ Ext.extend(NetShows.BrowserPanel, Ext.Panel, {
 			
 			this.slideBrowser.getEl().ghost('r', {
 				easing: 'easeOut',
+				duration:.4,
 				callback: function(){
 					this.slideBrowser.hide();
 					this.presentationBrowser.show();
 					this.presentationBrowser.getEl().slideIn('l', {
-						callback: function(){
-						},
-						scope: this,
+						duration:.4,
 						easing: 'easeOut'
 					});
 				},
 				scope: this
 			});
-			//this.presentationBrowser.show();
-			//this.slideBrowser.hide();
+			
 			this.setTitle((this.presentationsText) ? this.presentationsText : "Presentations");
 			this.slideBrowser.actionNew.hide();
 			this.slideBrowser.actionRemove.hide();
+			this.slideBrowser.actionToggleTpl.hide();
 			this.presentationBrowser.actionNew.show();
 			this.presentationBrowser.actionNewFolder.show();
 			this.presentationBrowser.actionRemove.show();
@@ -87,11 +86,13 @@ Ext.extend(NetShows.BrowserPanel, Ext.Panel, {
 			
 			this.presentationBrowser.getEl().ghost('l', {
 				easing: 'easeOut',
+				duration:.4,
 				callback: function(){
 					this.presentationBrowser.hide();
 					this.slideBrowser.show();
 					this.slideBrowser.getEl().slideIn('r', {
-						easing: 'easeOut'
+						easing: 'easeOut',
+						duration:.4
 					});
 				},
 				scope: this
@@ -102,6 +103,7 @@ Ext.extend(NetShows.BrowserPanel, Ext.Panel, {
 			this.presentationBrowser.actionRemove.hide();
 			this.slideBrowser.actionNew.show();
 			this.slideBrowser.actionRemove.show();
+			this.slideBrowser.actionToggleTpl.show();
 			return true;
 		}
 		else //If switching between editor tabs, ghost the previous slide browser and slide in the new one
@@ -110,13 +112,12 @@ Ext.extend(NetShows.BrowserPanel, Ext.Panel, {
 				this.slideBrowser.savePreviousState();
 				this.slideBrowser.slideDataView.getEl().ghost('l', {
 					easing: 'easeOut',
+					duration:.4,
 					callback: function(){
 						this.slideBrowser.setPresentation(presentation);
 						this.slideBrowser.slideDataView.getEl().slideIn('r', {
+							duration:.4,
 							easing: 'easeOut'
-						/*,
-						 callback:NetShows.viewport.doLayout,
-						 scope:NetShows.viewport*/
 						});
 					},
 					scope: this

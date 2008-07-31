@@ -132,7 +132,7 @@ Ext.extend(NetShows.Resizable,Ext.Resizable,{
                 h = sh;
             }
             
-            if(e.shiftKey){
+            if(e.shiftKey === false){
                 switch(pos){
                     case "southeast":
                     case "east":

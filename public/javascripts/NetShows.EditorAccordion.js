@@ -26,6 +26,7 @@ NetShows.EditorAccordion = function(){
         maxFileSize: 1048576,
         singleUpload: true,
         enableProgress: false,
+		enableNewDir:false,
         rootText: NetShows.user.username,
         ddGroup: 'slide',
         baseParams: {

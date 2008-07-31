@@ -136,6 +136,7 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 					if (btn == "yes") {
 						tabpanel.un('beforeremove', tabpanel.onTabClose);
 						tab.presentation.save(tab.presentation.destroy(), tab.presentation);
+						tab.presentation.destroy();
 						tabpanel.remove(tab);
 						tabpanel.on('beforeremove', tabpanel.onTabClose, tabpanel);
 					}
@@ -292,10 +293,6 @@ Ext.extend(NetShows.MainPanel, Ext.TabPanel, {
 							}, this);
 							
 						}, this);
-					},
-					'beforeclose': function(){
-						msg_log('close');
-						this.onTabClose();
 					},
 					scope: this
 				}
