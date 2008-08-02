@@ -1,20 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr" dir="ltr">
+<!DOCTYPE HTML>
+<html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Presentation by <%=@presentation_json[:author] %></title>
-        <link type="text/css" rel="stylesheet" href="/preview/layout/style.css"/>
-		
-		<!--script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" type="text/javascript"></script>
-	    <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAZ-CynyHsRnyqkMvbQ4_mNRTghONX_dgJZwt4gQDZa2QVe7NWOBSCz5wCioGpJwhDItmUKlcPdsuM5Q" type="text/javascript"></script>
-	    <script src="http://www.google.com/uds/solutions/localsearch/gmlocalsearch.js" type="text/javascript"></script>		
-		<link rel="stylesheet" type="text/css" href="http://www.google.com/uds/css/gsearch.css" />
-		<link rel="stylesheet" type="text/css" href="http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css" /-->
-		
+
+        <script type="text/javascript" src="/preview/logic/json2.js"></script>
         <script type="text/javascript" src="/preview/logic/jquery.js"></script>
 		<script type="text/javascript" src="/preview/logic/ui/effects.core.js"></script>
-		<script type="text/javascript" src="/preview/logic/ui/ui.core.js"></script>
-		<script type="text/javascript" src="/preview/logic/ui/ui.slider.js"></script>
 		<script type="text/javascript" src="/preview/logic/ui/effects.blind.js"></script>
 		<script type="text/javascript" src="/preview/logic/ui/effects.clip.js"></script>
 		<script type="text/javascript" src="/preview/logic/ui/effects.drop.js"></script>
@@ -23,37 +15,71 @@
 		<script type="text/javascript" src="/preview/logic/ui/effects.fold.js"></script>
 		<script type="text/javascript" src="/preview/logic/ui/effects.scale.js"></script>
 		<script type="text/javascript" src="/preview/logic/ui/effects.slide.js"></script>
-		<script type="text/javascript" src="/preview/logic/gmaps/GoogleMap.js"></script>
-		<script type="text/javascript" src="/preview/logic/smoo.core.js"></script>
-        <script type="text/javascript" src="/preview/logic/jquery.smoo.js"></script>
-        <!--script type="text/javascript" src="/preview/content/content.js"></script-->
-		<!--<script type="text/javascript" src="/preview/firebug/firebug.js"></script>-->
-        <script type="text/javascript">
+		<script type="text/javascript" src="/preview/logic/ui/ui.core.js"></script>
+		<script type="text/javascript" src="/preview/logic/ui/ui.slider.js"></script>
+        <script type="text/javascript" src="/preview/logic/ui/jquery.mousewheel.min.js"></script>
+		<script type="text/javascript" src="/preview/logic/squeezer.compat.js"></script>
+        <script type="text/javascript" src="/preview/logic/squeezer.core.js"></script>
+        <script type="text/javascript" src="/preview/logic/squeezer.helpers.js"></script>
+        <link type="text/css" rel="stylesheet" href="/preview/layout/style.css"/>		
+		<script type="text/javascript">
         	var presentation1 = <%=@presentation_json.to_json %>;
-			console.log(presentation1);
-            $(document).ready(function(){
-				$('#view').smoo(presentation1, true);
-            });
+			jQuery(function() {	
+				$('div.sldmPresentation').smoo(presentation1);				
+			    $.sldm = {};
+			    //console.profile()
+			    // Build top level divs
+				
+				var $view = $('div.sldmView:first'),
+				        $navBar = $('div.sldmNavBar:first'),
+				        font_coefs = $('div.sldmFonts span').coef();
+				    $view.view($navBar, font_coefs).trigger('resize');
+				    $navBar.navBar($view);
+			    // Keep window dimensions to 4/3
+			    $.sldm.resizeTimer = null;
+			    $(window).resize(function(){
+			        if ($.sldm.resizeTimer)
+			            clearTimeout($.sldm.resizeTimer);
+			        $.sldm.resizeTimer = setTimeout(function(){
+			            $view.trigger('resize', 'slow');
+			        }, 100);
+			    });
+			    //console.profileEnd()
+			});
         </script>
         <style type="text/css">
             html, body {
-                background: #fff url('/preview/layout/bg.png') repeat-x;
-                padding: 0;
+                background: url('layout/bg.png') repeat-x;
+				padding: 0;
                 margin: 0;
 				width: 100%;
 				height: 100%;
+                overflow: hidden;
             }
-			#view {
-				height:100%;
-				width: 100%;
-				overflow:hidden;
-			}
         </style>
     </head>
     <body>
-        <noscript>
-            <strong style="color:red">Javascript must be enabled on your browser to play this presentation.</strong>
-        </noscript>
-		<div id="view"></div>
-	</body>
+        <div class="sldmFonts">
+            <span class="sldmFontA" data-width="803">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eeeeeeeeeeeetttttttttaaaaaaaaoooooooiiiiiiinnnnnnsssssshhhhhhrrrrrrddddllllcccuuummwwffggyyppbvk</span>
+            <span class="sldmFontT" data-width="704">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eeeeeeeeeeeetttttttttaaaaaaaaoooooooiiiiiiinnnnnnsssssshhhhhhrrrrrrddddllllcccuuummwwffggyyppbvk</span>
+            <span class="sldmFontC" data-width="1200">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eeeeeeeeeeeetttttttttaaaaaaaaoooooooiiiiiiinnnnnnsssssshhhhhhrrrrrrddddllllcccuuummwwffggyyppbvk</span>
+            <span class="sldmFontG" data-width="863">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eeeeeeeeeeeetttttttttaaaaaaaaoooooooiiiiiiinnnnnnsssssshhhhhhrrrrrrddddllllcccuuummwwffggyyppbvk</span>
+            <span class="sldmFontV" data-width="924">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eeeeeeeeeeeetttttttttaaaaaaaaoooooooiiiiiiinnnnnnsssssshhhhhhrrrrrrddddllllcccuuummwwffggyyppbvk</span>            
+        </div>
+        <div class="sldmView">
+            <div class="sldmPresentation"></div>
+            <div class="sldmNavSlider"><div class="sldmHandle"></div></div>
+        </div>
+        <div class="sldmNavBar" href="#nogo">
+            <a class="sldmKeylogger" href="#nogo"></a>
+            <ul class="sldmNavBar-ul">
+                <li class="sldmNavBar-li"><a class="sldm109" href="#sldmThumb" title="switch to thumbnail"></a></li>
+                <li class="sldmNavBar-li"><a class="sldm38" href="#sldmFr" title="go to previous slide"></a></li>
+                <li class="sldmNavBar-li"><a class="sldm37" href="#vR" title="previous step"></a></li>
+                <li class="sldmNavBar-li"><a class="sldm39" href="#sldmF" title="play/next step"></a></li>
+                <li class="sldmNavBar-li"><a class="sldm40" href="#sldmFf" title="go to next slide"></a></li>
+                <li class="sldmNavBar-li"><a class="sldm0" href="#nogo"></a></li>
+            </ul>
+        </div>
+    </body>
 </html>
